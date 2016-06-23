@@ -1,0 +1,48 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PickemTest.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="tournamentLayout" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://api.steampowered.com/ICSGOTournaments_730/GetTournamentLayout/v1?key=CD94E144BE3054D5342C9FE923F21152&amp;event=</Value>
+    </Setting>
+    <Setting Name="tournamentPredictions" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="tournamentPickemPredictions" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="apiKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CD94E144BE3054D5342C9FE923F21152</Value>
+    </Setting>
+    <Setting Name="tournamentID" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">9</Value>
+    </Setting>
+    <Setting Name="steamID" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="steamNameID" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="steamID64" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="authenticationCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="tournamentName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MLG Columbus 2016 CS:GO Championship</Value>
+    </Setting>
+    <Setting Name="fantasyTournament" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">9</Value>
+    </Setting>
+    <Setting Name="fantasyStats" Type="System.String" Scope="User">
+      <Value Profile="(Default)">All Majors</Value>
+    </Setting>
+    <Setting Name="displayOnlyAvailable" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="fantasyPlayerSortOrder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">By Name</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
