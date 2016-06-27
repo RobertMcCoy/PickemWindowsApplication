@@ -68,7 +68,7 @@ namespace PickemTest.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("9")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
         public int tournamentID {
             get {
                 return ((int)(this["tournamentID"]));
@@ -117,18 +117,18 @@ namespace PickemTest.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string authenticationCode {
+        public string authenticationCode9 {
             get {
-                return ((string)(this["authenticationCode"]));
+                return ((string)(this["authenticationCode9"]));
             }
             set {
-                this["authenticationCode"] = value;
+                this["authenticationCode9"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MLG Columbus 2016 CS:GO Championship")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string tournamentName {
             get {
                 return ((string)(this["tournamentName"]));
@@ -176,13 +176,85 @@ namespace PickemTest.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("By Name")]
+        [global::System.Configuration.DefaultSettingValueAttribute("By Team")]
         public string fantasyPlayerSortOrder {
             get {
                 return ((string)(this["fantasyPlayerSortOrder"]));
             }
             set {
                 this["fantasyPlayerSortOrder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string authenticationCode10 {
+            get {
+                return ((string)(this["authenticationCode10"]));
+            }
+            set {
+                this["authenticationCode10"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string authenticationCode11 {
+            get {
+                return ((string)(this["authenticationCode11"]));
+            }
+            set {
+                this["authenticationCode11"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string authenticationCode12 {
+            get {
+                return ((string)(this["authenticationCode12"]));
+            }
+            set {
+                this["authenticationCode12"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string authenticationCode13 {
+            get {
+                return ((string)(this["authenticationCode13"]));
+            }
+            set {
+                this["authenticationCode13"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string authenticationCode14 {
+            get {
+                return ((string)(this["authenticationCode14"]));
+            }
+            set {
+                this["authenticationCode14"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string authenticationCode15 {
+            get {
+                return ((string)(this["authenticationCode15"]));
+            }
+            set {
+                this["authenticationCode15"] = value;
             }
         }
     }

@@ -20,42 +20,122 @@ namespace PickemTest
         public Settings(MainForm mf) //This just updates the boxes with the current settings, a very simple constructor. The parentform is passed so values can be updated directly from this form
         {
             InitializeComponent();
+            getListOfEventIds(); //This will test each of the sites, if it does not provide a successful connection 
             if (!Properties.Settings.Default.steamID64.Equals("") && !Properties.Settings.Default.steamNameID.Equals(""))
             {
                 steamIdBox.Text = Properties.Settings.Default.steamID64;
                 steamName.Text = Properties.Settings.Default.steamNameID;
                 steamCommunityIdBox.Text = Properties.Settings.Default.steamID;
             }
-            if (!Properties.Settings.Default.authenticationCode.Equals(""))
-            {
-                authCodeBox.Text = Properties.Settings.Default.authenticationCode;
-            }
             comboBox1.Text = Convert.ToString(Properties.Settings.Default.tournamentID);
-            getListOfEventIds(); //This will test each of the sites, if it does not provide a successful connection 
+            if (comboBox1.Text == "9")
+            {
+                if (!Properties.Settings.Default.authenticationCode9.Equals(""))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode9;
+                }
+            }
+            else if (comboBox1.Text == "10")
+            {
+                if (!Properties.Settings.Default.authenticationCode10.Equals(""))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode10;
+                }
+            }
+            else if (comboBox1.Text == "11")
+            {
+                if (!Properties.Settings.Default.authenticationCode11.Equals(""))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode11;
+                }
+            }
+            else if (comboBox1.Text == "12")
+            {
+                if (!Properties.Settings.Default.authenticationCode12.Equals(""))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode12;
+                }
+            }
+            else if (comboBox1.Text == "13")
+            {
+                if (!Properties.Settings.Default.authenticationCode13.Equals(""))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode13;
+                }
+            }
+            else if (comboBox1.Text == "14")
+            {
+                if (!Properties.Settings.Default.authenticationCode14.Equals(""))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode14;
+                }
+            }
+            else if (comboBox1.Text == "15")
+            {
+                if (!Properties.Settings.Default.authenticationCode15.Equals(""))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode15;
+                }
+            }
             parentForm = mf;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            authCodeBox.Text = "";
+            selectedEventLbl.Text = "";
             string tournamentLayout = Properties.Settings.Default.tournamentLayout + comboBox1.Text;
             selectedEventLbl.Text = retrieveEventName(tournamentLayout);
             Properties.Settings.Default.tournamentName = selectedEventLbl.Text;
+
             if (selectedEventLbl.Text.Equals("Error"))
             {
                 comboBox1.SelectedItem = Properties.Settings.Default.tournamentID;
+            }
+            else
+            {
+                if (comboBox1.SelectedItem.Equals("9"))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode9;
+                }
+                else if (comboBox1.SelectedItem.Equals("10"))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode10;
+                }
+                else if (comboBox1.SelectedItem.Equals("11"))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode11;
+                }
+                else if (comboBox1.SelectedItem.Equals("12"))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode12;
+                }
+                else if (comboBox1.SelectedItem.Equals("13"))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode13;
+                }
+                else if (comboBox1.SelectedItem.Equals("14"))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode14;
+                }
+                else if (comboBox1.SelectedItem.Equals("15"))
+                {
+                    authCodeBox.Text = Properties.Settings.Default.authenticationCode15;
+                }
             }
         }
 
         private string retrieveEventName(string tournamentLayout) 
         {
             Layout_ResultWrapper deserializedLayoutResults;
+            ServicePointManager.DefaultConnectionLimit = 10;
             try
             {
-                WebRequest tournamentInfoGET = WebRequest.Create(tournamentLayout);
-                tournamentInfoGET.ContentType = "application/json; charset=utf-8";
-                Stream tournamentStream = tournamentInfoGET.GetResponse().GetResponseStream();
+                HttpWebRequest tournamentInfoGET = (HttpWebRequest)HttpWebRequest.Create(tournamentLayout);
+                tournamentInfoGET.Method = "GET";
+                HttpWebResponse response = (HttpWebResponse)tournamentInfoGET.GetResponse();
+                Stream tournamentStream = response.GetResponseStream();
                 StreamReader tournamentReader = new StreamReader(tournamentStream);
-
                 StringBuilder sb = new StringBuilder();
 
                 while (tournamentReader.EndOfStream != true)
@@ -64,6 +144,8 @@ namespace PickemTest
                 }
 
                 deserializedLayoutResults = JsonConvert.DeserializeObject<Layout_ResultWrapper>(sb.ToString());
+                tournamentReader.Close();
+                tournamentStream.Close();
                 return deserializedLayoutResults.result.name;
             }
             catch (Exception exc)
@@ -82,12 +164,69 @@ namespace PickemTest
             }
             else
             {
-                Properties.Settings.Default.authenticationCode = authCodeBox.Text;
-            }
-            if (!Properties.Settings.Default.steamID64.Equals("") && !Properties.Settings.Default.steamNameID.Equals("") && !Properties.Settings.Default.authenticationCode.Equals(""))
-            {
-                Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode;
-                Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode;
+                if (comboBox1.SelectedItem.Equals("9"))
+                {
+                    Properties.Settings.Default.authenticationCode9 = authCodeBox.Text;
+                    if (!Properties.Settings.Default.steamID64.Equals("") && !Properties.Settings.Default.steamNameID.Equals("") && !Properties.Settings.Default.authenticationCode9.Equals(""))
+                    {
+                        Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode9;
+                        Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode9;
+                    }
+                }
+                else if (comboBox1.SelectedItem.Equals("10"))
+                {
+                    Properties.Settings.Default.authenticationCode10 = authCodeBox.Text;
+                    if (!Properties.Settings.Default.steamID64.Equals("") && !Properties.Settings.Default.steamNameID.Equals("") && !Properties.Settings.Default.authenticationCode10.Equals(""))
+                    {
+                        Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode10;
+                        Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode10;
+                    }
+                }
+                else if (comboBox1.SelectedItem.Equals("11"))
+                {
+                    Properties.Settings.Default.authenticationCode11 = authCodeBox.Text;
+                    if (!Properties.Settings.Default.steamID64.Equals("") && !Properties.Settings.Default.steamNameID.Equals("") && !Properties.Settings.Default.authenticationCode11.Equals(""))
+                    {
+                        Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode11;
+                        Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode11;
+                    }
+                }
+                else if (comboBox1.SelectedItem.Equals("12"))
+                {
+                    Properties.Settings.Default.authenticationCode12 = authCodeBox.Text;
+                    if (!Properties.Settings.Default.steamID64.Equals("") && !Properties.Settings.Default.steamNameID.Equals("") && !Properties.Settings.Default.authenticationCode12.Equals(""))
+                    {
+                        Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode12;
+                        Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode12;
+                    }
+                }
+                else if (comboBox1.SelectedItem.Equals("13"))
+                {
+                    Properties.Settings.Default.authenticationCode13 = authCodeBox.Text;
+                    if (!Properties.Settings.Default.steamID64.Equals("") && !Properties.Settings.Default.steamNameID.Equals("") && !Properties.Settings.Default.authenticationCode13.Equals(""))
+                    {
+                        Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode13;
+                        Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode13;
+                    }
+                }
+                else if (comboBox1.SelectedItem.Equals("14"))
+                {
+                    Properties.Settings.Default.authenticationCode14 = authCodeBox.Text;
+                    if (!Properties.Settings.Default.steamID64.Equals("") && !Properties.Settings.Default.steamNameID.Equals("") && !Properties.Settings.Default.authenticationCode14.Equals(""))
+                    {
+                        Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode14;
+                        Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode14;
+                    }
+                }
+                else if (comboBox1.SelectedItem.Equals("15"))
+                {
+                    Properties.Settings.Default.authenticationCode15 = authCodeBox.Text;
+                    if (!Properties.Settings.Default.steamID64.Equals("") && !Properties.Settings.Default.steamNameID.Equals("") && !Properties.Settings.Default.authenticationCode15.Equals(""))
+                    {
+                        Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode15;
+                        Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode15;
+                    }
+                }
             }
             Properties.Settings.Default.Save();
             parentForm.updateAppearance();
@@ -184,22 +323,23 @@ namespace PickemTest
         private void getListOfEventIds()
         {
             List<String> comboBoxToAdd = new List<String>();
-            for (int i = 9; i < 10; i++) //Loop through events 9-10, 9 is the first available (Columbus 2016) (12 should last until ~April of 2017)
+            for (int i = 9; i <= 12; i++) //Loop through events 9-10, 9 is the first available (Columbus 2016) (12 should last until ~April of 2017)
             {
-                HttpWebResponse response;
                 try
                 {
                     HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(Properties.Settings.Default.tournamentLayout + i);
                     request.Method = "GET";
-                    response = (HttpWebResponse)request.GetResponse();
-                    if (response.StatusCode != HttpStatusCode.NotFound)
+                    request.Timeout = 1000;
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    if (response.StatusCode != HttpStatusCode.NotFound || response.StatusCode != HttpStatusCode.BadRequest)
                     {
                         comboBoxToAdd.Add(i.ToString()); //If the site returns a success code, add it to the list of selectable events
                     }
+                    response.Close();
                 }
                 catch
                 {
-                    MessageBox.Show("ERROR DOLHPIN:\n\nError generating event list");
+                    continue;
                 }
             }
             comboBox1.DataSource = comboBoxToAdd;

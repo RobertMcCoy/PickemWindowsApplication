@@ -59,6 +59,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabbedControls = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.day1predictionSubmit = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.day2matchBox1 = new System.Windows.Forms.GroupBox();
             this.day2match1box2 = new System.Windows.Forms.RadioButton();
@@ -204,7 +205,6 @@
             this.label32 = new System.Windows.Forms.Label();
             this.fantasyTournamentToUse = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
-            this.day1predictionSubmit = new System.Windows.Forms.Button();
             this.day1matchBox1.SuspendLayout();
             this.day1matchBox2.SuspendLayout();
             this.day1matchBox3.SuspendLayout();
@@ -589,6 +589,16 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // day1predictionSubmit
+            // 
+            this.day1predictionSubmit.Location = new System.Drawing.Point(210, 254);
+            this.day1predictionSubmit.Name = "day1predictionSubmit";
+            this.day1predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day1predictionSubmit.TabIndex = 11;
+            this.day1predictionSubmit.Text = "Submit";
+            this.day1predictionSubmit.UseVisualStyleBackColor = true;
+            this.day1predictionSubmit.Click += new System.EventHandler(this.day1predictionSubmit_Click);
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.day2matchBox1);
@@ -625,7 +635,6 @@
             this.day2match1box2.Size = new System.Drawing.Size(104, 37);
             this.day2match1box2.TabIndex = 1;
             this.day2match1box2.TabStop = true;
-            this.day2match1box2.Text = "radioButton2";
             this.day2match1box2.UseVisualStyleBackColor = true;
             // 
             // day2match1box1
@@ -636,7 +645,6 @@
             this.day2match1box1.Size = new System.Drawing.Size(104, 37);
             this.day2match1box1.TabIndex = 0;
             this.day2match1box1.TabStop = true;
-            this.day2match1box1.Text = "radioButton1";
             this.day2match1box1.UseVisualStyleBackColor = true;
             // 
             // day2matchBox8
@@ -657,7 +665,6 @@
             this.day2match8box2.Size = new System.Drawing.Size(104, 37);
             this.day2match8box2.TabIndex = 15;
             this.day2match8box2.TabStop = true;
-            this.day2match8box2.Text = "radioButton15";
             this.day2match8box2.UseVisualStyleBackColor = true;
             // 
             // day2match8box1
@@ -668,7 +675,6 @@
             this.day2match8box1.Size = new System.Drawing.Size(104, 37);
             this.day2match8box1.TabIndex = 14;
             this.day2match8box1.TabStop = true;
-            this.day2match8box1.Text = "radioButton16";
             this.day2match8box1.UseVisualStyleBackColor = true;
             // 
             // day2matchBox2
@@ -689,7 +695,6 @@
             this.day2match2box2.Size = new System.Drawing.Size(104, 37);
             this.day2match2box2.TabIndex = 9;
             this.day2match2box2.TabStop = true;
-            this.day2match2box2.Text = "radioButton9";
             this.day2match2box2.UseVisualStyleBackColor = true;
             // 
             // day2match2box1
@@ -700,7 +705,6 @@
             this.day2match2box1.Size = new System.Drawing.Size(104, 37);
             this.day2match2box1.TabIndex = 8;
             this.day2match2box1.TabStop = true;
-            this.day2match2box1.Text = "radioButton10";
             this.day2match2box1.UseVisualStyleBackColor = true;
             // 
             // day2matchBox7
@@ -721,7 +725,6 @@
             this.day2match7box2.Size = new System.Drawing.Size(104, 37);
             this.day2match7box2.TabIndex = 7;
             this.day2match7box2.TabStop = true;
-            this.day2match7box2.Text = "radioButton7";
             this.day2match7box2.UseVisualStyleBackColor = true;
             // 
             // day2match7box1
@@ -732,7 +735,6 @@
             this.day2match7box1.Size = new System.Drawing.Size(104, 37);
             this.day2match7box1.TabIndex = 6;
             this.day2match7box1.TabStop = true;
-            this.day2match7box1.Text = "radioButton8";
             this.day2match7box1.UseVisualStyleBackColor = true;
             // 
             // day2matchBox3
@@ -753,7 +755,6 @@
             this.day2match3box2.Size = new System.Drawing.Size(104, 37);
             this.day2match3box2.TabIndex = 3;
             this.day2match3box2.TabStop = true;
-            this.day2match3box2.Text = "radioButton3";
             this.day2match3box2.UseVisualStyleBackColor = true;
             // 
             // day2match3box1
@@ -764,7 +765,6 @@
             this.day2match3box1.Size = new System.Drawing.Size(104, 37);
             this.day2match3box1.TabIndex = 2;
             this.day2match3box1.TabStop = true;
-            this.day2match3box1.Text = "radioButton4";
             this.day2match3box1.UseVisualStyleBackColor = true;
             // 
             // day2matchBox4
@@ -785,7 +785,6 @@
             this.day2match4box2.Size = new System.Drawing.Size(104, 37);
             this.day2match4box2.TabIndex = 11;
             this.day2match4box2.TabStop = true;
-            this.day2match4box2.Text = "radioButton11";
             this.day2match4box2.UseVisualStyleBackColor = true;
             // 
             // day2match4box1
@@ -796,7 +795,6 @@
             this.day2match4box1.Size = new System.Drawing.Size(104, 37);
             this.day2match4box1.TabIndex = 10;
             this.day2match4box1.TabStop = true;
-            this.day2match4box1.Text = "radioButton12";
             this.day2match4box1.UseVisualStyleBackColor = true;
             // 
             // day2matchBox6
@@ -817,7 +815,6 @@
             this.day2match6box2.Size = new System.Drawing.Size(104, 37);
             this.day2match6box2.TabIndex = 13;
             this.day2match6box2.TabStop = true;
-            this.day2match6box2.Text = "radioButton13";
             this.day2match6box2.UseVisualStyleBackColor = true;
             // 
             // day2match6box1
@@ -828,7 +825,6 @@
             this.day2match6box1.Size = new System.Drawing.Size(104, 37);
             this.day2match6box1.TabIndex = 12;
             this.day2match6box1.TabStop = true;
-            this.day2match6box1.Text = "radioButton14";
             this.day2match6box1.UseVisualStyleBackColor = true;
             // 
             // day2matchBox5
@@ -849,7 +845,6 @@
             this.day2match5box2.Size = new System.Drawing.Size(104, 37);
             this.day2match5box2.TabIndex = 5;
             this.day2match5box2.TabStop = true;
-            this.day2match5box2.Text = "radioButton5";
             this.day2match5box2.UseVisualStyleBackColor = true;
             // 
             // day2match5box1
@@ -860,7 +855,6 @@
             this.day2match5box1.Size = new System.Drawing.Size(104, 37);
             this.day2match5box1.TabIndex = 4;
             this.day2match5box1.TabStop = true;
-            this.day2match5box1.Text = "radioButton6";
             this.day2match5box1.UseVisualStyleBackColor = true;
             // 
             // tabPage3
@@ -894,7 +888,6 @@
             this.day3match1box2.Size = new System.Drawing.Size(104, 37);
             this.day3match1box2.TabIndex = 1;
             this.day3match1box2.TabStop = true;
-            this.day3match1box2.Text = "radioButton2";
             this.day3match1box2.UseVisualStyleBackColor = true;
             // 
             // day3match1box1
@@ -905,7 +898,6 @@
             this.day3match1box1.Size = new System.Drawing.Size(104, 37);
             this.day3match1box1.TabIndex = 0;
             this.day3match1box1.TabStop = true;
-            this.day3match1box1.Text = "radioButton1";
             this.day3match1box1.UseVisualStyleBackColor = true;
             // 
             // day3matchBox2
@@ -926,7 +918,6 @@
             this.day3match2box2.Size = new System.Drawing.Size(104, 37);
             this.day3match2box2.TabIndex = 9;
             this.day3match2box2.TabStop = true;
-            this.day3match2box2.Text = "radioButton9";
             this.day3match2box2.UseVisualStyleBackColor = true;
             // 
             // day3match2box1
@@ -937,7 +928,6 @@
             this.day3match2box1.Size = new System.Drawing.Size(104, 37);
             this.day3match2box1.TabIndex = 8;
             this.day3match2box1.TabStop = true;
-            this.day3match2box1.Text = "radioButton10";
             this.day3match2box1.UseVisualStyleBackColor = true;
             // 
             // day3matchBox3
@@ -958,7 +948,6 @@
             this.day3match3box2.Size = new System.Drawing.Size(104, 37);
             this.day3match3box2.TabIndex = 3;
             this.day3match3box2.TabStop = true;
-            this.day3match3box2.Text = "radioButton3";
             this.day3match3box2.UseVisualStyleBackColor = true;
             // 
             // day3match3box1
@@ -969,7 +958,6 @@
             this.day3match3box1.Size = new System.Drawing.Size(104, 37);
             this.day3match3box1.TabIndex = 2;
             this.day3match3box1.TabStop = true;
-            this.day3match3box1.Text = "radioButton4";
             this.day3match3box1.UseVisualStyleBackColor = true;
             // 
             // day3matchBox4
@@ -990,7 +978,6 @@
             this.day3match4box2.Size = new System.Drawing.Size(104, 37);
             this.day3match4box2.TabIndex = 11;
             this.day3match4box2.TabStop = true;
-            this.day3match4box2.Text = "radioButton11";
             this.day3match4box2.UseVisualStyleBackColor = true;
             // 
             // day3match4box1
@@ -1001,7 +988,6 @@
             this.day3match4box1.Size = new System.Drawing.Size(104, 37);
             this.day3match4box1.TabIndex = 10;
             this.day3match4box1.TabStop = true;
-            this.day3match4box1.Text = "radioButton12";
             this.day3match4box1.UseVisualStyleBackColor = true;
             // 
             // tabPage4
@@ -1035,7 +1021,6 @@
             this.day4match1box2.Size = new System.Drawing.Size(104, 37);
             this.day4match1box2.TabIndex = 1;
             this.day4match1box2.TabStop = true;
-            this.day4match1box2.Text = "radioButton2";
             this.day4match1box2.UseVisualStyleBackColor = true;
             // 
             // day4match1box1
@@ -1046,7 +1031,6 @@
             this.day4match1box1.Size = new System.Drawing.Size(104, 37);
             this.day4match1box1.TabIndex = 0;
             this.day4match1box1.TabStop = true;
-            this.day4match1box1.Text = "radioButton1";
             this.day4match1box1.UseVisualStyleBackColor = true;
             // 
             // day4matchBox2
@@ -1067,7 +1051,6 @@
             this.day4match2box2.Size = new System.Drawing.Size(104, 37);
             this.day4match2box2.TabIndex = 9;
             this.day4match2box2.TabStop = true;
-            this.day4match2box2.Text = "radioButton9";
             this.day4match2box2.UseVisualStyleBackColor = true;
             // 
             // day4match2box1
@@ -1078,7 +1061,6 @@
             this.day4match2box1.Size = new System.Drawing.Size(104, 37);
             this.day4match2box1.TabIndex = 8;
             this.day4match2box1.TabStop = true;
-            this.day4match2box1.Text = "radioButton10";
             this.day4match2box1.UseVisualStyleBackColor = true;
             // 
             // day4matchBox3
@@ -1099,7 +1081,6 @@
             this.day4match3box2.Size = new System.Drawing.Size(104, 37);
             this.day4match3box2.TabIndex = 3;
             this.day4match3box2.TabStop = true;
-            this.day4match3box2.Text = "radioButton3";
             this.day4match3box2.UseVisualStyleBackColor = true;
             // 
             // day4match3box1
@@ -1110,7 +1091,6 @@
             this.day4match3box1.Size = new System.Drawing.Size(104, 37);
             this.day4match3box1.TabIndex = 2;
             this.day4match3box1.TabStop = true;
-            this.day4match3box1.Text = "radioButton4";
             this.day4match3box1.UseVisualStyleBackColor = true;
             // 
             // day4matchBox4
@@ -1131,7 +1111,6 @@
             this.day4match4box2.Size = new System.Drawing.Size(104, 37);
             this.day4match4box2.TabIndex = 11;
             this.day4match4box2.TabStop = true;
-            this.day4match4box2.Text = "radioButton11";
             this.day4match4box2.UseVisualStyleBackColor = true;
             // 
             // day4match4box1
@@ -1142,7 +1121,6 @@
             this.day4match4box1.Size = new System.Drawing.Size(104, 37);
             this.day4match4box1.TabIndex = 10;
             this.day4match4box1.TabStop = true;
-            this.day4match4box1.Text = "radioButton12";
             this.day4match4box1.UseVisualStyleBackColor = true;
             // 
             // tabPage5
@@ -1174,7 +1152,6 @@
             this.day5match1box2.Size = new System.Drawing.Size(104, 37);
             this.day5match1box2.TabIndex = 1;
             this.day5match1box2.TabStop = true;
-            this.day5match1box2.Text = "radioButton2";
             this.day5match1box2.UseVisualStyleBackColor = true;
             // 
             // day5match1box1
@@ -1185,7 +1162,6 @@
             this.day5match1box1.Size = new System.Drawing.Size(104, 37);
             this.day5match1box1.TabIndex = 0;
             this.day5match1box1.TabStop = true;
-            this.day5match1box1.Text = "radioButton1";
             this.day5match1box1.UseVisualStyleBackColor = true;
             // 
             // day5matchBox2
@@ -1206,7 +1182,6 @@
             this.day5match2box2.Size = new System.Drawing.Size(104, 37);
             this.day5match2box2.TabIndex = 9;
             this.day5match2box2.TabStop = true;
-            this.day5match2box2.Text = "radioButton9";
             this.day5match2box2.UseVisualStyleBackColor = true;
             // 
             // day5match2box1
@@ -1217,7 +1192,6 @@
             this.day5match2box1.Size = new System.Drawing.Size(104, 37);
             this.day5match2box1.TabIndex = 8;
             this.day5match2box1.TabStop = true;
-            this.day5match2box1.Text = "radioButton10";
             this.day5match2box1.UseVisualStyleBackColor = true;
             // 
             // tabPage6
@@ -1248,7 +1222,6 @@
             this.day6match1box2.Size = new System.Drawing.Size(152, 61);
             this.day6match1box2.TabIndex = 1;
             this.day6match1box2.TabStop = true;
-            this.day6match1box2.Text = "radioButton2";
             this.day6match1box2.UseVisualStyleBackColor = true;
             // 
             // day6match1box1
@@ -1259,7 +1232,6 @@
             this.day6match1box1.Size = new System.Drawing.Size(152, 61);
             this.day6match1box1.TabIndex = 0;
             this.day6match1box1.TabStop = true;
-            this.day6match1box1.Text = "radioButton1";
             this.day6match1box1.UseVisualStyleBackColor = true;
             // 
             // currentScore
@@ -2138,16 +2110,6 @@
             this.label31.Size = new System.Drawing.Size(157, 13);
             this.label31.TabIndex = 0;
             this.label31.Text = "Tournament to use for statistics:";
-            // 
-            // day1predictionSubmit
-            // 
-            this.day1predictionSubmit.Location = new System.Drawing.Point(210, 254);
-            this.day1predictionSubmit.Name = "day1predictionSubmit";
-            this.day1predictionSubmit.Size = new System.Drawing.Size(75, 23);
-            this.day1predictionSubmit.TabIndex = 11;
-            this.day1predictionSubmit.Text = "Submit";
-            this.day1predictionSubmit.UseVisualStyleBackColor = true;
-            this.day1predictionSubmit.Click += new System.EventHandler(this.day1predictionSubmit_Click);
             // 
             // MainForm
             // 

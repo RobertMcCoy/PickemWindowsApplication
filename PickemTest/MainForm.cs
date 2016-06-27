@@ -28,10 +28,14 @@ namespace PickemTest
         private int[] pickIdsArr;
         private string[] teamsArr;
         List<String> proPlayerList = new List<String>();
+        IEnumerable<object> dropDownsToUpdate;
+        IEnumerable<object> matchBoxesToUpdate;
 
         public MainForm()
         {
             InitializeComponent();
+            dropDownsToUpdate = new List<object>() { day1clutchking, day1clutchking, day1commando, day1ecowarrior, day1entryfragger, day1sniper, day2clutchking, day2commando, day2ecowarrior, day2entryfragger, day2sniper, day3clutchking, day3commando, day3ecowarrior, day3entryfragger, day3sniper, day4clutchking, day4commando, day4ecowarrior, day4entryfragger, day4sniper, day5clutchking, day5commando, day5ecowarrior, day5entryfragger, day5sniper, day6clutchking, day6commando, day6ecowarrior, day6entryfragger, day6sniper };
+            matchBoxesToUpdate = new List<object>() { day1match1box1, day1match1box2, day1match2box1, day1match2box2, day1match3box1, day1match3box2, day1match4box1, day1match4box2, day1match5box1, day1match5box2, day1match6box1, day1match6box2, day1match7box1, day1match7box2, day1match8box1, day1match8box2, day2match1box1, day2match1box2, day2match2box1, day2match2box2, day2match3box1, day2match3box2, day2match4box1, day2match4box2, day2match5box1, day2match5box2, day2match6box1, day2match6box2, day2match7box1, day2match7box2, day2match8box1, day2match8box2, day3match1box1, day3match1box2, day3match2box1, day3match2box2, day3match3box1, day3match3box2, day3match4box1, day3match4box2, day4match1box1, day4match1box2, day4match2box1, day4match2box2, day4match3box1, day4match3box2, day4match4box1, day4match4box2, day5match1box1, day5match1box2, day5match2box1, day5match2box2, day6match1box1, day6match1box2 };
             updateAppearance();
             updateFantasyAppearance();
         }
@@ -51,7 +55,8 @@ namespace PickemTest
                 {
                     sb.Append(tournamentReader.ReadLine());
                 }
-
+                tournamentReader.Close();
+                tournamentStream.Close();
                 tournamentLayoutJSON = sb.ToString();
 
                 deserializedLayoutResults = JsonConvert.DeserializeObject<Layout_ResultWrapper>(tournamentLayoutJSON);
@@ -66,86 +71,147 @@ namespace PickemTest
             tabbedControls.TabPages[2].Text = deserializedLayoutResults.result.sections[2].name;
             tabbedControls.TabPages[3].Text = deserializedLayoutResults.result.sections[3].name;
             tabbedControls.TabPages[4].Text = deserializedLayoutResults.result.sections[4].name;
-            tabbedControls.TabPages[5].Text = deserializedLayoutResults.result.sections[6].name;
+            if (deserializedLayoutResults.result.sections[5].name.Contains("All-star")) //Thanks Columbus for making me add this :)
+            {
+                tabbedControls.TabPages[5].Text = deserializedLayoutResults.result.sections[6].name;
+            }
+            else
+            {
+                tabbedControls.TabPages[5].Text = deserializedLayoutResults.result.sections[5].name;
+            }
 
             generateTeamArrays(); //Generates 2 arrays that correspond to team names and pick ids
             generateFirstDayGroupNames(); //Sets group boxes and radio buttons names to the first day of groups
 
-            if (deserializedLayoutResults.result.sections[1] != null)
+            if (deserializedLayoutResults.result.sections[1].groups[0].teams[0].pickid != 0)
             {
                 generateSecondDayGroupNames(); //So long as the section exists, fill in radio buttons and group boxes with information
             }
-            if (deserializedLayoutResults.result.sections[2] != null)
+            else
+            {
+                tabbedControls.TabPages[1].Enabled = false;
+            }
+            if (deserializedLayoutResults.result.sections[2].groups[0].teams[0].pickid != 0)
             {
                 generateThirdDayGroupNames();
             }
-            if (deserializedLayoutResults.result.sections[3] != null)
+            else
+            {
+                tabbedControls.TabPages[2].Enabled = false;
+            }
+            if (deserializedLayoutResults.result.sections[3].groups[0].teams[0].pickid != 0)
             {
                 generateFourthDayGroupNames();
             }
-            if (deserializedLayoutResults.result.sections[4] != null)
+            else
+            {
+                tabbedControls.TabPages[3].Enabled = false;
+            }
+            if (deserializedLayoutResults.result.sections[4].groups[0].teams[0].pickid != 0)
             {
                 generateFifthDayGroupNames();
             }
-            if (deserializedLayoutResults.result.sections[6] != null)
+            else
             {
-                generateSixthDayGroupNames();
+                tabbedControls.TabPages[4].Enabled = false;
+            }
+            if (deserializedLayoutResults.result.sections[5].name.Contains("All Star"))
+            {
+                if (deserializedLayoutResults.result.sections[6].groups[0].teams[0].pickid != 0)
+                {
+                    generateSixthDayGroupNamesAllStar(); //This layout contains all-star game, so therefore we have to skip a section, so another method is needed
+                }
+                else
+                {
+                    tabbedControls.TabPages[5].Enabled = false;
+                }
+            }
+            else
+            {
+                if (deserializedLayoutResults.result.sections[5].groups[0].teams[0].pickid != 0)
+                {
+                    generateSixthDayGroupNames(); //This layout uses section 5, because there is no all-star game
+                }
+                else
+                {
+                    tabbedControls.TabPages[5].Enabled = false;
+                }
             }
 
-            if (deserializedLayoutResults.result.sections[0].groups[0].picks[0] != null)
+            foreach (RadioButton radio in matchBoxesToUpdate)
+            {
+                radio.BackColor = Color.White;
+                radio.Checked = false;
+                radio.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Regular);
+            }
+
+            if (deserializedLayoutResults.result.sections[0].groups[0].picks[0].pickids.Count != 0)
             {
                 generateWinnerLosersDay1(); //If the losers and winners have been determined (they're in the picks jobject) color the winner green and loser red
             }
-            if (deserializedLayoutResults.result.sections[1].groups[0].picks[0] != null)
+            if (deserializedLayoutResults.result.sections[1].groups[0].picks[0].pickids.Count != 0)
             {
                 generateWinnerLosersDay2();
             }
-            if (deserializedLayoutResults.result.sections[2].groups[0].picks[0] != null)
+            if (deserializedLayoutResults.result.sections[2].groups[0].picks[0].pickids.Count != 0)
             {
                 generateWinnerLosersDay3();
             }
-            if (deserializedLayoutResults.result.sections[3].groups[0].picks[0] != null)
+            if (deserializedLayoutResults.result.sections[3].groups[0].picks[0].pickids.Count != 0)
             {
                 generateWinnerLosersDay4();
             }
-            if (deserializedLayoutResults.result.sections[4].groups[0].picks[0] != null)
+            if (deserializedLayoutResults.result.sections[4].groups[0].picks[0].pickids.Count != 0)
             {
                 generateWinnerLosersDay5();
             }
-            if (deserializedLayoutResults.result.sections[6].groups[0].picks[0] != null)
+            if (deserializedLayoutResults.result.sections[5].name.Contains("All Star"))
             {
-                generateWinnerLosersDay6();
+                if (deserializedLayoutResults.result.sections[6].groups[0].picks[0].pickids.Count != 0)
+                {
+                    generateWinnerLosersDay6AllStar();
+                }
+            }
+            else
+            {
+                if (deserializedLayoutResults.result.sections[5].groups[0].picks[0].pickids.Count != 0)
+                {
+                    generateWinnerLosersDay6();
+                }
             }
 
             if (Properties.Settings.Default.tournamentPredictions != String.Empty && Properties.Settings.Default.tournamentPredictions != "")
             {
                 generatePredictionDeserializedObject(); //Get deserialized result of team predictions
-                if (deserializedPredictionResults.result.picks[0] != null)
+                if (deserializedPredictionResults.result.picks.Count != 0)
                 {
-                    generateRadioButtonUserPicksDay1(); //If picks were made, then show which team the user picked
+                    if (deserializedPredictionResults.result.picks[0] != null)
+                    {
+                        generateRadioButtonUserPicksDay1(); //If picks were made, then show which team the user picked
+                    }
+                    if (deserializedPredictionResults.result.picks[1] != null)
+                    {
+                        generateRadioButtonUserPicksDay2();
+                    }
+                    if (deserializedPredictionResults.result.picks[2] != null)
+                    {
+                        generateRadioButtonUserPicksDay3();
+                    }
+                    if (deserializedPredictionResults.result.picks[3] != null)
+                    {
+                        generateRadioButtonUserPicksDay4();
+                    }
+                    if (deserializedPredictionResults.result.picks[4] != null)
+                    {
+                        generateRadioButtonUserPicksDay5();
+                    }
+                    if (deserializedPredictionResults.result.picks[5] != null)
+                    {
+                        generateRadioButtonUserPicksDay6();
+                    }
                 }
-                if (deserializedPredictionResults.result.picks[1] != null)
-                {
-                    generateRadioButtonUserPicksDay2();
-                }
-                if (deserializedPredictionResults.result.picks[2] != null)
-                {
-                    generateRadioButtonUserPicksDay3();
-                }
-                if (deserializedPredictionResults.result.picks[3] != null)
-                {
-                    generateRadioButtonUserPicksDay4();
-                }
-                if (deserializedPredictionResults.result.picks[4] != null)
-                {
-                    generateRadioButtonUserPicksDay5();
-                }
-                if (deserializedPredictionResults.result.picks[5] != null)
-                {
-                    generateRadioButtonUserPicksDay6();
-                }
-                updateCurrentScore(); //Updates score in the top right of the form
             }
+            updateCurrentScore(); //Updates score in the top right of the form
         }
 
         public void updateFantasyAppearance() //Updates each of the fantasy tabs player info and labels
@@ -189,37 +255,6 @@ namespace PickemTest
                         }
                     }
                 }
-                List<Control> dropDownsToUpdate = new List<Control>(); //There is probably a better way of doing this, but this becomes a collection of every single fantasy combo box on the form for mass updating/processing
-                dropDownsToUpdate.Add(day1clutchking);
-                dropDownsToUpdate.Add(day1commando);
-                dropDownsToUpdate.Add(day1ecowarrior);
-                dropDownsToUpdate.Add(day1entryfragger);
-                dropDownsToUpdate.Add(day1sniper);
-                dropDownsToUpdate.Add(day2clutchking);
-                dropDownsToUpdate.Add(day2commando);
-                dropDownsToUpdate.Add(day2ecowarrior);
-                dropDownsToUpdate.Add(day2entryfragger);
-                dropDownsToUpdate.Add(day2sniper);
-                dropDownsToUpdate.Add(day3clutchking);
-                dropDownsToUpdate.Add(day3commando);
-                dropDownsToUpdate.Add(day3ecowarrior);
-                dropDownsToUpdate.Add(day3entryfragger);
-                dropDownsToUpdate.Add(day3sniper);
-                dropDownsToUpdate.Add(day4clutchking);
-                dropDownsToUpdate.Add(day4commando);
-                dropDownsToUpdate.Add(day4ecowarrior);
-                dropDownsToUpdate.Add(day4entryfragger);
-                dropDownsToUpdate.Add(day4sniper);
-                dropDownsToUpdate.Add(day5clutchking);
-                dropDownsToUpdate.Add(day5commando);
-                dropDownsToUpdate.Add(day5ecowarrior);
-                dropDownsToUpdate.Add(day5entryfragger);
-                dropDownsToUpdate.Add(day5sniper);
-                dropDownsToUpdate.Add(day6clutchking);
-                dropDownsToUpdate.Add(day6commando);
-                dropDownsToUpdate.Add(day6ecowarrior);
-                dropDownsToUpdate.Add(day6entryfragger);
-                dropDownsToUpdate.Add(day6sniper);
                 if (Properties.Settings.Default.displayOnlyAvailable) //If the user has indicated that they want only players that are available on the day of matches, this will only show players in teams that are playing
                 {
                     fantasyPlayers.updateFantasyListsOnlyAvailable(dropDownsToUpdate);
@@ -236,7 +271,10 @@ namespace PickemTest
                     {
                         Label newLabel = new Label();
                         newLabel.Location = new Point(combo.Location.X, combo.Location.Y + 20); //Makes the label 20 pixels below the combo box
-                        newLabel.Text = fantasyPlayers.updatePlayerInfo(combo); //Gets the player information for the combo box, and then gets the label text in return
+                        if (combo.SelectedItem != null)
+                        {
+                            newLabel.Text = fantasyPlayers.updatePlayerInfo(combo); //Gets the player information for the combo box, and then gets the label text in return
+                        }
                         newLabel.AutoSize = true; //Makes it so that I don't have to mess with sizing for things :)
                         if (counter % 6 == 0) //Will increment to the next tab page once 5 labels have been created for the first 5 combo box..there might be a better way to do this
                         {
@@ -255,7 +293,10 @@ namespace PickemTest
                     foreach (Label label in proPickemStatLabels) //Here we already have all the labels for fantasy stats, so we only need to loop through these
                     {
                         ComboBox labelCombo = (ComboBox)label.Tag; //Remember how we set the combo as that tag? This makes this 100x easier to identify the player, and saves a lot of unecessary steps
-                        label.Text = fantasyPlayers.updatePlayerInfo(labelCombo); //Updates the label that is associated with the combobox in it's tag
+                        if (labelCombo != null)
+                        {
+                            label.Text = fantasyPlayers.updatePlayerInfo(labelCombo); //Updates the label that is associated with the combobox in it's tag
+                        }
                     }
                 }
                 fantasyTournamentToUse.Text = Properties.Settings.Default.fantasyTournament.ToString(); //Updates the settings page for fantasy pick'em
@@ -304,7 +345,7 @@ namespace PickemTest
             pickIdsArr = new int[numberOfTeams];
             teamsArr = new string[numberOfTeams];
 
-            for(int i = 0; i < numberOfTeams; i++)
+            for (int i = 0; i < numberOfTeams; i++)
             {
                 pickIdsArr[i] = deserializedLayoutResults.result.teams[i].pickid;
                 teamsArr[i] = deserializedLayoutResults.result.teams[i].name;
@@ -319,8 +360,8 @@ namespace PickemTest
          * 
          * TODO: I assume there is a much better way of doing this, but for now it works, and I may need to ask some more experienced UI individuals how
          * to improve this code, or at least shrink it down tremendously. Might have to do a foreach loop like for the fantasy players?
-        */ 
-        private void generateFirstDayGroupNames() 
+        */
+        private void generateFirstDayGroupNames()
         {
             //Match 1
             day1matchBox1.Text = deserializedLayoutResults.result.sections[0].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[0].groups[0].points_per_pick;
@@ -650,6 +691,21 @@ namespace PickemTest
         private void generateSixthDayGroupNames()
         {
             //Match 1
+            day6matchBox1.Text = deserializedLayoutResults.result.sections[5].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[5].groups[0].points_per_pick;
+            day6matchBox1.Tag = deserializedLayoutResults.result.sections[5].groups[0];
+            day6match1box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[5].groups[0].teams[0].pickid);
+            day6match1box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[5].groups[0].teams[1].pickid);
+            day6match1box1.Tag = deserializedLayoutResults.result.sections[5].groups[0];
+            day6match1box2.Tag = deserializedLayoutResults.result.sections[5].groups[0];
+            if (deserializedLayoutResults.result.sections[5].groups[0].picks_allowed == false)
+            {
+                day6matchBox1.Enabled = false;
+            }
+        }
+
+        private void generateSixthDayGroupNamesAllStar()
+        {
+            //Match 1
             day6matchBox1.Text = deserializedLayoutResults.result.sections[6].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[6].groups[0].points_per_pick;
             day6matchBox1.Tag = deserializedLayoutResults.result.sections[6].groups[0];
             day6match1box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[6].groups[0].teams[0].pickid);
@@ -692,7 +748,8 @@ namespace PickemTest
                 }
                 predictionInfoGET = null;
                 tournamentPredictionsJSON = sb.ToString();
-
+                tournamentStream.Close();
+                tournamentReader.Close();
                 deserializedPredictionResults = JsonConvert.DeserializeObject<Prediction_ResultWrapper>(tournamentPredictionsJSON);
             }
             catch (Exception e)
@@ -707,7 +764,7 @@ namespace PickemTest
          * They identify the user picks for each set of matches and check the corresponding box.
          * 
          * TODO: Find out how to simplify this, much like the Group Name generation. I'm certain this can be cleaned up, but I don't know how quite frankly 
-        */ 
+        */
         private void generateRadioButtonUserPicksDay1()
         {
             for (int i = 0; i < deserializedPredictionResults.result.picks.Count; i++)
@@ -1059,7 +1116,7 @@ namespace PickemTest
          * 
          * TODO: Clean this up, much like the generateRadioButtonUserPicks and generateMatches, because I'm certain this can be cleaned up immensley, and
          * this takes up a lot of space.
-        */ 
+        */
         private void generateWinnerLosersDay1()
         {
             for (int i = 0; i < deserializedLayoutResults.result.sections[0].groups.Count; i++)
@@ -1456,6 +1513,26 @@ namespace PickemTest
 
         private void generateWinnerLosersDay6()
         {
+            for (int i = 0; i < deserializedLayoutResults.result.sections[5].groups.Count; i++)
+            {
+                //Match 1
+                if (getTagInfo(day6match1box1, 'p', 0) == deserializedLayoutResults.result.sections[5].groups[0].picks[0].pickids[0])
+                {
+                    day6match1box1.BackColor = Color.Green;
+                    day6match1box2.BackColor = Color.Red;
+                    day6match1box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
+                }
+                else if (getTagInfo(day6match1box2, 'p', 1) == deserializedLayoutResults.result.sections[5].groups[0].picks[0].pickids[0])
+                {
+                    day6match1box1.BackColor = Color.Red;
+                    day6match1box2.BackColor = Color.Green;
+                    day6match1box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
+                }
+            }
+        }
+
+        private void generateWinnerLosersDay6AllStar()
+        {
             for (int i = 0; i < deserializedLayoutResults.result.sections[6].groups.Count; i++)
             {
                 //Match 1
@@ -1475,9 +1552,9 @@ namespace PickemTest
         }
 
         private int getTagInfo(Control obj, char infoType, int team = 0) //This method is designed to get the tag info. Because all tags I store are control objects, this was easier to make into it's own method.
-            //Each branch has a specific purpose, and can easily be added onto later on.
+                                                                         //Each branch has a specific purpose, and can easily be added onto later on.
         {
-            switch(infoType)
+            switch (infoType)
             {
                 case 'g': //Groupid
                     if (obj is GroupBox)
@@ -1510,7 +1587,7 @@ namespace PickemTest
                     MessageBox.Show("ERROR FOX:\n\nDefault case somehow reached in switch statement for control tag info");
                     return -1;
             }
-           
+
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1527,7 +1604,7 @@ namespace PickemTest
 
         private void fantasyTournamentToUse_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string tournamentLayout = Properties.Settings.Default.tournamentLayout + fantasyTournamentToUse.Text; 
+            string tournamentLayout = Properties.Settings.Default.tournamentLayout + fantasyTournamentToUse.Text;
             selectedEventLbl.Text = retrieveEventName(tournamentLayout); //Updates the event name that the user sees below the selection box
             Properties.Settings.Default.fantasyTournament = Int32.Parse(fantasyTournamentToUse.Text); //Sets the setting to the user specified option
             if (selectedEventLbl.Text.Equals("Error"))
@@ -1553,7 +1630,8 @@ namespace PickemTest
                 {
                     sb.Append(tournamentReader.ReadLine());
                 }
-
+                tournamentStream.Close();
+                tournamentStream.Close();
                 deserializedLayoutResult = JsonConvert.DeserializeObject<Layout_ResultWrapper>(sb.ToString());
                 return deserializedLayoutResult.result.name;
             }
@@ -1593,7 +1671,7 @@ namespace PickemTest
 
         private void day1commando_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Label associatedLabel = (Label) day1commando.Tag;
+            Label associatedLabel = (Label)day1commando.Tag;
             if (associatedLabel != null)
             {
                 associatedLabel.Text = fantasyPlayers.updatePlayerInfo((ComboBox)sender);

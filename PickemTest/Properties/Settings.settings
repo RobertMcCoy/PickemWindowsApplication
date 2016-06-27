@@ -15,7 +15,7 @@
       <Value Profile="(Default)">CD94E144BE3054D5342C9FE923F21152</Value>
     </Setting>
     <Setting Name="tournamentID" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">9</Value>
+      <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="steamID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -26,11 +26,11 @@
     <Setting Name="steamID64" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="authenticationCode" Type="System.String" Scope="User">
+    <Setting Name="authenticationCode9" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="tournamentName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MLG Columbus 2016 CS:GO Championship</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="fantasyTournament" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">9</Value>
@@ -42,7 +42,25 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="fantasyPlayerSortOrder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">By Name</Value>
+      <Value Profile="(Default)">By Team</Value>
+    </Setting>
+    <Setting Name="authenticationCode10" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="authenticationCode11" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="authenticationCode12" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="authenticationCode13" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="authenticationCode14" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="authenticationCode15" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
