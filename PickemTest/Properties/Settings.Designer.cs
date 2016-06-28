@@ -140,7 +140,7 @@ namespace PickemTest.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("9")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
         public int fantasyTournament {
             get {
                 return ((int)(this["fantasyTournament"]));
@@ -255,6 +255,18 @@ namespace PickemTest.Properties {
             }
             set {
                 this["authenticationCode15"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string tournamentItems {
+            get {
+                return ((string)(this["tournamentItems"]));
+            }
+            set {
+                this["tournamentItems"] = value;
             }
         }
     }

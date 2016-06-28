@@ -14,13 +14,13 @@ namespace PickemTest
     {
 
         public string inventoryJSON = @"";
-        dynamic deserializedInventoryResults;
+        public Inventory_ResultWrapper deserializedInventoryResults;
 
         public Inventory()
         {
             try
             {
-                WebRequest InventoryInfoGET = WebRequest.Create("http://steamcommunity.com/profiles/" + Properties.Settings.Default.steamID64 + "/inventory/json/730/2");
+                WebRequest InventoryInfoGET = WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/GetTournamentItems/v1?key=" + Properties.Settings.Default.apiKey + Properties.Settings.Default.tournamentItems);
                 InventoryInfoGET.ContentType = "application/json; charset=utf-8";
                 Stream inventoryStream = InventoryInfoGET.GetResponse().GetResponseStream();
                 StreamReader inventoryReader = new StreamReader(inventoryStream);
@@ -34,7 +34,7 @@ namespace PickemTest
 
                 inventoryJSON = sb.ToString();
 
-                deserializedInventoryResults = JsonConvert.DeserializeObject(inventoryJSON);
+                deserializedInventoryResults = JsonConvert.DeserializeObject<Inventory_ResultWrapper>(inventoryJSON);
             }
             catch (Exception exc)
             {
@@ -42,18 +42,48 @@ namespace PickemTest
             }
         }
 
-        public List<String> returnAvailableStickers()
+        public List<string> returnAvailableStickersTeams()
         {
-            List<String> listOfTeamStickers = new List<String>();
-            foreach (var name in deserializedInventoryResults.rgDescriptions)
+            List<string> listOfStickers = new List<string>();
+            for (int i = 0; i < deserializedInventoryResults.result.items.Count; i++)
             {
-                string currentItem = name.Value.name;
-                if (currentItem.Contains("Sticker |"))
+                if (deserializedInventoryResults.result.items[i].type.Equals("team"))
                 {
-                    listOfTeamStickers.Add(currentItem);
+                    listOfStickers.Add(deserializedInventoryResults.result.items[i].teamid.ToString());
                 }
             }
-            return listOfTeamStickers;
+            return listOfStickers;
         }
+
+        public List<string> returnAvailableStickersPlayers()
+        {
+            List<string> listOfStickers = new List<string>();
+            for (int i = 0; i < deserializedInventoryResults.result.items.Count; i++)
+            {
+                if (deserializedInventoryResults.result.items[i].type.Equals("player"))
+                {
+                    listOfStickers.Add(deserializedInventoryResults.result.items[i].playerid.ToString());
+                }
+            }
+            return listOfStickers;
+        }
+    }
+
+    public class Inventory_ResultWrapper
+    {
+        public Inventory_Result result { get; set; }
+    }
+
+    public class Inventory_Result
+    {
+        public List<Inventory_Items> items { get; set; }
+    }
+
+    public class Inventory_Items
+    {
+        public string type { get; set; }
+        public string playerid { get; set; }
+        public string teamid { get; set; }
+        public string itemid { get; set; }
     }
 }

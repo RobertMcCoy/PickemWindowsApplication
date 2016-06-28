@@ -205,6 +205,12 @@
             this.label32 = new System.Windows.Forms.Label();
             this.fantasyTournamentToUse = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
+            this.day2predictionSubmit = new System.Windows.Forms.Button();
+            this.day3predictionSubmit = new System.Windows.Forms.Button();
+            this.day4predictionSubmit = new System.Windows.Forms.Button();
+            this.day5predictionSubmit = new System.Windows.Forms.Button();
+            this.day6predictionSubmit = new System.Windows.Forms.Button();
+            this.day1RefreshAppearance = new System.Windows.Forms.Button();
             this.day1matchBox1.SuspendLayout();
             this.day1matchBox2.SuspendLayout();
             this.day1matchBox3.SuspendLayout();
@@ -283,6 +289,7 @@
             this.day1match1box2.TabStop = true;
             this.day1match1box2.Text = "radioButton2";
             this.day1match1box2.UseVisualStyleBackColor = true;
+            this.day1match1box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1match1box1
             // 
@@ -294,6 +301,7 @@
             this.day1match1box1.TabStop = true;
             this.day1match1box1.Text = "radioButton1";
             this.day1match1box1.UseVisualStyleBackColor = true;
+            this.day1match1box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1matchBox2
             // 
@@ -315,6 +323,7 @@
             this.day1match2box2.TabStop = true;
             this.day1match2box2.Text = "radioButton9";
             this.day1match2box2.UseVisualStyleBackColor = true;
+            this.day1match2box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1match2box1
             // 
@@ -326,6 +335,7 @@
             this.day1match2box1.TabStop = true;
             this.day1match2box1.Text = "radioButton10";
             this.day1match2box1.UseVisualStyleBackColor = true;
+            this.day1match2box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1matchBox3
             // 
@@ -347,6 +357,7 @@
             this.day1match3box2.TabStop = true;
             this.day1match3box2.Text = "radioButton3";
             this.day1match3box2.UseVisualStyleBackColor = true;
+            this.day1match3box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1match3box1
             // 
@@ -358,6 +369,7 @@
             this.day1match3box1.TabStop = true;
             this.day1match3box1.Text = "radioButton4";
             this.day1match3box1.UseVisualStyleBackColor = true;
+            this.day1match3box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1matchBox4
             // 
@@ -379,6 +391,7 @@
             this.day1match4box2.TabStop = true;
             this.day1match4box2.Text = "radioButton11";
             this.day1match4box2.UseVisualStyleBackColor = true;
+            this.day1match4box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1match4box1
             // 
@@ -390,6 +403,7 @@
             this.day1match4box1.TabStop = true;
             this.day1match4box1.Text = "radioButton12";
             this.day1match4box1.UseVisualStyleBackColor = true;
+            this.day1match4box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1matchBox5
             // 
@@ -411,6 +425,7 @@
             this.day1match5box2.TabStop = true;
             this.day1match5box2.Text = "radioButton5";
             this.day1match5box2.UseVisualStyleBackColor = true;
+            this.day1match5box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1match5box1
             // 
@@ -422,6 +437,7 @@
             this.day1match5box1.TabStop = true;
             this.day1match5box1.Text = "radioButton6";
             this.day1match5box1.UseVisualStyleBackColor = true;
+            this.day1match5box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1matchBox6
             // 
@@ -443,6 +459,7 @@
             this.day1match6box2.TabStop = true;
             this.day1match6box2.Text = "radioButton13";
             this.day1match6box2.UseVisualStyleBackColor = true;
+            this.day1match6box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1match6box1
             // 
@@ -454,6 +471,7 @@
             this.day1match6box1.TabStop = true;
             this.day1match6box1.Text = "radioButton14";
             this.day1match6box1.UseVisualStyleBackColor = true;
+            this.day1match6box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1matchBox7
             // 
@@ -475,6 +493,7 @@
             this.day1match7box2.TabStop = true;
             this.day1match7box2.Text = "radioButton7";
             this.day1match7box2.UseVisualStyleBackColor = true;
+            this.day1match7box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1match7box1
             // 
@@ -486,6 +505,7 @@
             this.day1match7box1.TabStop = true;
             this.day1match7box1.Text = "radioButton8";
             this.day1match7box1.UseVisualStyleBackColor = true;
+            this.day1match7box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1matchBox8
             // 
@@ -507,6 +527,7 @@
             this.day1match8box2.TabStop = true;
             this.day1match8box2.Text = "radioButton15";
             this.day1match8box2.UseVisualStyleBackColor = true;
+            this.day1match8box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day1match8box1
             // 
@@ -518,6 +539,7 @@
             this.day1match8box1.TabStop = true;
             this.day1match8box1.Text = "radioButton16";
             this.day1match8box1.UseVisualStyleBackColor = true;
+            this.day1match8box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // menuStrip1
             // 
@@ -572,6 +594,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.day1RefreshAppearance);
             this.tabPage1.Controls.Add(this.day1predictionSubmit);
             this.tabPage1.Controls.Add(this.day1matchBox1);
             this.tabPage1.Controls.Add(this.day1matchBox8);
@@ -591,7 +614,7 @@
             // 
             // day1predictionSubmit
             // 
-            this.day1predictionSubmit.Location = new System.Drawing.Point(210, 254);
+            this.day1predictionSubmit.Location = new System.Drawing.Point(160, 251);
             this.day1predictionSubmit.Name = "day1predictionSubmit";
             this.day1predictionSubmit.Size = new System.Drawing.Size(75, 23);
             this.day1predictionSubmit.TabIndex = 11;
@@ -601,6 +624,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.day2predictionSubmit);
             this.tabPage2.Controls.Add(this.day2matchBox1);
             this.tabPage2.Controls.Add(this.day2matchBox8);
             this.tabPage2.Controls.Add(this.day2matchBox2);
@@ -636,6 +660,7 @@
             this.day2match1box2.TabIndex = 1;
             this.day2match1box2.TabStop = true;
             this.day2match1box2.UseVisualStyleBackColor = true;
+            this.day2match1box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2match1box1
             // 
@@ -646,6 +671,7 @@
             this.day2match1box1.TabIndex = 0;
             this.day2match1box1.TabStop = true;
             this.day2match1box1.UseVisualStyleBackColor = true;
+            this.day2match1box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2matchBox8
             // 
@@ -666,6 +692,7 @@
             this.day2match8box2.TabIndex = 15;
             this.day2match8box2.TabStop = true;
             this.day2match8box2.UseVisualStyleBackColor = true;
+            this.day2match8box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2match8box1
             // 
@@ -676,6 +703,7 @@
             this.day2match8box1.TabIndex = 14;
             this.day2match8box1.TabStop = true;
             this.day2match8box1.UseVisualStyleBackColor = true;
+            this.day2match8box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2matchBox2
             // 
@@ -696,6 +724,7 @@
             this.day2match2box2.TabIndex = 9;
             this.day2match2box2.TabStop = true;
             this.day2match2box2.UseVisualStyleBackColor = true;
+            this.day2match2box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2match2box1
             // 
@@ -706,6 +735,7 @@
             this.day2match2box1.TabIndex = 8;
             this.day2match2box1.TabStop = true;
             this.day2match2box1.UseVisualStyleBackColor = true;
+            this.day2match2box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2matchBox7
             // 
@@ -726,6 +756,7 @@
             this.day2match7box2.TabIndex = 7;
             this.day2match7box2.TabStop = true;
             this.day2match7box2.UseVisualStyleBackColor = true;
+            this.day2match7box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2match7box1
             // 
@@ -736,6 +767,7 @@
             this.day2match7box1.TabIndex = 6;
             this.day2match7box1.TabStop = true;
             this.day2match7box1.UseVisualStyleBackColor = true;
+            this.day2match7box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2matchBox3
             // 
@@ -756,6 +788,7 @@
             this.day2match3box2.TabIndex = 3;
             this.day2match3box2.TabStop = true;
             this.day2match3box2.UseVisualStyleBackColor = true;
+            this.day2match3box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2match3box1
             // 
@@ -766,6 +799,7 @@
             this.day2match3box1.TabIndex = 2;
             this.day2match3box1.TabStop = true;
             this.day2match3box1.UseVisualStyleBackColor = true;
+            this.day2match3box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2matchBox4
             // 
@@ -786,6 +820,7 @@
             this.day2match4box2.TabIndex = 11;
             this.day2match4box2.TabStop = true;
             this.day2match4box2.UseVisualStyleBackColor = true;
+            this.day2match4box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2match4box1
             // 
@@ -796,6 +831,7 @@
             this.day2match4box1.TabIndex = 10;
             this.day2match4box1.TabStop = true;
             this.day2match4box1.UseVisualStyleBackColor = true;
+            this.day2match4box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2matchBox6
             // 
@@ -816,6 +852,7 @@
             this.day2match6box2.TabIndex = 13;
             this.day2match6box2.TabStop = true;
             this.day2match6box2.UseVisualStyleBackColor = true;
+            this.day2match6box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2match6box1
             // 
@@ -826,6 +863,7 @@
             this.day2match6box1.TabIndex = 12;
             this.day2match6box1.TabStop = true;
             this.day2match6box1.UseVisualStyleBackColor = true;
+            this.day2match6box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2matchBox5
             // 
@@ -846,6 +884,7 @@
             this.day2match5box2.TabIndex = 5;
             this.day2match5box2.TabStop = true;
             this.day2match5box2.UseVisualStyleBackColor = true;
+            this.day2match5box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day2match5box1
             // 
@@ -856,9 +895,11 @@
             this.day2match5box1.TabIndex = 4;
             this.day2match5box1.TabStop = true;
             this.day2match5box1.UseVisualStyleBackColor = true;
+            this.day2match5box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.day3predictionSubmit);
             this.tabPage3.Controls.Add(this.day3matchBox1);
             this.tabPage3.Controls.Add(this.day3matchBox2);
             this.tabPage3.Controls.Add(this.day3matchBox3);
@@ -889,6 +930,7 @@
             this.day3match1box2.TabIndex = 1;
             this.day3match1box2.TabStop = true;
             this.day3match1box2.UseVisualStyleBackColor = true;
+            this.day3match1box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day3match1box1
             // 
@@ -899,6 +941,7 @@
             this.day3match1box1.TabIndex = 0;
             this.day3match1box1.TabStop = true;
             this.day3match1box1.UseVisualStyleBackColor = true;
+            this.day3match1box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day3matchBox2
             // 
@@ -919,6 +962,7 @@
             this.day3match2box2.TabIndex = 9;
             this.day3match2box2.TabStop = true;
             this.day3match2box2.UseVisualStyleBackColor = true;
+            this.day3match2box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day3match2box1
             // 
@@ -929,6 +973,7 @@
             this.day3match2box1.TabIndex = 8;
             this.day3match2box1.TabStop = true;
             this.day3match2box1.UseVisualStyleBackColor = true;
+            this.day3match2box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day3matchBox3
             // 
@@ -949,6 +994,7 @@
             this.day3match3box2.TabIndex = 3;
             this.day3match3box2.TabStop = true;
             this.day3match3box2.UseVisualStyleBackColor = true;
+            this.day3match3box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day3match3box1
             // 
@@ -959,6 +1005,7 @@
             this.day3match3box1.TabIndex = 2;
             this.day3match3box1.TabStop = true;
             this.day3match3box1.UseVisualStyleBackColor = true;
+            this.day3match3box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day3matchBox4
             // 
@@ -979,6 +1026,7 @@
             this.day3match4box2.TabIndex = 11;
             this.day3match4box2.TabStop = true;
             this.day3match4box2.UseVisualStyleBackColor = true;
+            this.day3match4box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day3match4box1
             // 
@@ -989,9 +1037,11 @@
             this.day3match4box1.TabIndex = 10;
             this.day3match4box1.TabStop = true;
             this.day3match4box1.UseVisualStyleBackColor = true;
+            this.day3match4box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.day4predictionSubmit);
             this.tabPage4.Controls.Add(this.day4matchBox1);
             this.tabPage4.Controls.Add(this.day4matchBox2);
             this.tabPage4.Controls.Add(this.day4matchBox3);
@@ -1022,6 +1072,7 @@
             this.day4match1box2.TabIndex = 1;
             this.day4match1box2.TabStop = true;
             this.day4match1box2.UseVisualStyleBackColor = true;
+            this.day4match1box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day4match1box1
             // 
@@ -1032,6 +1083,7 @@
             this.day4match1box1.TabIndex = 0;
             this.day4match1box1.TabStop = true;
             this.day4match1box1.UseVisualStyleBackColor = true;
+            this.day4match1box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day4matchBox2
             // 
@@ -1052,6 +1104,7 @@
             this.day4match2box2.TabIndex = 9;
             this.day4match2box2.TabStop = true;
             this.day4match2box2.UseVisualStyleBackColor = true;
+            this.day4match2box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day4match2box1
             // 
@@ -1062,6 +1115,7 @@
             this.day4match2box1.TabIndex = 8;
             this.day4match2box1.TabStop = true;
             this.day4match2box1.UseVisualStyleBackColor = true;
+            this.day4match2box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day4matchBox3
             // 
@@ -1082,6 +1136,7 @@
             this.day4match3box2.TabIndex = 3;
             this.day4match3box2.TabStop = true;
             this.day4match3box2.UseVisualStyleBackColor = true;
+            this.day4match3box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day4match3box1
             // 
@@ -1092,6 +1147,7 @@
             this.day4match3box1.TabIndex = 2;
             this.day4match3box1.TabStop = true;
             this.day4match3box1.UseVisualStyleBackColor = true;
+            this.day4match3box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day4matchBox4
             // 
@@ -1112,6 +1168,7 @@
             this.day4match4box2.TabIndex = 11;
             this.day4match4box2.TabStop = true;
             this.day4match4box2.UseVisualStyleBackColor = true;
+            this.day4match4box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day4match4box1
             // 
@@ -1122,9 +1179,11 @@
             this.day4match4box1.TabIndex = 10;
             this.day4match4box1.TabStop = true;
             this.day4match4box1.UseVisualStyleBackColor = true;
+            this.day4match4box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.day5predictionSubmit);
             this.tabPage5.Controls.Add(this.day5matchBox1);
             this.tabPage5.Controls.Add(this.day5matchBox2);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
@@ -1153,6 +1212,7 @@
             this.day5match1box2.TabIndex = 1;
             this.day5match1box2.TabStop = true;
             this.day5match1box2.UseVisualStyleBackColor = true;
+            this.day5match1box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day5match1box1
             // 
@@ -1163,6 +1223,7 @@
             this.day5match1box1.TabIndex = 0;
             this.day5match1box1.TabStop = true;
             this.day5match1box1.UseVisualStyleBackColor = true;
+            this.day5match1box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day5matchBox2
             // 
@@ -1183,6 +1244,7 @@
             this.day5match2box2.TabIndex = 9;
             this.day5match2box2.TabStop = true;
             this.day5match2box2.UseVisualStyleBackColor = true;
+            this.day5match2box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day5match2box1
             // 
@@ -1193,9 +1255,11 @@
             this.day5match2box1.TabIndex = 8;
             this.day5match2box1.TabStop = true;
             this.day5match2box1.UseVisualStyleBackColor = true;
+            this.day5match2box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.day6predictionSubmit);
             this.tabPage6.Controls.Add(this.day6matchBox1);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
@@ -1223,6 +1287,7 @@
             this.day6match1box2.TabIndex = 1;
             this.day6match1box2.TabStop = true;
             this.day6match1box2.UseVisualStyleBackColor = true;
+            this.day6match1box2.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // day6match1box1
             // 
@@ -1233,6 +1298,7 @@
             this.day6match1box1.TabIndex = 0;
             this.day6match1box1.TabStop = true;
             this.day6match1box1.UseVisualStyleBackColor = true;
+            this.day6match1box1.CheckedChanged += new System.EventHandler(this.isSelectionPossiblePickemPrediction);
             // 
             // currentScore
             // 
@@ -2111,6 +2177,66 @@
             this.label31.TabIndex = 0;
             this.label31.Text = "Tournament to use for statistics:";
             // 
+            // day2predictionSubmit
+            // 
+            this.day2predictionSubmit.Location = new System.Drawing.Point(216, 254);
+            this.day2predictionSubmit.Name = "day2predictionSubmit";
+            this.day2predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day2predictionSubmit.TabIndex = 17;
+            this.day2predictionSubmit.Text = "Submit";
+            this.day2predictionSubmit.UseVisualStyleBackColor = true;
+            this.day2predictionSubmit.Click += new System.EventHandler(this.day2predictionSubmit_Click);
+            // 
+            // day3predictionSubmit
+            // 
+            this.day3predictionSubmit.Location = new System.Drawing.Point(213, 130);
+            this.day3predictionSubmit.Name = "day3predictionSubmit";
+            this.day3predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day3predictionSubmit.TabIndex = 18;
+            this.day3predictionSubmit.Text = "Submit";
+            this.day3predictionSubmit.UseVisualStyleBackColor = true;
+            this.day3predictionSubmit.Click += new System.EventHandler(this.day3predictionSubmit_Click);
+            // 
+            // day4predictionSubmit
+            // 
+            this.day4predictionSubmit.Location = new System.Drawing.Point(213, 130);
+            this.day4predictionSubmit.Name = "day4predictionSubmit";
+            this.day4predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day4predictionSubmit.TabIndex = 21;
+            this.day4predictionSubmit.Text = "Submit";
+            this.day4predictionSubmit.UseVisualStyleBackColor = true;
+            this.day4predictionSubmit.Click += new System.EventHandler(this.day4predictionSubmit_Click);
+            // 
+            // day5predictionSubmit
+            // 
+            this.day5predictionSubmit.Location = new System.Drawing.Point(212, 68);
+            this.day5predictionSubmit.Name = "day5predictionSubmit";
+            this.day5predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day5predictionSubmit.TabIndex = 22;
+            this.day5predictionSubmit.Text = "Submit";
+            this.day5predictionSubmit.UseVisualStyleBackColor = true;
+            this.day5predictionSubmit.Click += new System.EventHandler(this.day5predictionSubmit_Click);
+            // 
+            // day6predictionSubmit
+            // 
+            this.day6predictionSubmit.Location = new System.Drawing.Point(217, 89);
+            this.day6predictionSubmit.Name = "day6predictionSubmit";
+            this.day6predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day6predictionSubmit.TabIndex = 23;
+            this.day6predictionSubmit.Text = "Submit";
+            this.day6predictionSubmit.UseVisualStyleBackColor = true;
+            this.day6predictionSubmit.Click += new System.EventHandler(this.day6predictionSubmit_Click);
+            // 
+            // day1RefreshAppearance
+            // 
+            this.day1RefreshAppearance.Location = new System.Drawing.Point(267, 251);
+            this.day1RefreshAppearance.Name = "day1RefreshAppearance";
+            this.day1RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day1RefreshAppearance.TabIndex = 12;
+            this.day1RefreshAppearance.Text = "Reset";
+            this.day1RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day1RefreshAppearance.Click += new System.EventHandler(this.day1RefreshAppearance_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2360,6 +2486,12 @@
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.ComboBox playerSortingOrderCombo;
         private System.Windows.Forms.Button day1predictionSubmit;
+        private System.Windows.Forms.Button day2predictionSubmit;
+        private System.Windows.Forms.Button day3predictionSubmit;
+        private System.Windows.Forms.Button day4predictionSubmit;
+        private System.Windows.Forms.Button day5predictionSubmit;
+        private System.Windows.Forms.Button day6predictionSubmit;
+        private System.Windows.Forms.Button day1RefreshAppearance;
     }
 }
 

@@ -33,7 +33,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="fantasyTournament" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">9</Value>
+      <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="fantasyStats" Type="System.String" Scope="User">
       <Value Profile="(Default)">All Majors</Value>
@@ -60,6 +60,9 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="authenticationCode15" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="tournamentItems" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

@@ -20,6 +20,7 @@ namespace PickemTest
         String tournamentPredictionsJSON = @"";
         public static Layout_ResultWrapper deserializedLayoutResults;
         Prediction_ResultWrapper deserializedPredictionResults;
+        Inventory_ResultWrapper availableItems;
         List<String> availableTeamStickers = new List<String>();
         List<String> availablePlayerStickers = new List<String>();
         List<Label> proPickemStatLabels = new List<Label>();
@@ -65,6 +66,10 @@ namespace PickemTest
             {
                 MessageBox.Show("ERROR GIRAFFE:\n\nThere was an issue retrieving tournament information: " + exc.ToString());
             }
+
+            getInventory = new Inventory();
+            fantasyPlayers = new Fantasy();
+
             eventName.Text = deserializedLayoutResults.result.name; //Set the event name at the top middle to the current selected event in settings.
             tabbedControls.TabPages[0].Text = deserializedLayoutResults.result.sections[0].name; //Gets the section name (E.g. Group Stage | Day 1 | 29th) and sets tab name to that
             tabbedControls.TabPages[1].Text = deserializedLayoutResults.result.sections[1].name;
@@ -189,23 +194,23 @@ namespace PickemTest
                     {
                         generateRadioButtonUserPicksDay1(); //If picks were made, then show which team the user picked
                     }
-                    if (deserializedPredictionResults.result.picks[1] != null)
+                    if (deserializedPredictionResults.result.picks.Count > 1 && deserializedPredictionResults.result.picks[1] != null)
                     {
                         generateRadioButtonUserPicksDay2();
                     }
-                    if (deserializedPredictionResults.result.picks[2] != null)
+                    if (deserializedPredictionResults.result.picks.Count > 2 && deserializedPredictionResults.result.picks[2] != null)
                     {
                         generateRadioButtonUserPicksDay3();
                     }
-                    if (deserializedPredictionResults.result.picks[3] != null)
+                    if (deserializedPredictionResults.result.picks.Count > 3 && deserializedPredictionResults.result.picks[3] != null)
                     {
                         generateRadioButtonUserPicksDay4();
                     }
-                    if (deserializedPredictionResults.result.picks[4] != null)
+                    if (deserializedPredictionResults.result.picks.Count > 4 && deserializedPredictionResults.result.picks[4] != null)
                     {
                         generateRadioButtonUserPicksDay5();
                     }
-                    if (deserializedPredictionResults.result.picks[5] != null)
+                    if (deserializedPredictionResults.result.picks.Count > 5 && deserializedPredictionResults.result.picks[5] != null)
                     {
                         generateRadioButtonUserPicksDay6();
                     }
@@ -218,9 +223,8 @@ namespace PickemTest
         {
             if (Properties.Settings.Default.steamID64 != string.Empty && Properties.Settings.Default.tournamentName != string.Empty)
             {
-                getInventory = new Inventory();
-                fantasyPlayers = new Fantasy();
-                List<String> allStickers = getInventory.returnAvailableStickers(); //Gets a list of all team and player stickers that exist
+                availablePlayerStickers = getInventory.returnAvailableStickersPlayers(); //Gets a list of all user player stickers
+                availableTeamStickers = getInventory.returnAvailableStickersTeams(); //Gets a list of all user team stickers
                 proPlayerList = fantasyPlayers.getListProPlayers(); //Gets a list of all pro players from the Fantasy class
                 /*
                  * The following was made before finding out about their API to get all stickers, so this queries the user inventory and manually identifies
@@ -231,30 +235,6 @@ namespace PickemTest
                  * This should probably be redone in the future, but this may be more reliable if the CSGO Developers are slow in releasing updated API for 
                  * the next tournament. It will also depend if the sticker naming conventions ever change.
                 */
-                foreach (String sticker in allStickers)
-                {
-                    for (int i = 0; i < teamsArr.Length; i++)
-                    {
-                        if (sticker.Contains(Properties.Settings.Default.tournamentName.Substring(0, Properties.Settings.Default.tournamentName.IndexOf("CS:GO")).Trim()))
-                        {
-                            if (sticker.Contains(teamsArr[i]))
-                            {
-                                availableTeamStickers.Add(sticker);
-                                break;
-                            }
-                        }
-                    }
-                    for (int i = 0; i < proPlayerList.Count; i++)
-                    {
-                        if (sticker.Contains(Properties.Settings.Default.tournamentName.Substring(0, Properties.Settings.Default.tournamentName.IndexOf("CS:GO")).Trim()))
-                        {
-                            if (sticker.Contains(proPlayerList[i]))
-                            {
-                                availablePlayerStickers.Add(sticker);
-                            }
-                        }
-                    }
-                }
                 if (Properties.Settings.Default.displayOnlyAvailable) //If the user has indicated that they want only players that are available on the day of matches, this will only show players in teams that are playing
                 {
                     fantasyPlayers.updateFantasyListsOnlyAvailable(dropDownsToUpdate);
@@ -322,10 +302,13 @@ namespace PickemTest
                         if (deserializedLayoutResults.result.sections[p].groups[i].groupid == deserializedPredictionResults.result.picks[j].groupid) //If the winning layout group id matches the user prediction group id give points
                         {
                             isPickMade = true;
-                            if (deserializedLayoutResults.result.sections[p].groups[i].picks[0].pickids[0] == deserializedPredictionResults.result.picks[j].pick) //If the winning team was the pick we made, give the points for the match
+                            if (deserializedLayoutResults.result.sections[p].groups[i].picks[0].pickids.Count > 0) //If the match has not happened yet, there will be nothing in pickids and a null exception is thrown. This makes sure the match has happened and the results have been published.
                             {
-                                totalScore += deserializedLayoutResults.result.sections[p].groups[i].points_per_pick;
-                                break;
+                                if (deserializedLayoutResults.result.sections[p].groups[i].picks[0].pickids[0] == deserializedPredictionResults.result.picks[j].pick) //If the winning team was the pick we made, give the points for the match
+                                {
+                                    totalScore += deserializedLayoutResults.result.sections[p].groups[i].points_per_pick;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -2667,8 +2650,453 @@ namespace PickemTest
 
         private void day1predictionSubmit_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.");
-            //TODO: 
+            if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                List<String> postData = new List<String>();
+                IEnumerable<GroupBox> day1MatchBoxes = new List<GroupBox>() { day1matchBox1, day1matchBox2, day1matchBox3, day1matchBox4, day1matchBox5, day1matchBox6, day1matchBox7, day1matchBox8 };
+                for (int i = 0; i < day1MatchBoxes.Count(); i++)
+                {
+                    RadioButton checkedRadio;
+                    checkedRadio = day1MatchBoxes.ElementAt(i).Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                    if (checkedRadio != null)
+                    {
+                        Layout_Group radioTag = (Layout_Group)checkedRadio.Tag;
+                        int teamPick;
+                        string itemId = string.Empty;
+                        if (checkedRadio.Name.Contains("box1"))
+                        {
+                            teamPick = radioTag.teams[0].pickid;
+                        }
+                        else
+                        {
+                            teamPick = radioTag.teams[1].pickid;
+                        }
+
+                        for (int j = 0; j < availableItems.result.items.Count; j++)
+                        {
+                            if (Int32.Parse(availableItems.result.items[j].teamid) == teamPick)
+                            {
+                                itemId = availableItems.result.items[j].itemid;
+                            }
+                        }
+                        if (itemId != string.Empty)
+                        {
+                            postData.Add(Properties.Settings.Default.tournamentItems + "&sectionid=" + deserializedLayoutResults.result.sections[0].sectionid + "&groupid=" + radioTag.groupid + "&index=0&pickid=" + teamPick + "&itemid=" + itemId);
+                        }
+                    }
+                }
+                try
+                {
+                    foreach (string postInformation in postData)
+                    {
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/UploadTournamentPredictions/v1");
+                        var data = Encoding.ASCII.GetBytes("key=" + Properties.Settings.Default.apiKey + postInformation);
+                        request.Method = "POST";
+                        request.ContentType = "application/x-www-form-urlencoded";
+                        request.ContentLength = data.Length;
+                        using (var stream = request.GetRequestStream())
+                        {
+                            stream.Write(data, 0, data.Length);
+                        }
+
+                        var response = (HttpWebResponse)request.GetResponse();
+
+                        if (response.StatusCode == HttpStatusCode.Gone)
+                        {
+                            MessageBox.Show("One match has already begun, and therefore your submission for that match cannot be placed.\nThe program will continue placing the rest of your predictions.");
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("Error submitting teams:\n" + exc.ToString());
+                }
+
+                updateAppearance();
+            }
+        }
+
+        private void isSelectionPossiblePickemPrediction(object sender, EventArgs e)
+        {
+            availableTeamStickers = getInventory.returnAvailableStickersTeams();
+            availableItems = getInventory.deserializedInventoryResults;
+            RadioButton currentRadio = (RadioButton)sender;
+            Layout_Group radioTag = (Layout_Group)currentRadio.Tag;
+            int teamPick;
+            if (currentRadio.Name.Contains("box1"))
+            {
+                teamPick = radioTag.teams[0].pickid;
+            }
+            else
+            {
+                teamPick = radioTag.teams[1].pickid;
+            }
+
+            bool wasTeamFound = false;
+            foreach (string availableTeams in availableTeamStickers)
+            {
+                if (teamPick.ToString() == availableTeams)
+                {
+                    wasTeamFound = true;
+                }
+            }
+
+            if (!wasTeamFound)
+            {
+                if (MessageBox.Show(this, "You do not have that team sticker. Would you like to go to the market now and purchase one?", "Team Sticker Unavailable", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    string stickerURL = "http://steamcommunity.com/market/search?q=&category_730_TournamentTeam%5B%5D=tag_Team" + teamPick + "&category_730_StickerCategory%5B%5D=tag_TeamLogo&category_730_Tournament%5B%5D=tag_Tournament" + Properties.Settings.Default.tournamentID + "&appid=730";
+                    System.Diagnostics.Process.Start(stickerURL);
+                }
+                currentRadio.CheckedChanged -= new System.EventHandler(isSelectionPossiblePickemPrediction); //Remove the event temporarily so it is not triggered again
+                currentRadio.Checked = false;
+                currentRadio.CheckedChanged += new System.EventHandler(isSelectionPossiblePickemPrediction);
+            }
+        }
+
+        private void day2predictionSubmit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                List<String> postData = new List<String>();
+                IEnumerable<GroupBox> day2MatchBoxes = new List<GroupBox>() { day2matchBox1, day2matchBox2, day2matchBox3, day2matchBox4, day2matchBox5, day2matchBox6, day2matchBox7, day2matchBox8 };
+                for (int i = 0; i < day2MatchBoxes.Count(); i++)
+                {
+                    RadioButton checkedRadio;
+                    checkedRadio = day2MatchBoxes.ElementAt(i).Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                    if (checkedRadio != null)
+                    {
+                        Layout_Group radioTag = (Layout_Group)checkedRadio.Tag;
+                        int teamPick;
+                        string itemId = string.Empty;
+                        if (checkedRadio.Name.Contains("box1"))
+                        {
+                            teamPick = radioTag.teams[0].pickid;
+                        }
+                        else
+                        {
+                            teamPick = radioTag.teams[1].pickid;
+                        }
+
+                        for (int j = 0; j < availableItems.result.items.Count; j++)
+                        {
+                            if (Int32.Parse(availableItems.result.items[j].teamid) == teamPick)
+                            {
+                                itemId = availableItems.result.items[j].itemid;
+                            }
+                        }
+                        if (itemId != string.Empty)
+                        {
+                            postData.Add(Properties.Settings.Default.tournamentItems + "&sectionid=" + deserializedLayoutResults.result.sections[0].sectionid + "&groupid=" + radioTag.groupid + "&index=0&pickid=" + teamPick + "&itemid=" + itemId);
+                        }
+                    }
+                }
+                try
+                {
+                    foreach (string postInformation in postData)
+                    {
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/UploadTournamentPredictions/v1");
+                        var data = Encoding.ASCII.GetBytes("key=" + Properties.Settings.Default.apiKey + postInformation);
+                        request.Method = "POST";
+                        request.ContentType = "application/x-www-form-urlencoded";
+                        request.ContentLength = data.Length;
+                        using (var stream = request.GetRequestStream())
+                        {
+                            stream.Write(data, 0, data.Length);
+                        }
+
+                        var response = (HttpWebResponse)request.GetResponse();
+
+                        if (response.StatusCode == HttpStatusCode.Gone)
+                        {
+                            MessageBox.Show("One match has already begun, and therefore your submission for that match cannot be placed.\nThe program will continue placing the rest of your predictions.");
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("Error submitting teams:\n" + exc.ToString());
+                }
+
+                updateAppearance();
+            }
+        }
+
+        private void day3predictionSubmit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                List<String> postData = new List<String>();
+                IEnumerable<GroupBox> day3MatchBoxes = new List<GroupBox>() { day3matchBox1, day3matchBox2, day3matchBox3, day3matchBox4 };
+                for (int i = 0; i < day3MatchBoxes.Count(); i++)
+                {
+                    RadioButton checkedRadio;
+                    checkedRadio = day3MatchBoxes.ElementAt(i).Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                    if (checkedRadio != null)
+                    {
+                        Layout_Group radioTag = (Layout_Group)checkedRadio.Tag;
+                        int teamPick;
+                        string itemId = string.Empty;
+                        if (checkedRadio.Name.Contains("box1"))
+                        {
+                            teamPick = radioTag.teams[0].pickid;
+                        }
+                        else
+                        {
+                            teamPick = radioTag.teams[1].pickid;
+                        }
+
+                        for (int j = 0; j < availableItems.result.items.Count; j++)
+                        {
+                            if (Int32.Parse(availableItems.result.items[j].teamid) == teamPick)
+                            {
+                                itemId = availableItems.result.items[j].itemid;
+                            }
+                        }
+                        if (itemId != string.Empty)
+                        {
+                            postData.Add(Properties.Settings.Default.tournamentItems + "&sectionid=" + deserializedLayoutResults.result.sections[0].sectionid + "&groupid=" + radioTag.groupid + "&index=0&pickid=" + teamPick + "&itemid=" + itemId);
+                        }
+                    }
+                }
+                try
+                {
+                    foreach (string postInformation in postData)
+                    {
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/UploadTournamentPredictions/v1");
+                        var data = Encoding.ASCII.GetBytes("key=" + Properties.Settings.Default.apiKey + postInformation);
+                        request.Method = "POST";
+                        request.ContentType = "application/x-www-form-urlencoded";
+                        request.ContentLength = data.Length;
+                        using (var stream = request.GetRequestStream())
+                        {
+                            stream.Write(data, 0, data.Length);
+                        }
+
+                        var response = (HttpWebResponse)request.GetResponse();
+
+                        if (response.StatusCode == HttpStatusCode.Gone)
+                        {
+                            MessageBox.Show("One match has already begun, and therefore your submission for that match cannot be placed.\nThe program will continue placing the rest of your predictions.");
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("Error submitting teams:\n" + exc.ToString());
+                }
+
+                updateAppearance();
+            }
+        }
+
+        private void day4predictionSubmit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                List<String> postData = new List<String>();
+                IEnumerable<GroupBox> day4MatchBoxes = new List<GroupBox>() { day4matchBox1, day4matchBox2, day4matchBox3, day4matchBox4 };
+                for (int i = 0; i < day4MatchBoxes.Count(); i++)
+                {
+                    RadioButton checkedRadio;
+                    checkedRadio = day4MatchBoxes.ElementAt(i).Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                    if (checkedRadio != null)
+                    {
+                        Layout_Group radioTag = (Layout_Group)checkedRadio.Tag;
+                        int teamPick;
+                        string itemId = string.Empty;
+                        if (checkedRadio.Name.Contains("box1"))
+                        {
+                            teamPick = radioTag.teams[0].pickid;
+                        }
+                        else
+                        {
+                            teamPick = radioTag.teams[1].pickid;
+                        }
+
+                        for (int j = 0; j < availableItems.result.items.Count; j++)
+                        {
+                            if (Int32.Parse(availableItems.result.items[j].teamid) == teamPick)
+                            {
+                                itemId = availableItems.result.items[j].itemid;
+                            }
+                        }
+                        if (itemId != string.Empty)
+                        {
+                            postData.Add(Properties.Settings.Default.tournamentItems + "&sectionid=" + deserializedLayoutResults.result.sections[0].sectionid + "&groupid=" + radioTag.groupid + "&index=0&pickid=" + teamPick + "&itemid=" + itemId);
+                        }
+                    }
+                }
+                try
+                {
+                    foreach (string postInformation in postData)
+                    {
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/UploadTournamentPredictions/v1");
+                        var data = Encoding.ASCII.GetBytes("key=" + Properties.Settings.Default.apiKey + postInformation);
+                        request.Method = "POST";
+                        request.ContentType = "application/x-www-form-urlencoded";
+                        request.ContentLength = data.Length;
+                        using (var stream = request.GetRequestStream())
+                        {
+                            stream.Write(data, 0, data.Length);
+                        }
+
+                        var response = (HttpWebResponse)request.GetResponse();
+
+                        if (response.StatusCode == HttpStatusCode.Gone)
+                        {
+                            MessageBox.Show("One match has already begun, and therefore your submission for that match cannot be placed.\nThe program will continue placing the rest of your predictions.");
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("Error submitting teams:\n" + exc.ToString());
+                }
+
+                updateAppearance();
+            }
+        }
+
+        private void day5predictionSubmit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                List<String> postData = new List<String>();
+                IEnumerable<GroupBox> day5MatchBoxes = new List<GroupBox>() { day5matchBox1, day5matchBox2 };
+                for (int i = 0; i < day5MatchBoxes.Count(); i++)
+                {
+                    RadioButton checkedRadio;
+                    checkedRadio = day5MatchBoxes.ElementAt(i).Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                    if (checkedRadio != null)
+                    {
+                        Layout_Group radioTag = (Layout_Group)checkedRadio.Tag;
+                        int teamPick;
+                        string itemId = string.Empty;
+                        if (checkedRadio.Name.Contains("box1"))
+                        {
+                            teamPick = radioTag.teams[0].pickid;
+                        }
+                        else
+                        {
+                            teamPick = radioTag.teams[1].pickid;
+                        }
+
+                        for (int j = 0; j < availableItems.result.items.Count; j++)
+                        {
+                            if (Int32.Parse(availableItems.result.items[j].teamid) == teamPick)
+                            {
+                                itemId = availableItems.result.items[j].itemid;
+                            }
+                        }
+                        if (itemId != string.Empty)
+                        {
+                            postData.Add(Properties.Settings.Default.tournamentItems + "&sectionid=" + deserializedLayoutResults.result.sections[0].sectionid + "&groupid=" + radioTag.groupid + "&index=0&pickid=" + teamPick + "&itemid=" + itemId);
+                        }
+                    }
+                }
+                try
+                {
+                    foreach (string postInformation in postData)
+                    {
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/UploadTournamentPredictions/v1");
+                        var data = Encoding.ASCII.GetBytes("key=" + Properties.Settings.Default.apiKey + postInformation);
+                        request.Method = "POST";
+                        request.ContentType = "application/x-www-form-urlencoded";
+                        request.ContentLength = data.Length;
+                        using (var stream = request.GetRequestStream())
+                        {
+                            stream.Write(data, 0, data.Length);
+                        }
+
+                        var response = (HttpWebResponse)request.GetResponse();
+
+                        if (response.StatusCode == HttpStatusCode.Gone)
+                        {
+                            MessageBox.Show("One match has already begun, and therefore your submission for that match cannot be placed.\nThe program will continue placing the rest of your predictions.");
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("Error submitting teams:\n" + exc.ToString());
+                }
+
+                updateAppearance();
+            }
+        }
+
+        private void day6predictionSubmit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                List<String> postData = new List<String>();
+                IEnumerable<GroupBox> day6MatchBoxes = new List<GroupBox>() { day6matchBox1 };
+                for (int i = 0; i < day6MatchBoxes.Count(); i++)
+                {
+                    RadioButton checkedRadio;
+                    checkedRadio = day6MatchBoxes.ElementAt(i).Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                    if (checkedRadio != null)
+                    {
+                        Layout_Group radioTag = (Layout_Group)checkedRadio.Tag;
+                        int teamPick;
+                        string itemId = string.Empty;
+                        if (checkedRadio.Name.Contains("box1"))
+                        {
+                            teamPick = radioTag.teams[0].pickid;
+                        }
+                        else
+                        {
+                            teamPick = radioTag.teams[1].pickid;
+                        }
+
+                        for (int j = 0; j < availableItems.result.items.Count; j++)
+                        {
+                            if (Int32.Parse(availableItems.result.items[j].teamid) == teamPick)
+                            {
+                                itemId = availableItems.result.items[j].itemid;
+                            }
+                        }
+                        if (itemId != string.Empty)
+                        {
+                            postData.Add(Properties.Settings.Default.tournamentItems + "&sectionid=" + deserializedLayoutResults.result.sections[0].sectionid + "&groupid=" + radioTag.groupid + "&index=0&pickid=" + teamPick + "&itemid=" + itemId);
+                        }
+                    }
+                }
+                try
+                {
+                    foreach (string postInformation in postData)
+                    {
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/UploadTournamentPredictions/v1");
+                        var data = Encoding.ASCII.GetBytes("key=" + Properties.Settings.Default.apiKey + postInformation);
+                        request.Method = "POST";
+                        request.ContentType = "application/x-www-form-urlencoded";
+                        request.ContentLength = data.Length;
+                        using (var stream = request.GetRequestStream())
+                        {
+                            stream.Write(data, 0, data.Length);
+                        }
+
+                        var response = (HttpWebResponse)request.GetResponse();
+
+                        if (response.StatusCode == HttpStatusCode.Gone)
+                        {
+                            MessageBox.Show("One match has already begun, and therefore your submission for that match cannot be placed.\nThe program will continue placing the rest of your predictions.");
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("Error submitting teams:\n" + exc.ToString());
+                }
+
+                updateAppearance();
+            }
+        }
+
+        private void day1RefreshAppearance_Click(object sender, EventArgs e)
+        {
+            updateAppearance();
         }
     }
 }

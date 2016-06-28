@@ -171,6 +171,7 @@ namespace PickemTest
                     {
                         Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode9;
                         Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode9;
+                        Properties.Settings.Default.tournamentItems = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode9;
                     }
                 }
                 else if (comboBox1.SelectedItem.Equals("10"))
@@ -180,6 +181,7 @@ namespace PickemTest
                     {
                         Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode10;
                         Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode10;
+                        Properties.Settings.Default.tournamentItems = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode10;
                     }
                 }
                 else if (comboBox1.SelectedItem.Equals("11"))
@@ -189,6 +191,7 @@ namespace PickemTest
                     {
                         Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode11;
                         Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode11;
+                        Properties.Settings.Default.tournamentItems = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode11;
                     }
                 }
                 else if (comboBox1.SelectedItem.Equals("12"))
@@ -198,6 +201,7 @@ namespace PickemTest
                     {
                         Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode12;
                         Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode12;
+                        Properties.Settings.Default.tournamentItems = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode12;
                     }
                 }
                 else if (comboBox1.SelectedItem.Equals("13"))
@@ -207,6 +211,7 @@ namespace PickemTest
                     {
                         Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode13;
                         Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode13;
+                        Properties.Settings.Default.tournamentItems = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode13;
                     }
                 }
                 else if (comboBox1.SelectedItem.Equals("14"))
@@ -216,6 +221,7 @@ namespace PickemTest
                     {
                         Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode14;
                         Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode14;
+                        Properties.Settings.Default.tournamentItems = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode14;
                     }
                 }
                 else if (comboBox1.SelectedItem.Equals("15"))
@@ -225,6 +231,7 @@ namespace PickemTest
                     {
                         Properties.Settings.Default.tournamentPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode15;
                         Properties.Settings.Default.tournamentPickemPredictions = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode15;
+                        Properties.Settings.Default.tournamentItems = "&event=" + Properties.Settings.Default.tournamentID + "&steamid=" + Properties.Settings.Default.steamID64 + "&steamidkey=" + Properties.Settings.Default.authenticationCode15;
                     }
                 }
             }
