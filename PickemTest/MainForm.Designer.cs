@@ -59,8 +59,10 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabbedControls = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.day1RefreshAppearance = new System.Windows.Forms.Button();
             this.day1predictionSubmit = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.day2predictionSubmit = new System.Windows.Forms.Button();
             this.day2matchBox1 = new System.Windows.Forms.GroupBox();
             this.day2match1box2 = new System.Windows.Forms.RadioButton();
             this.day2match1box1 = new System.Windows.Forms.RadioButton();
@@ -86,6 +88,7 @@
             this.day2match5box2 = new System.Windows.Forms.RadioButton();
             this.day2match5box1 = new System.Windows.Forms.RadioButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.day3predictionSubmit = new System.Windows.Forms.Button();
             this.day3matchBox1 = new System.Windows.Forms.GroupBox();
             this.day3match1box2 = new System.Windows.Forms.RadioButton();
             this.day3match1box1 = new System.Windows.Forms.RadioButton();
@@ -99,6 +102,7 @@
             this.day3match4box2 = new System.Windows.Forms.RadioButton();
             this.day3match4box1 = new System.Windows.Forms.RadioButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.day4predictionSubmit = new System.Windows.Forms.Button();
             this.day4matchBox1 = new System.Windows.Forms.GroupBox();
             this.day4match1box2 = new System.Windows.Forms.RadioButton();
             this.day4match1box1 = new System.Windows.Forms.RadioButton();
@@ -112,6 +116,7 @@
             this.day4match4box2 = new System.Windows.Forms.RadioButton();
             this.day4match4box1 = new System.Windows.Forms.RadioButton();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.day5predictionSubmit = new System.Windows.Forms.Button();
             this.day5matchBox1 = new System.Windows.Forms.GroupBox();
             this.day5match1box2 = new System.Windows.Forms.RadioButton();
             this.day5match1box1 = new System.Windows.Forms.RadioButton();
@@ -119,6 +124,7 @@
             this.day5match2box2 = new System.Windows.Forms.RadioButton();
             this.day5match2box1 = new System.Windows.Forms.RadioButton();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.day6predictionSubmit = new System.Windows.Forms.Button();
             this.day6matchBox1 = new System.Windows.Forms.GroupBox();
             this.day6match1box2 = new System.Windows.Forms.RadioButton();
             this.day6match1box1 = new System.Windows.Forms.RadioButton();
@@ -205,12 +211,14 @@
             this.label32 = new System.Windows.Forms.Label();
             this.fantasyTournamentToUse = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
-            this.day2predictionSubmit = new System.Windows.Forms.Button();
-            this.day3predictionSubmit = new System.Windows.Forms.Button();
-            this.day4predictionSubmit = new System.Windows.Forms.Button();
-            this.day5predictionSubmit = new System.Windows.Forms.Button();
-            this.day6predictionSubmit = new System.Windows.Forms.Button();
-            this.day1RefreshAppearance = new System.Windows.Forms.Button();
+            this.displayOnlyPlayersWithStickersOwner = new System.Windows.Forms.CheckBox();
+            this.day2RefreshAppearance = new System.Windows.Forms.Button();
+            this.day3RefreshAppearance = new System.Windows.Forms.Button();
+            this.day4RefreshAppearance = new System.Windows.Forms.Button();
+            this.day5RefreshAppearance = new System.Windows.Forms.Button();
+            this.day6RefreshAppearance = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.day1matchBox1.SuspendLayout();
             this.day1matchBox2.SuspendLayout();
             this.day1matchBox3.SuspendLayout();
@@ -612,9 +620,19 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // day1RefreshAppearance
+            // 
+            this.day1RefreshAppearance.Location = new System.Drawing.Point(267, 254);
+            this.day1RefreshAppearance.Name = "day1RefreshAppearance";
+            this.day1RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day1RefreshAppearance.TabIndex = 12;
+            this.day1RefreshAppearance.Text = "Reset";
+            this.day1RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day1RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
+            // 
             // day1predictionSubmit
             // 
-            this.day1predictionSubmit.Location = new System.Drawing.Point(160, 251);
+            this.day1predictionSubmit.Location = new System.Drawing.Point(160, 254);
             this.day1predictionSubmit.Name = "day1predictionSubmit";
             this.day1predictionSubmit.Size = new System.Drawing.Size(75, 23);
             this.day1predictionSubmit.TabIndex = 11;
@@ -624,6 +642,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.day2RefreshAppearance);
             this.tabPage2.Controls.Add(this.day2predictionSubmit);
             this.tabPage2.Controls.Add(this.day2matchBox1);
             this.tabPage2.Controls.Add(this.day2matchBox8);
@@ -640,6 +659,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // day2predictionSubmit
+            // 
+            this.day2predictionSubmit.Location = new System.Drawing.Point(160, 254);
+            this.day2predictionSubmit.Name = "day2predictionSubmit";
+            this.day2predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day2predictionSubmit.TabIndex = 17;
+            this.day2predictionSubmit.Text = "Submit";
+            this.day2predictionSubmit.UseVisualStyleBackColor = true;
+            this.day2predictionSubmit.Click += new System.EventHandler(this.day2predictionSubmit_Click);
             // 
             // day2matchBox1
             // 
@@ -899,6 +928,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.day3RefreshAppearance);
             this.tabPage3.Controls.Add(this.day3predictionSubmit);
             this.tabPage3.Controls.Add(this.day3matchBox1);
             this.tabPage3.Controls.Add(this.day3matchBox2);
@@ -910,6 +940,16 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // day3predictionSubmit
+            // 
+            this.day3predictionSubmit.Location = new System.Drawing.Point(160, 130);
+            this.day3predictionSubmit.Name = "day3predictionSubmit";
+            this.day3predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day3predictionSubmit.TabIndex = 18;
+            this.day3predictionSubmit.Text = "Submit";
+            this.day3predictionSubmit.UseVisualStyleBackColor = true;
+            this.day3predictionSubmit.Click += new System.EventHandler(this.day3predictionSubmit_Click);
             // 
             // day3matchBox1
             // 
@@ -1041,6 +1081,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.day4RefreshAppearance);
             this.tabPage4.Controls.Add(this.day4predictionSubmit);
             this.tabPage4.Controls.Add(this.day4matchBox1);
             this.tabPage4.Controls.Add(this.day4matchBox2);
@@ -1052,6 +1093,16 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // day4predictionSubmit
+            // 
+            this.day4predictionSubmit.Location = new System.Drawing.Point(160, 130);
+            this.day4predictionSubmit.Name = "day4predictionSubmit";
+            this.day4predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day4predictionSubmit.TabIndex = 21;
+            this.day4predictionSubmit.Text = "Submit";
+            this.day4predictionSubmit.UseVisualStyleBackColor = true;
+            this.day4predictionSubmit.Click += new System.EventHandler(this.day4predictionSubmit_Click);
             // 
             // day4matchBox1
             // 
@@ -1183,6 +1234,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.day5RefreshAppearance);
             this.tabPage5.Controls.Add(this.day5predictionSubmit);
             this.tabPage5.Controls.Add(this.day5matchBox1);
             this.tabPage5.Controls.Add(this.day5matchBox2);
@@ -1192,6 +1244,16 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "tabPage5";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // day5predictionSubmit
+            // 
+            this.day5predictionSubmit.Location = new System.Drawing.Point(160, 68);
+            this.day5predictionSubmit.Name = "day5predictionSubmit";
+            this.day5predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day5predictionSubmit.TabIndex = 22;
+            this.day5predictionSubmit.Text = "Submit";
+            this.day5predictionSubmit.UseVisualStyleBackColor = true;
+            this.day5predictionSubmit.Click += new System.EventHandler(this.day5predictionSubmit_Click);
             // 
             // day5matchBox1
             // 
@@ -1259,6 +1321,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.day6RefreshAppearance);
             this.tabPage6.Controls.Add(this.day6predictionSubmit);
             this.tabPage6.Controls.Add(this.day6matchBox1);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
@@ -1267,6 +1330,16 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "tabPage6";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // day6predictionSubmit
+            // 
+            this.day6predictionSubmit.Location = new System.Drawing.Point(192, 89);
+            this.day6predictionSubmit.Name = "day6predictionSubmit";
+            this.day6predictionSubmit.Size = new System.Drawing.Size(75, 23);
+            this.day6predictionSubmit.TabIndex = 23;
+            this.day6predictionSubmit.Text = "Submit";
+            this.day6predictionSubmit.UseVisualStyleBackColor = true;
+            this.day6predictionSubmit.Click += new System.EventHandler(this.day6predictionSubmit_Click);
             // 
             // day6matchBox1
             // 
@@ -1359,6 +1432,8 @@
             // 
             // tabPage9
             // 
+            this.tabPage9.Controls.Add(this.button3);
+            this.tabPage9.Controls.Add(this.button2);
             this.tabPage9.Controls.Add(this.day1sniper);
             this.tabPage9.Controls.Add(this.day1entryfragger);
             this.tabPage9.Controls.Add(this.day1ecowarrior);
@@ -1381,9 +1456,9 @@
             // 
             this.day1sniper.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day1sniper.FormattingEnabled = true;
-            this.day1sniper.Location = new System.Drawing.Point(317, 187);
+            this.day1sniper.Location = new System.Drawing.Point(288, 187);
             this.day1sniper.Name = "day1sniper";
-            this.day1sniper.Size = new System.Drawing.Size(121, 21);
+            this.day1sniper.Size = new System.Drawing.Size(174, 21);
             this.day1sniper.TabIndex = 20;
             this.day1sniper.SelectedIndexChanged += new System.EventHandler(this.day1sniper_SelectedIndexChanged);
             // 
@@ -1391,9 +1466,9 @@
             // 
             this.day1entryfragger.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day1entryfragger.FormattingEnabled = true;
-            this.day1entryfragger.Location = new System.Drawing.Point(119, 187);
+            this.day1entryfragger.Location = new System.Drawing.Point(108, 187);
             this.day1entryfragger.Name = "day1entryfragger";
-            this.day1entryfragger.Size = new System.Drawing.Size(121, 21);
+            this.day1entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day1entryfragger.TabIndex = 19;
             this.day1entryfragger.SelectedIndexChanged += new System.EventHandler(this.day1entryfragger_SelectedIndexChanged);
             // 
@@ -1401,9 +1476,9 @@
             // 
             this.day1ecowarrior.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day1ecowarrior.FormattingEnabled = true;
-            this.day1ecowarrior.Location = new System.Drawing.Point(411, 28);
+            this.day1ecowarrior.Location = new System.Drawing.Point(366, 28);
             this.day1ecowarrior.Name = "day1ecowarrior";
-            this.day1ecowarrior.Size = new System.Drawing.Size(121, 21);
+            this.day1ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day1ecowarrior.TabIndex = 18;
             this.day1ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day1ecowarrior_SelectedIndexChanged);
             // 
@@ -1411,9 +1486,9 @@
             // 
             this.day1clutchking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day1clutchking.FormattingEnabled = true;
-            this.day1clutchking.Location = new System.Drawing.Point(220, 28);
+            this.day1clutchking.Location = new System.Drawing.Point(186, 28);
             this.day1clutchking.Name = "day1clutchking";
-            this.day1clutchking.Size = new System.Drawing.Size(121, 21);
+            this.day1clutchking.Size = new System.Drawing.Size(174, 21);
             this.day1clutchking.TabIndex = 17;
             this.day1clutchking.SelectedIndexChanged += new System.EventHandler(this.day1clutchking_SelectedIndexChanged);
             // 
@@ -1421,9 +1496,9 @@
             // 
             this.day1commando.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day1commando.FormattingEnabled = true;
-            this.day1commando.Location = new System.Drawing.Point(29, 28);
+            this.day1commando.Location = new System.Drawing.Point(6, 28);
             this.day1commando.Name = "day1commando";
-            this.day1commando.Size = new System.Drawing.Size(121, 21);
+            this.day1commando.Size = new System.Drawing.Size(174, 21);
             this.day1commando.TabIndex = 16;
             this.day1commando.SelectedIndexChanged += new System.EventHandler(this.day1commando_SelectedIndexChanged);
             // 
@@ -1439,7 +1514,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(146, 171);
+            this.label4.Location = new System.Drawing.Point(161, 171);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 14;
@@ -1448,7 +1523,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(442, 12);
+            this.label3.Location = new System.Drawing.Point(428, 12);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 13);
             this.label3.TabIndex = 13;
@@ -1457,7 +1532,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(252, 12);
+            this.label2.Location = new System.Drawing.Point(244, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 12;
@@ -1496,9 +1571,9 @@
             // 
             this.day2sniper.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day2sniper.FormattingEnabled = true;
-            this.day2sniper.Location = new System.Drawing.Point(317, 187);
+            this.day2sniper.Location = new System.Drawing.Point(288, 187);
             this.day2sniper.Name = "day2sniper";
-            this.day2sniper.Size = new System.Drawing.Size(121, 21);
+            this.day2sniper.Size = new System.Drawing.Size(174, 21);
             this.day2sniper.TabIndex = 25;
             this.day2sniper.SelectedIndexChanged += new System.EventHandler(this.day2sniper_SelectedIndexChanged);
             // 
@@ -1506,9 +1581,9 @@
             // 
             this.day2entryfragger.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day2entryfragger.FormattingEnabled = true;
-            this.day2entryfragger.Location = new System.Drawing.Point(119, 187);
+            this.day2entryfragger.Location = new System.Drawing.Point(108, 187);
             this.day2entryfragger.Name = "day2entryfragger";
-            this.day2entryfragger.Size = new System.Drawing.Size(121, 21);
+            this.day2entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day2entryfragger.TabIndex = 24;
             this.day2entryfragger.SelectedIndexChanged += new System.EventHandler(this.day2entryfragger_SelectedIndexChanged);
             // 
@@ -1516,9 +1591,9 @@
             // 
             this.day2ecowarrior.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day2ecowarrior.FormattingEnabled = true;
-            this.day2ecowarrior.Location = new System.Drawing.Point(411, 28);
+            this.day2ecowarrior.Location = new System.Drawing.Point(366, 28);
             this.day2ecowarrior.Name = "day2ecowarrior";
-            this.day2ecowarrior.Size = new System.Drawing.Size(121, 21);
+            this.day2ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day2ecowarrior.TabIndex = 23;
             this.day2ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day2ecowarrior_SelectedIndexChanged);
             // 
@@ -1526,9 +1601,9 @@
             // 
             this.day2clutchking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day2clutchking.FormattingEnabled = true;
-            this.day2clutchking.Location = new System.Drawing.Point(220, 28);
+            this.day2clutchking.Location = new System.Drawing.Point(186, 28);
             this.day2clutchking.Name = "day2clutchking";
-            this.day2clutchking.Size = new System.Drawing.Size(121, 21);
+            this.day2clutchking.Size = new System.Drawing.Size(174, 21);
             this.day2clutchking.TabIndex = 22;
             this.day2clutchking.SelectedIndexChanged += new System.EventHandler(this.day2clutchking_SelectedIndexChanged);
             // 
@@ -1536,9 +1611,9 @@
             // 
             this.day2commando.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day2commando.FormattingEnabled = true;
-            this.day2commando.Location = new System.Drawing.Point(29, 28);
+            this.day2commando.Location = new System.Drawing.Point(6, 28);
             this.day2commando.Name = "day2commando";
-            this.day2commando.Size = new System.Drawing.Size(121, 21);
+            this.day2commando.Size = new System.Drawing.Size(174, 21);
             this.day2commando.TabIndex = 21;
             this.day2commando.SelectedIndexChanged += new System.EventHandler(this.day2commando_SelectedIndexChanged);
             // 
@@ -1554,7 +1629,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(146, 171);
+            this.label7.Location = new System.Drawing.Point(161, 171);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 13);
             this.label7.TabIndex = 19;
@@ -1563,7 +1638,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(442, 12);
+            this.label8.Location = new System.Drawing.Point(428, 12);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(63, 13);
             this.label8.TabIndex = 18;
@@ -1572,7 +1647,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(252, 12);
+            this.label9.Location = new System.Drawing.Point(244, 12);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(61, 13);
             this.label9.TabIndex = 17;
@@ -1610,9 +1685,9 @@
             // 
             this.day3sniper.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day3sniper.FormattingEnabled = true;
-            this.day3sniper.Location = new System.Drawing.Point(317, 187);
+            this.day3sniper.Location = new System.Drawing.Point(288, 187);
             this.day3sniper.Name = "day3sniper";
-            this.day3sniper.Size = new System.Drawing.Size(121, 21);
+            this.day3sniper.Size = new System.Drawing.Size(174, 21);
             this.day3sniper.TabIndex = 30;
             this.day3sniper.SelectedIndexChanged += new System.EventHandler(this.day3sniper_SelectedIndexChanged);
             // 
@@ -1620,9 +1695,9 @@
             // 
             this.day3entryfragger.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day3entryfragger.FormattingEnabled = true;
-            this.day3entryfragger.Location = new System.Drawing.Point(119, 187);
+            this.day3entryfragger.Location = new System.Drawing.Point(108, 187);
             this.day3entryfragger.Name = "day3entryfragger";
-            this.day3entryfragger.Size = new System.Drawing.Size(121, 21);
+            this.day3entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day3entryfragger.TabIndex = 29;
             this.day3entryfragger.SelectedIndexChanged += new System.EventHandler(this.day3entryfragger_SelectedIndexChanged);
             // 
@@ -1630,9 +1705,9 @@
             // 
             this.day3ecowarrior.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day3ecowarrior.FormattingEnabled = true;
-            this.day3ecowarrior.Location = new System.Drawing.Point(411, 28);
+            this.day3ecowarrior.Location = new System.Drawing.Point(366, 28);
             this.day3ecowarrior.Name = "day3ecowarrior";
-            this.day3ecowarrior.Size = new System.Drawing.Size(121, 21);
+            this.day3ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day3ecowarrior.TabIndex = 28;
             this.day3ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day3ecowarrior_SelectedIndexChanged);
             // 
@@ -1640,9 +1715,9 @@
             // 
             this.day3clutchking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day3clutchking.FormattingEnabled = true;
-            this.day3clutchking.Location = new System.Drawing.Point(220, 28);
+            this.day3clutchking.Location = new System.Drawing.Point(186, 28);
             this.day3clutchking.Name = "day3clutchking";
-            this.day3clutchking.Size = new System.Drawing.Size(121, 21);
+            this.day3clutchking.Size = new System.Drawing.Size(174, 21);
             this.day3clutchking.TabIndex = 27;
             this.day3clutchking.SelectedIndexChanged += new System.EventHandler(this.day3clutchking_SelectedIndexChanged);
             // 
@@ -1650,9 +1725,9 @@
             // 
             this.day3commando.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day3commando.FormattingEnabled = true;
-            this.day3commando.Location = new System.Drawing.Point(29, 28);
+            this.day3commando.Location = new System.Drawing.Point(6, 28);
             this.day3commando.Name = "day3commando";
-            this.day3commando.Size = new System.Drawing.Size(121, 21);
+            this.day3commando.Size = new System.Drawing.Size(174, 21);
             this.day3commando.TabIndex = 26;
             this.day3commando.SelectedIndexChanged += new System.EventHandler(this.day3commando_SelectedIndexChanged);
             // 
@@ -1668,7 +1743,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(146, 171);
+            this.label12.Location = new System.Drawing.Point(161, 171);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 13);
             this.label12.TabIndex = 24;
@@ -1677,7 +1752,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(442, 12);
+            this.label13.Location = new System.Drawing.Point(428, 12);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(63, 13);
             this.label13.TabIndex = 23;
@@ -1686,7 +1761,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(252, 12);
+            this.label14.Location = new System.Drawing.Point(244, 12);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(61, 13);
             this.label14.TabIndex = 22;
@@ -1724,9 +1799,9 @@
             // 
             this.day4sniper.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day4sniper.FormattingEnabled = true;
-            this.day4sniper.Location = new System.Drawing.Point(317, 187);
+            this.day4sniper.Location = new System.Drawing.Point(288, 187);
             this.day4sniper.Name = "day4sniper";
-            this.day4sniper.Size = new System.Drawing.Size(121, 21);
+            this.day4sniper.Size = new System.Drawing.Size(174, 21);
             this.day4sniper.TabIndex = 30;
             this.day4sniper.SelectedIndexChanged += new System.EventHandler(this.day4sniper_SelectedIndexChanged);
             // 
@@ -1734,9 +1809,9 @@
             // 
             this.day4entryfragger.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day4entryfragger.FormattingEnabled = true;
-            this.day4entryfragger.Location = new System.Drawing.Point(119, 187);
+            this.day4entryfragger.Location = new System.Drawing.Point(108, 187);
             this.day4entryfragger.Name = "day4entryfragger";
-            this.day4entryfragger.Size = new System.Drawing.Size(121, 21);
+            this.day4entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day4entryfragger.TabIndex = 29;
             this.day4entryfragger.SelectedIndexChanged += new System.EventHandler(this.day4entryfragger_SelectedIndexChanged);
             // 
@@ -1744,9 +1819,9 @@
             // 
             this.day4ecowarrior.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day4ecowarrior.FormattingEnabled = true;
-            this.day4ecowarrior.Location = new System.Drawing.Point(411, 28);
+            this.day4ecowarrior.Location = new System.Drawing.Point(366, 28);
             this.day4ecowarrior.Name = "day4ecowarrior";
-            this.day4ecowarrior.Size = new System.Drawing.Size(121, 21);
+            this.day4ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day4ecowarrior.TabIndex = 28;
             this.day4ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day4ecowarrior_SelectedIndexChanged);
             // 
@@ -1754,9 +1829,9 @@
             // 
             this.day4clutchking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day4clutchking.FormattingEnabled = true;
-            this.day4clutchking.Location = new System.Drawing.Point(220, 28);
+            this.day4clutchking.Location = new System.Drawing.Point(186, 28);
             this.day4clutchking.Name = "day4clutchking";
-            this.day4clutchking.Size = new System.Drawing.Size(121, 21);
+            this.day4clutchking.Size = new System.Drawing.Size(174, 21);
             this.day4clutchking.TabIndex = 27;
             this.day4clutchking.SelectedIndexChanged += new System.EventHandler(this.day4clutchking_SelectedIndexChanged);
             // 
@@ -1764,9 +1839,9 @@
             // 
             this.day4commando.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day4commando.FormattingEnabled = true;
-            this.day4commando.Location = new System.Drawing.Point(29, 28);
+            this.day4commando.Location = new System.Drawing.Point(6, 28);
             this.day4commando.Name = "day4commando";
-            this.day4commando.Size = new System.Drawing.Size(121, 21);
+            this.day4commando.Size = new System.Drawing.Size(174, 21);
             this.day4commando.TabIndex = 26;
             this.day4commando.SelectedIndexChanged += new System.EventHandler(this.day4commando_SelectedIndexChanged);
             // 
@@ -1782,7 +1857,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(146, 171);
+            this.label17.Location = new System.Drawing.Point(161, 171);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(70, 13);
             this.label17.TabIndex = 24;
@@ -1791,7 +1866,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(442, 12);
+            this.label18.Location = new System.Drawing.Point(428, 12);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(63, 13);
             this.label18.TabIndex = 23;
@@ -1800,7 +1875,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(252, 12);
+            this.label19.Location = new System.Drawing.Point(244, 12);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(61, 13);
             this.label19.TabIndex = 22;
@@ -1838,9 +1913,9 @@
             // 
             this.day5sniper.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day5sniper.FormattingEnabled = true;
-            this.day5sniper.Location = new System.Drawing.Point(317, 187);
+            this.day5sniper.Location = new System.Drawing.Point(288, 187);
             this.day5sniper.Name = "day5sniper";
-            this.day5sniper.Size = new System.Drawing.Size(121, 21);
+            this.day5sniper.Size = new System.Drawing.Size(174, 21);
             this.day5sniper.TabIndex = 30;
             this.day5sniper.SelectedIndexChanged += new System.EventHandler(this.day5sniper_SelectedIndexChanged);
             // 
@@ -1848,9 +1923,9 @@
             // 
             this.day5entryfragger.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day5entryfragger.FormattingEnabled = true;
-            this.day5entryfragger.Location = new System.Drawing.Point(119, 187);
+            this.day5entryfragger.Location = new System.Drawing.Point(108, 187);
             this.day5entryfragger.Name = "day5entryfragger";
-            this.day5entryfragger.Size = new System.Drawing.Size(121, 21);
+            this.day5entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day5entryfragger.TabIndex = 29;
             this.day5entryfragger.SelectedIndexChanged += new System.EventHandler(this.day5entryfragger_SelectedIndexChanged);
             // 
@@ -1858,9 +1933,9 @@
             // 
             this.day5ecowarrior.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day5ecowarrior.FormattingEnabled = true;
-            this.day5ecowarrior.Location = new System.Drawing.Point(411, 28);
+            this.day5ecowarrior.Location = new System.Drawing.Point(366, 28);
             this.day5ecowarrior.Name = "day5ecowarrior";
-            this.day5ecowarrior.Size = new System.Drawing.Size(121, 21);
+            this.day5ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day5ecowarrior.TabIndex = 28;
             this.day5ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day5ecowarrior_SelectedIndexChanged);
             // 
@@ -1868,9 +1943,9 @@
             // 
             this.day5clutchking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day5clutchking.FormattingEnabled = true;
-            this.day5clutchking.Location = new System.Drawing.Point(220, 28);
+            this.day5clutchking.Location = new System.Drawing.Point(186, 28);
             this.day5clutchking.Name = "day5clutchking";
-            this.day5clutchking.Size = new System.Drawing.Size(121, 21);
+            this.day5clutchking.Size = new System.Drawing.Size(174, 21);
             this.day5clutchking.TabIndex = 27;
             this.day5clutchking.SelectedIndexChanged += new System.EventHandler(this.day5clutchking_SelectedIndexChanged);
             // 
@@ -1878,9 +1953,9 @@
             // 
             this.day5commando.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day5commando.FormattingEnabled = true;
-            this.day5commando.Location = new System.Drawing.Point(29, 28);
+            this.day5commando.Location = new System.Drawing.Point(6, 28);
             this.day5commando.Name = "day5commando";
-            this.day5commando.Size = new System.Drawing.Size(121, 21);
+            this.day5commando.Size = new System.Drawing.Size(174, 21);
             this.day5commando.TabIndex = 26;
             this.day5commando.SelectedIndexChanged += new System.EventHandler(this.day5commando_SelectedIndexChanged);
             // 
@@ -1896,7 +1971,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(146, 171);
+            this.label22.Location = new System.Drawing.Point(161, 171);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(70, 13);
             this.label22.TabIndex = 24;
@@ -1905,7 +1980,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(442, 12);
+            this.label23.Location = new System.Drawing.Point(428, 12);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(63, 13);
             this.label23.TabIndex = 23;
@@ -1914,7 +1989,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(252, 12);
+            this.label24.Location = new System.Drawing.Point(244, 12);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(61, 13);
             this.label24.TabIndex = 22;
@@ -1952,9 +2027,9 @@
             // 
             this.day6sniper.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day6sniper.FormattingEnabled = true;
-            this.day6sniper.Location = new System.Drawing.Point(317, 187);
+            this.day6sniper.Location = new System.Drawing.Point(288, 187);
             this.day6sniper.Name = "day6sniper";
-            this.day6sniper.Size = new System.Drawing.Size(121, 21);
+            this.day6sniper.Size = new System.Drawing.Size(174, 21);
             this.day6sniper.TabIndex = 30;
             this.day6sniper.SelectedIndexChanged += new System.EventHandler(this.day6sniper_SelectedIndexChanged);
             // 
@@ -1962,9 +2037,9 @@
             // 
             this.day6entryfragger.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day6entryfragger.FormattingEnabled = true;
-            this.day6entryfragger.Location = new System.Drawing.Point(119, 187);
+            this.day6entryfragger.Location = new System.Drawing.Point(108, 187);
             this.day6entryfragger.Name = "day6entryfragger";
-            this.day6entryfragger.Size = new System.Drawing.Size(121, 21);
+            this.day6entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day6entryfragger.TabIndex = 29;
             this.day6entryfragger.SelectedIndexChanged += new System.EventHandler(this.day6entryfragger_SelectedIndexChanged);
             // 
@@ -1972,9 +2047,9 @@
             // 
             this.day6ecowarrior.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day6ecowarrior.FormattingEnabled = true;
-            this.day6ecowarrior.Location = new System.Drawing.Point(411, 28);
+            this.day6ecowarrior.Location = new System.Drawing.Point(366, 28);
             this.day6ecowarrior.Name = "day6ecowarrior";
-            this.day6ecowarrior.Size = new System.Drawing.Size(121, 21);
+            this.day6ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day6ecowarrior.TabIndex = 28;
             this.day6ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day6ecowarrior_SelectedIndexChanged);
             // 
@@ -1982,9 +2057,9 @@
             // 
             this.day6clutchking.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day6clutchking.FormattingEnabled = true;
-            this.day6clutchking.Location = new System.Drawing.Point(220, 28);
+            this.day6clutchking.Location = new System.Drawing.Point(186, 28);
             this.day6clutchking.Name = "day6clutchking";
-            this.day6clutchking.Size = new System.Drawing.Size(121, 21);
+            this.day6clutchking.Size = new System.Drawing.Size(174, 21);
             this.day6clutchking.TabIndex = 27;
             this.day6clutchking.SelectedIndexChanged += new System.EventHandler(this.day6clutchking_SelectedIndexChanged);
             // 
@@ -1992,9 +2067,9 @@
             // 
             this.day6commando.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.day6commando.FormattingEnabled = true;
-            this.day6commando.Location = new System.Drawing.Point(29, 28);
+            this.day6commando.Location = new System.Drawing.Point(6, 28);
             this.day6commando.Name = "day6commando";
-            this.day6commando.Size = new System.Drawing.Size(121, 21);
+            this.day6commando.Size = new System.Drawing.Size(174, 21);
             this.day6commando.TabIndex = 26;
             this.day6commando.SelectedIndexChanged += new System.EventHandler(this.day6commando_SelectedIndexChanged);
             // 
@@ -2010,7 +2085,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(146, 171);
+            this.label27.Location = new System.Drawing.Point(161, 171);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(70, 13);
             this.label27.TabIndex = 24;
@@ -2019,7 +2094,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(442, 12);
+            this.label28.Location = new System.Drawing.Point(428, 12);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(63, 13);
             this.label28.TabIndex = 23;
@@ -2028,7 +2103,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(252, 12);
+            this.label29.Location = new System.Drawing.Point(244, 12);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(61, 13);
             this.label29.TabIndex = 22;
@@ -2045,6 +2120,7 @@
             // 
             // tabPage15
             // 
+            this.tabPage15.Controls.Add(this.displayOnlyPlayersWithStickersOwner);
             this.tabPage15.Controls.Add(this.label34);
             this.tabPage15.Controls.Add(this.playerSortingOrderCombo);
             this.tabPage15.Controls.Add(this.updateSettingsLabel);
@@ -2108,9 +2184,9 @@
             this.displayOnlyAvailable.AutoSize = true;
             this.displayOnlyAvailable.Location = new System.Drawing.Point(14, 118);
             this.displayOnlyAvailable.Name = "displayOnlyAvailable";
-            this.displayOnlyAvailable.Size = new System.Drawing.Size(251, 17);
+            this.displayOnlyAvailable.Size = new System.Drawing.Size(246, 17);
             this.displayOnlyAvailable.TabIndex = 11;
-            this.displayOnlyAvailable.Text = "Display only Available (Non-Eliminated) Players?";
+            this.displayOnlyAvailable.Text = "Display only available (non-eliminated) players?";
             this.displayOnlyAvailable.UseVisualStyleBackColor = true;
             this.displayOnlyAvailable.CheckedChanged += new System.EventHandler(this.displayOnlyAvailable_CheckedChanged);
             // 
@@ -2177,65 +2253,85 @@
             this.label31.TabIndex = 0;
             this.label31.Text = "Tournament to use for statistics:";
             // 
-            // day2predictionSubmit
+            // displayOnlyPlayersWithStickersOwner
             // 
-            this.day2predictionSubmit.Location = new System.Drawing.Point(216, 254);
-            this.day2predictionSubmit.Name = "day2predictionSubmit";
-            this.day2predictionSubmit.Size = new System.Drawing.Size(75, 23);
-            this.day2predictionSubmit.TabIndex = 17;
-            this.day2predictionSubmit.Text = "Submit";
-            this.day2predictionSubmit.UseVisualStyleBackColor = true;
-            this.day2predictionSubmit.Click += new System.EventHandler(this.day2predictionSubmit_Click);
+            this.displayOnlyPlayersWithStickersOwner.AutoSize = true;
+            this.displayOnlyPlayersWithStickersOwner.Location = new System.Drawing.Point(14, 141);
+            this.displayOnlyPlayersWithStickersOwner.Name = "displayOnlyPlayersWithStickersOwner";
+            this.displayOnlyPlayersWithStickersOwner.Size = new System.Drawing.Size(245, 17);
+            this.displayOnlyPlayersWithStickersOwner.TabIndex = 16;
+            this.displayOnlyPlayersWithStickersOwner.Text = "Display only players that you own stickers for? ";
+            this.displayOnlyPlayersWithStickersOwner.UseVisualStyleBackColor = true;
+            this.displayOnlyPlayersWithStickersOwner.CheckedChanged += new System.EventHandler(this.displayOnlyPlayersWithStickersOwner_CheckedChanged);
             // 
-            // day3predictionSubmit
+            // day2RefreshAppearance
             // 
-            this.day3predictionSubmit.Location = new System.Drawing.Point(213, 130);
-            this.day3predictionSubmit.Name = "day3predictionSubmit";
-            this.day3predictionSubmit.Size = new System.Drawing.Size(75, 23);
-            this.day3predictionSubmit.TabIndex = 18;
-            this.day3predictionSubmit.Text = "Submit";
-            this.day3predictionSubmit.UseVisualStyleBackColor = true;
-            this.day3predictionSubmit.Click += new System.EventHandler(this.day3predictionSubmit_Click);
+            this.day2RefreshAppearance.Location = new System.Drawing.Point(267, 254);
+            this.day2RefreshAppearance.Name = "day2RefreshAppearance";
+            this.day2RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day2RefreshAppearance.TabIndex = 18;
+            this.day2RefreshAppearance.Text = "Reset";
+            this.day2RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day2RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
             // 
-            // day4predictionSubmit
+            // day3RefreshAppearance
             // 
-            this.day4predictionSubmit.Location = new System.Drawing.Point(213, 130);
-            this.day4predictionSubmit.Name = "day4predictionSubmit";
-            this.day4predictionSubmit.Size = new System.Drawing.Size(75, 23);
-            this.day4predictionSubmit.TabIndex = 21;
-            this.day4predictionSubmit.Text = "Submit";
-            this.day4predictionSubmit.UseVisualStyleBackColor = true;
-            this.day4predictionSubmit.Click += new System.EventHandler(this.day4predictionSubmit_Click);
+            this.day3RefreshAppearance.Location = new System.Drawing.Point(267, 130);
+            this.day3RefreshAppearance.Name = "day3RefreshAppearance";
+            this.day3RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day3RefreshAppearance.TabIndex = 19;
+            this.day3RefreshAppearance.Text = "Reset";
+            this.day3RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day3RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
             // 
-            // day5predictionSubmit
+            // day4RefreshAppearance
             // 
-            this.day5predictionSubmit.Location = new System.Drawing.Point(212, 68);
-            this.day5predictionSubmit.Name = "day5predictionSubmit";
-            this.day5predictionSubmit.Size = new System.Drawing.Size(75, 23);
-            this.day5predictionSubmit.TabIndex = 22;
-            this.day5predictionSubmit.Text = "Submit";
-            this.day5predictionSubmit.UseVisualStyleBackColor = true;
-            this.day5predictionSubmit.Click += new System.EventHandler(this.day5predictionSubmit_Click);
+            this.day4RefreshAppearance.Location = new System.Drawing.Point(267, 130);
+            this.day4RefreshAppearance.Name = "day4RefreshAppearance";
+            this.day4RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day4RefreshAppearance.TabIndex = 22;
+            this.day4RefreshAppearance.Text = "Reset";
+            this.day4RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day4RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
             // 
-            // day6predictionSubmit
+            // day5RefreshAppearance
             // 
-            this.day6predictionSubmit.Location = new System.Drawing.Point(217, 89);
-            this.day6predictionSubmit.Name = "day6predictionSubmit";
-            this.day6predictionSubmit.Size = new System.Drawing.Size(75, 23);
-            this.day6predictionSubmit.TabIndex = 23;
-            this.day6predictionSubmit.Text = "Submit";
-            this.day6predictionSubmit.UseVisualStyleBackColor = true;
-            this.day6predictionSubmit.Click += new System.EventHandler(this.day6predictionSubmit_Click);
+            this.day5RefreshAppearance.Location = new System.Drawing.Point(267, 68);
+            this.day5RefreshAppearance.Name = "day5RefreshAppearance";
+            this.day5RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day5RefreshAppearance.TabIndex = 23;
+            this.day5RefreshAppearance.Text = "Reset";
+            this.day5RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day5RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
             // 
-            // day1RefreshAppearance
+            // day6RefreshAppearance
             // 
-            this.day1RefreshAppearance.Location = new System.Drawing.Point(267, 251);
-            this.day1RefreshAppearance.Name = "day1RefreshAppearance";
-            this.day1RefreshAppearance.Size = new System.Drawing.Size(75, 23);
-            this.day1RefreshAppearance.TabIndex = 12;
-            this.day1RefreshAppearance.Text = "Reset";
-            this.day1RefreshAppearance.UseVisualStyleBackColor = true;
-            this.day1RefreshAppearance.Click += new System.EventHandler(this.day1RefreshAppearance_Click);
+            this.day6RefreshAppearance.Location = new System.Drawing.Point(273, 89);
+            this.day6RefreshAppearance.Name = "day6RefreshAppearance";
+            this.day6RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day6RefreshAppearance.TabIndex = 24;
+            this.day6RefreshAppearance.Text = "Reset";
+            this.day6RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day6RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(172, 326);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(110, 23);
+            this.button2.TabIndex = 21;
+            this.button2.Text = "Submit";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(288, 326);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(110, 23);
+            this.button3.TabIndex = 22;
+            this.button3.Text = "Reset";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.resetFantasy);
             // 
             // MainForm
             // 
@@ -2492,6 +2588,14 @@
         private System.Windows.Forms.Button day5predictionSubmit;
         private System.Windows.Forms.Button day6predictionSubmit;
         private System.Windows.Forms.Button day1RefreshAppearance;
+        private System.Windows.Forms.CheckBox displayOnlyPlayersWithStickersOwner;
+        private System.Windows.Forms.Button day2RefreshAppearance;
+        private System.Windows.Forms.Button day3RefreshAppearance;
+        private System.Windows.Forms.Button day4RefreshAppearance;
+        private System.Windows.Forms.Button day5RefreshAppearance;
+        private System.Windows.Forms.Button day6RefreshAppearance;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
     }
 }
 

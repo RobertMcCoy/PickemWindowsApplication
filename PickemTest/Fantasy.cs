@@ -26,6 +26,8 @@ namespace PickemTest
         FantasyLineup_ResultWrapper deserializedFantasyLineup;
         List<String> proPlayers = new List<String>();
         Dictionary<string, string> proPlayerLookup = new Dictionary<string, string>();
+        Dictionary<string, string> proPlayerIdLookup = new Dictionary<string, string>();
+        Dictionary<string, string> proPlayerCodeNameLookup = new Dictionary<string, string>();
 
         public Fantasy()
         {
@@ -97,10 +99,13 @@ namespace PickemTest
                 {
                     string currentPlayer = desc.Value.name;
                     var playerId = desc.Name;
+                    var codeName = desc.Value.code;
                     proPlayers.Add(currentPlayer);
                     if (playerId is string) //This again is a really crappy fix for this in my opinion, but my limited undetermined var deserialization knowledge forces me to make this check
                     {
                         proPlayerLookup.Add(playerId, currentPlayer); //Provides quick lookup for players when listing names on all tabs
+                        proPlayerIdLookup.Add(currentPlayer.ToString(), playerId.ToString()); //Provides quick lookup for player id's when submitting fantasy rosters
+                        proPlayerCodeNameLookup.Add(currentPlayer.ToString(), codeName.ToString()); //Provides quick lookup for players when getting their code name for the market search
                     }
                 }
             }
@@ -109,6 +114,20 @@ namespace PickemTest
                 MessageBox.Show("ERROR PENGUIN:\n\nThere was an issue retrieving schema information: " + exc.ToString());
             }
             return proPlayers;
+        }
+
+        public Dictionary<string, string> getProPlayerDictionary(string selection)
+        {
+            switch (selection)
+            {
+                case "ProPlayerNames":
+                    return proPlayerLookup;
+                case "ProPlayerIds":
+                    return proPlayerIdLookup;
+                case "ProPlayerCodeNames":
+                    return proPlayerCodeNameLookup;
+            }
+            return null;
         }
 
         private String convertVDFtoJSON(String pro) //This will convert the Valve VDF format over to JSON via Regex (Converted from Alien Hoboken's PHP to C# on Github https://gist.github.com/AlienHoboken/5571903)
@@ -484,7 +503,7 @@ namespace PickemTest
                                 }
                             }
                         }
-                        labelText += "Team: " + teamName + "\nKills: " + totalKills + "\nDeaths: " + totalDeaths + "\nKDR: " + ((float) totalKills / (float) totalDeaths) + "\nClutch Kills: " + totalClutchKills + "\nPistol Kills: " + totalPistolKills + "\nEntry Frags: " + totalOpeningKills + "\nSniper Kills: " + totalSniperKills + "\nMatches Played: " + totalMatchesPlayed;
+                        labelText += "Team: " + teamName + "\nKills: " + totalKills + "\nDeaths: " + totalDeaths + "\nKDR: " + (totalKills != 0 && totalDeaths != 0 ? ((float) totalKills / (float) totalDeaths) : 0) + "\nClutch Kills: " + totalClutchKills + "\nPistol Kills: " + totalPistolKills + "\nEntry Frags: " + totalOpeningKills + "\nSniper Kills: " + totalSniperKills + "\nMatches Played: " + totalMatchesPlayed;
                         return labelText;
                     }
                     else if (Properties.Settings.Default.fantasyStats.Equals("Entire Previous Major"))
@@ -566,7 +585,7 @@ namespace PickemTest
                 List<String> tempListOfPlayersAndTeams = new List<String>();
                 foreach (int currentTeam in pickIdsArr)
                 {
-                    if (!getTeamNameFromPickId(currentTeam).Contains("All-Star"))
+                    if (!getTeamNameFromPickId(currentTeam).Contains("All-Star")) //Thanks MLG/Volvo, for making me have to add this :)
                     {
                         tempListOfPlayersAndTeams.Add("--- " + getTeamNameFromPickId(currentTeam) + " ---");
                         foreach (var desc in deserliazedProPlayers.items_game.pro_players)
@@ -588,6 +607,45 @@ namespace PickemTest
                 players = tempListOfPlayersAndTeams;
             }
             return players;
+        }
+
+        public void updateWithStickersOnly(IEnumerable<object> dropDowns, List<String> listOfPlayerStickersAvailable)
+        {
+            ComboBox tempCombo = (ComboBox)dropDowns.ElementAt(0);
+
+            List<String> updateListOfPlayers = new List<String>();
+            List<String> currentComboList = (List<String>)tempCombo.DataSource;
+
+            foreach (string availablePlayer in listOfPlayerStickersAvailable)
+            {
+                foreach (string playerInList in currentComboList) 
+                {
+                    if (playerInList.Contains("--- ") && playerInList.Contains(" ---")) //If By Team is selected for player sorting, these Team Lines will exist, keep all of them for now...
+                    {
+                        updateListOfPlayers.Add(playerInList);
+                    }
+                    if (availablePlayer.Equals(playerInList)) //If the player exists in the sticker pool, and also exists in the current combo box, keep it
+                    {
+                        updateListOfPlayers.Add(playerInList);
+                    }
+                }
+            }
+
+            for (int i = 0; i < updateListOfPlayers.Count; i++) //This for loop removes any team names that exist that don't have any players left under them
+            {
+                if (updateListOfPlayers[i].Contains("--- ") && updateListOfPlayers.Contains(" ---"))
+                {
+                    if (updateListOfPlayers[i + 1].Contains("--- ") && updateListOfPlayers[i + 1].Contains(" ---")) //If a team name index is followed by another team name index, there are no players left for that team, so remove it.
+                    {
+                        updateListOfPlayers.RemoveAt(i);
+                    }
+                }
+            }
+
+            foreach (ComboBox combo in dropDowns)
+            {
+                combo.DataSource = updateListOfPlayers; //Only players with stickers available by the user are now present in the combobox.
+            }
         }
     }
 }

@@ -269,5 +269,17 @@ namespace PickemTest.Properties {
                 this["tournamentItems"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool displayOnlyPlayersWithStickersOwned {
+            get {
+                return ((bool)(this["displayOnlyPlayersWithStickersOwned"]));
+            }
+            set {
+                this["displayOnlyPlayersWithStickersOwned"] = value;
+            }
+        }
     }
 }

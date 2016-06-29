@@ -35,7 +35,7 @@ namespace PickemTest
         public MainForm()
         {
             InitializeComponent();
-            dropDownsToUpdate = new List<object>() { day1clutchking, day1clutchking, day1commando, day1ecowarrior, day1entryfragger, day1sniper, day2clutchking, day2commando, day2ecowarrior, day2entryfragger, day2sniper, day3clutchking, day3commando, day3ecowarrior, day3entryfragger, day3sniper, day4clutchking, day4commando, day4ecowarrior, day4entryfragger, day4sniper, day5clutchking, day5commando, day5ecowarrior, day5entryfragger, day5sniper, day6clutchking, day6commando, day6ecowarrior, day6entryfragger, day6sniper };
+            dropDownsToUpdate = new List<object>() { day1clutchking, day1commando, day1ecowarrior, day1entryfragger, day1sniper, day2clutchking, day2commando, day2ecowarrior, day2entryfragger, day2sniper, day3clutchking, day3commando, day3ecowarrior, day3entryfragger, day3sniper, day4clutchking, day4commando, day4ecowarrior, day4entryfragger, day4sniper, day5clutchking, day5commando, day5ecowarrior, day5entryfragger, day5sniper, day6clutchking, day6commando, day6ecowarrior, day6entryfragger, day6sniper };
             matchBoxesToUpdate = new List<object>() { day1match1box1, day1match1box2, day1match2box1, day1match2box2, day1match3box1, day1match3box2, day1match4box1, day1match4box2, day1match5box1, day1match5box2, day1match6box1, day1match6box2, day1match7box1, day1match7box2, day1match8box1, day1match8box2, day2match1box1, day2match1box2, day2match2box1, day2match2box2, day2match3box1, day2match3box2, day2match4box1, day2match4box2, day2match5box1, day2match5box2, day2match6box1, day2match6box2, day2match7box1, day2match7box2, day2match8box1, day2match8box2, day3match1box1, day3match1box2, day3match2box1, day3match2box2, day3match3box1, day3match3box2, day3match4box1, day3match4box2, day4match1box1, day4match1box2, day4match2box1, day4match2box2, day4match3box1, day4match3box2, day4match4box1, day4match4box2, day5match1box1, day5match1box2, day5match2box1, day5match2box2, day6match1box1, day6match1box2 };
             updateAppearance();
             updateFantasyAppearance();
@@ -243,6 +243,12 @@ namespace PickemTest
                 {
                     fantasyPlayers.updateFantasyLists(dropDownsToUpdate);
                 }
+
+                if (Properties.Settings.Default.displayOnlyPlayersWithStickersOwned)
+                {
+                    fantasyPlayers.updateWithStickersOnly(dropDownsToUpdate, availablePlayerStickers);
+                }
+
                 int counter = 1; //Counter for amount of combo boxes on tab pages
                 int currentTabPage = 0; //Current tab page to place labels
                 if (proPickemStatLabels.Count == 0) //If the list is empty (or if this is the first run of the program in a new instance)
@@ -2611,33 +2617,37 @@ namespace PickemTest
 
         private void day6sniper_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Label associatedLabel = (Label)day6sniper.Tag;
-            if (associatedLabel != null)
+            bool isStickerOwned = verifyPlayerStickerIsOwned(day6sniper);
+            if (isStickerOwned)
             {
-                associatedLabel.Text = fantasyPlayers.updatePlayerInfo((ComboBox)sender);
-                if (day6commando.SelectedItem == day6sniper.SelectedItem)
+                Label associatedLabel = (Label)day6sniper.Tag;
+                if (associatedLabel != null)
                 {
-                    day6commando.SelectedItem = null;
-                    Label tempLabel = (Label)day6commando.Tag;
-                    tempLabel.Text = "";
-                }
-                if (day6clutchking.SelectedItem == day6sniper.SelectedItem)
-                {
-                    day6clutchking.SelectedItem = null;
-                    Label tempLabel = (Label)day6clutchking.Tag;
-                    tempLabel.Text = "";
-                }
-                if (day6ecowarrior.SelectedItem == day6sniper.SelectedItem)
-                {
-                    day6ecowarrior.SelectedItem = null;
-                    Label tempLabel = (Label)day6ecowarrior.Tag;
-                    tempLabel.Text = "";
-                }
-                if (day6sniper.SelectedItem == day6entryfragger.SelectedItem)
-                {
-                    day6entryfragger.SelectedItem = null;
-                    Label tempLabel = (Label)day6entryfragger.Tag;
-                    tempLabel.Text = "";
+                    associatedLabel.Text = fantasyPlayers.updatePlayerInfo((ComboBox)sender);
+                    if (day6commando.SelectedItem == day6sniper.SelectedItem)
+                    {
+                        day6commando.SelectedItem = null;
+                        Label tempLabel = (Label)day6commando.Tag;
+                        tempLabel.Text = "";
+                    }
+                    if (day6clutchking.SelectedItem == day6sniper.SelectedItem)
+                    {
+                        day6clutchking.SelectedItem = null;
+                        Label tempLabel = (Label)day6clutchking.Tag;
+                        tempLabel.Text = "";
+                    }
+                    if (day6ecowarrior.SelectedItem == day6sniper.SelectedItem)
+                    {
+                        day6ecowarrior.SelectedItem = null;
+                        Label tempLabel = (Label)day6ecowarrior.Tag;
+                        tempLabel.Text = "";
+                    }
+                    if (day6sniper.SelectedItem == day6entryfragger.SelectedItem)
+                    {
+                        day6entryfragger.SelectedItem = null;
+                        Label tempLabel = (Label)day6entryfragger.Tag;
+                        tempLabel.Text = "";
+                    }
                 }
             }
         }
@@ -2723,7 +2733,7 @@ namespace PickemTest
             RadioButton currentRadio = (RadioButton)sender;
             Layout_Group radioTag = (Layout_Group)currentRadio.Tag;
             int teamPick;
-            if (currentRadio.Name.Contains("box1"))
+            if (currentRadio.Name.Contains("box1")) //If it's box1, we want the first pickid, if it's box 2, its the 2nd team, so the second pickid
             {
                 teamPick = radioTag.teams[0].pickid;
             }
@@ -2732,10 +2742,10 @@ namespace PickemTest
                 teamPick = radioTag.teams[1].pickid;
             }
 
-            bool wasTeamFound = false;
+            bool wasTeamFound = false; //Will be used for pulling up the market in a little bit...
             foreach (string availableTeams in availableTeamStickers)
             {
-                if (teamPick.ToString() == availableTeams)
+                if (teamPick.ToString() == availableTeams) //If the team pickId is an available team sticker, allow the boolean to be set to be true
                 {
                     wasTeamFound = true;
                 }
@@ -2746,7 +2756,7 @@ namespace PickemTest
                 if (MessageBox.Show(this, "You do not have that team sticker. Would you like to go to the market now and purchase one?", "Team Sticker Unavailable", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     string stickerURL = "http://steamcommunity.com/market/search?q=&category_730_TournamentTeam%5B%5D=tag_Team" + teamPick + "&category_730_StickerCategory%5B%5D=tag_TeamLogo&category_730_Tournament%5B%5D=tag_Tournament" + Properties.Settings.Default.tournamentID + "&appid=730";
-                    System.Diagnostics.Process.Start(stickerURL);
+                    System.Diagnostics.Process.Start(stickerURL); //Opens up the Steam Market with a search for the team from teamPick
                 }
                 currentRadio.CheckedChanged -= new System.EventHandler(isSelectionPossiblePickemPrediction); //Remove the event temporarily so it is not triggered again
                 currentRadio.Checked = false;
@@ -2754,7 +2764,7 @@ namespace PickemTest
             }
         }
 
-        private void day2predictionSubmit_Click(object sender, EventArgs e)
+        private void day2predictionSubmit_Click(object sender, EventArgs e) //For proper documentation of this method, check day1predictionSubmit. I will shift all 6 of these into a similar method in a bit, but for now there are slight differences between each one
         {
             if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
@@ -2822,7 +2832,7 @@ namespace PickemTest
             }
         }
 
-        private void day3predictionSubmit_Click(object sender, EventArgs e)
+        private void day3predictionSubmit_Click(object sender, EventArgs e) //For proper documentation of this method, check day1predictionSubmit. I will shift all 6 of these into a similar method in a bit, but for now there are slight differences between each one
         {
             if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
@@ -2890,7 +2900,7 @@ namespace PickemTest
             }
         }
 
-        private void day4predictionSubmit_Click(object sender, EventArgs e)
+        private void day4predictionSubmit_Click(object sender, EventArgs e) //For proper documentation of this method, check day1predictionSubmit. I will shift all 6 of these into a similar method in a bit, but for now there are slight differences between each one
         {
             if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
@@ -2958,7 +2968,7 @@ namespace PickemTest
             }
         }
 
-        private void day5predictionSubmit_Click(object sender, EventArgs e)
+        private void day5predictionSubmit_Click(object sender, EventArgs e) //For proper documentation of this method, check day1predictionSubmit. I will shift all 6 of these into a similar method in a bit, but for now there are slight differences between each one
         {
             if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
@@ -3026,7 +3036,7 @@ namespace PickemTest
             }
         }
 
-        private void day6predictionSubmit_Click(object sender, EventArgs e)
+        private void day6predictionSubmit_Click(object sender, EventArgs e) //For proper documentation of this method, check day1predictionSubmit. I will shift all 6 of these into a similar method in a bit, but for now there are slight differences between each one
         {
             if (MessageBox.Show(this, "Making picks will lock your stickers that you have chosen. They will be unusable and untradable until the end of the match day. Removing a pick at a later time will not undo the lock.", "Confirm Sticker Lock", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
@@ -3094,9 +3104,48 @@ namespace PickemTest
             }
         }
 
-        private void day1RefreshAppearance_Click(object sender, EventArgs e)
+        private void displayOnlyPlayersWithStickersOwner_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.displayOnlyPlayersWithStickersOwned = displayOnlyPlayersWithStickersOwner.Checked;
+            Properties.Settings.Default.Save();
+            MessageBox.Show("Updating...");
+            updateFantasyAppearance();
+        }
+
+        private bool verifyPlayerStickerIsOwned(ComboBox combo)
+        {
+            if (!combo.Text.Equals("") && combo.Text != string.Empty && (!combo.Text.Contains("--- ")) && combo.SelectedItem != null)
+            { //If null or a team header, don't do the check
+                foreach (string playerName in availablePlayerStickers)
+                {
+                    if (combo.SelectedItem.Equals(playerName))
+                    {
+                        return true;
+                    }
+                }
+                Dictionary<string, string> playerCodeNames = fantasyPlayers.getProPlayerDictionary("ProPlayerCodeNames"); //Get the dictionary with pro player names and their code name for the market
+                string currentPlayerCodeName = string.Empty;
+                playerCodeNames.TryGetValue(combo.Text, out currentPlayerCodeName);
+                MessageBox.Show("ComboBox Text = " + combo.Text);
+                if (MessageBox.Show(this, "You do not have that player sticker. Would you like to go to the market now and purchase one?", "Player Sticker Unavailable", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes && currentPlayerCodeName != string.Empty)
+                {
+                    string stickerURL = "http://steamcommunity.com/market/search?q=&category_730_ProPlayer%5B%5D=tag_" + currentPlayerCodeName + "&category_730_StickerCategory%5B%5D=tag_PlayerSignature&category_730_Tournament%5B%5D=tag_Tournament" + Properties.Settings.Default.tournamentID + "&appid=730";
+                    System.Diagnostics.Process.Start(stickerURL); //Opens up the Steam Market with a search for the team from teamPick
+                    combo.SelectedItem = null;
+                }
+            }
+
+            return false;
+        }
+
+        private void refreshAppearance_Click(object sender, EventArgs e)
         {
             updateAppearance();
+        }
+
+        private void resetFantasy(object sender, EventArgs e)
+        {
+            updateFantasyAppearance();
         }
     }
 }
