@@ -86,135 +86,24 @@ namespace PickemTest
             }
 
             generateTeamArrays(); //Generates 2 arrays that correspond to team names and pick ids
-            generateFirstDayGroupNames(); //Sets group boxes and radio buttons names to the first day of groups
 
-            if (deserializedLayoutResults.result.sections[1].groups[0].teams[0].pickid != 0)
-            {
-                generateSecondDayGroupNames(); //So long as the section exists, fill in radio buttons and group boxes with information
-            }
-            else
-            {
-                tabbedControls.TabPages[1].Enabled = false;
-            }
-            if (deserializedLayoutResults.result.sections[2].groups[0].teams[0].pickid != 0)
-            {
-                generateThirdDayGroupNames();
-            }
-            else
-            {
-                tabbedControls.TabPages[2].Enabled = false;
-            }
-            if (deserializedLayoutResults.result.sections[3].groups[0].teams[0].pickid != 0)
-            {
-                generateFourthDayGroupNames();
-            }
-            else
-            {
-                tabbedControls.TabPages[3].Enabled = false;
-            }
-            if (deserializedLayoutResults.result.sections[4].groups[0].teams[0].pickid != 0)
-            {
-                generateFifthDayGroupNames();
-            }
-            else
-            {
-                tabbedControls.TabPages[4].Enabled = false;
-            }
-            if (deserializedLayoutResults.result.sections[5].name.Contains("All Star"))
-            {
-                if (deserializedLayoutResults.result.sections[6].groups[0].teams[0].pickid != 0)
-                {
-                    generateSixthDayGroupNamesAllStar(); //This layout contains all-star game, so therefore we have to skip a section, so another method is needed
-                }
-                else
-                {
-                    tabbedControls.TabPages[5].Enabled = false;
-                }
-            }
-            else
-            {
-                if (deserializedLayoutResults.result.sections[5].groups[0].teams[0].pickid != 0)
-                {
-                    generateSixthDayGroupNames(); //This layout uses section 5, because there is no all-star game
-                }
-                else
-                {
-                    tabbedControls.TabPages[5].Enabled = false;
-                }
-            }
-
-            foreach (RadioButton radio in matchBoxesToUpdate)
+            foreach (RadioButton radio in matchBoxesToUpdate) //Clear results 
             {
                 radio.BackColor = Color.White;
+                radio.Text = "";
+                radio.CheckedChanged -= new System.EventHandler(isSelectionPossiblePickemPrediction); //Without this short removal the popup for not having a sticker would pop up every time, as the match names are technically not regenerated yet..
                 radio.Checked = false;
+                radio.CheckedChanged += new System.EventHandler(isSelectionPossiblePickemPrediction);
                 radio.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Regular);
             }
 
-            if (deserializedLayoutResults.result.sections[0].groups[0].picks[0].pickids.Count != 0)
-            {
-                generateWinnerLosersDay1(); //If the losers and winners have been determined (they're in the picks jobject) color the winner green and loser red
-            }
-            if (deserializedLayoutResults.result.sections[1].groups[0].picks[0].pickids.Count != 0)
-            {
-                generateWinnerLosersDay2();
-            }
-            if (deserializedLayoutResults.result.sections[2].groups[0].picks[0].pickids.Count != 0)
-            {
-                generateWinnerLosersDay3();
-            }
-            if (deserializedLayoutResults.result.sections[3].groups[0].picks[0].pickids.Count != 0)
-            {
-                generateWinnerLosersDay4();
-            }
-            if (deserializedLayoutResults.result.sections[4].groups[0].picks[0].pickids.Count != 0)
-            {
-                generateWinnerLosersDay5();
-            }
-            if (deserializedLayoutResults.result.sections[5].name.Contains("All Star"))
-            {
-                if (deserializedLayoutResults.result.sections[6].groups[0].picks[0].pickids.Count != 0)
-                {
-                    generateWinnerLosersDay6AllStar();
-                }
-            }
-            else
-            {
-                if (deserializedLayoutResults.result.sections[5].groups[0].picks[0].pickids.Count != 0)
-                {
-                    generateWinnerLosersDay6();
-                }
-            }
+            generateBoxAndSelectionNames();
+            generateWinnerLosers();
 
             if (Properties.Settings.Default.tournamentPredictions != String.Empty && Properties.Settings.Default.tournamentPredictions != "")
             {
                 generatePredictionDeserializedObject(); //Get deserialized result of team predictions
-                if (deserializedPredictionResults.result.picks.Count != 0)
-                {
-                    if (deserializedPredictionResults.result.picks[0] != null)
-                    {
-                        generateRadioButtonUserPicksDay1(); //If picks were made, then show which team the user picked
-                    }
-                    if (deserializedPredictionResults.result.picks.Count > 1 && deserializedPredictionResults.result.picks[1] != null)
-                    {
-                        generateRadioButtonUserPicksDay2();
-                    }
-                    if (deserializedPredictionResults.result.picks.Count > 2 && deserializedPredictionResults.result.picks[2] != null)
-                    {
-                        generateRadioButtonUserPicksDay3();
-                    }
-                    if (deserializedPredictionResults.result.picks.Count > 3 && deserializedPredictionResults.result.picks[3] != null)
-                    {
-                        generateRadioButtonUserPicksDay4();
-                    }
-                    if (deserializedPredictionResults.result.picks.Count > 4 && deserializedPredictionResults.result.picks[4] != null)
-                    {
-                        generateRadioButtonUserPicksDay5();
-                    }
-                    if (deserializedPredictionResults.result.picks.Count > 5 && deserializedPredictionResults.result.picks[5] != null)
-                    {
-                        generateRadioButtonUserPicksDay6();
-                    }
-                }
+                generateUserPicks();
             }
             updateCurrentScore(); //Updates score in the top right of the form
         }
@@ -226,15 +115,6 @@ namespace PickemTest
                 availablePlayerStickers = getInventory.returnAvailableStickersPlayers(); //Gets a list of all user player stickers
                 availableTeamStickers = getInventory.returnAvailableStickersTeams(); //Gets a list of all user team stickers
                 proPlayerList = fantasyPlayers.getListProPlayers(); //Gets a list of all pro players from the Fantasy class
-                /*
-                 * The following was made before finding out about their API to get all stickers, so this queries the user inventory and manually identifies
-                 * stickers that correlate to the current selected tournament. This takes the tournament name property and identifies if the sticker has
-                 * the tournament name anywhere inside of it (E.g. Sticker | Team Liquid | MLG Columbus 2016 contains MLG Columbus 2016), and then furthermore
-                 * sees if it contains a team name for the teamStickers list and if it contains a pro player name from the pro player list
-                 * 
-                 * This should probably be redone in the future, but this may be more reliable if the CSGO Developers are slow in releasing updated API for 
-                 * the next tournament. It will also depend if the sticker naming conventions ever change.
-                */
                 if (Properties.Settings.Default.displayOnlyAvailable) //If the user has indicated that they want only players that are available on the day of matches, this will only show players in teams that are playing
                 {
                     fantasyPlayers.updateFantasyListsOnlyAvailable(dropDownsToUpdate);
@@ -341,369 +221,102 @@ namespace PickemTest
             }
         }
 
-        /*
-         * The following set of methods (generate[Number]DayGroupNames) day each group box name to the match name and points for the pick, 
-         * set the tag of the match box to be the group jobject, set each radio button to the proper team names, and then also set the radio button
-         * tags to the group jobject as well, which is used later to determine a users pick, and also winners. The match box is also disabled if
-         * the layout deserialization indicates that the picks_allowed = false. This just does this for every tab page.
-         * 
-         * TODO: I assume there is a much better way of doing this, but for now it works, and I may need to ask some more experienced UI individuals how
-         * to improve this code, or at least shrink it down tremendously. Might have to do a foreach loop like for the fantasy players?
-        */
-        private void generateFirstDayGroupNames()
+        private void generateBoxAndSelectionNames()
         {
-            //Match 1
-            day1matchBox1.Text = deserializedLayoutResults.result.sections[0].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[0].groups[0].points_per_pick;
-            day1matchBox1.Tag = deserializedLayoutResults.result.sections[0].groups[0];
-            day1match1box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[0].teams[0].pickid);
-            day1match1box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[0].teams[1].pickid);
-            day1match1box1.Tag = deserializedLayoutResults.result.sections[0].groups[0];
-            day1match1box2.Tag = deserializedLayoutResults.result.sections[0].groups[0];
-            if (deserializedLayoutResults.result.sections[0].groups[0].picks_allowed == false)
+            List<GroupBox> groupBoxes = new List<GroupBox>();
+            if (deserializedLayoutResults.result.sections[0].groups[0].teams[0].pickid != 0)
             {
-                day1matchBox1.Enabled = false;
+                groupBoxes.AddRange(addRadioButtons(day1matchBox1, day1matchBox2, day1matchBox3, day1matchBox4, day1matchBox5, day1matchBox6, day1matchBox7, day1matchBox8));
+            }
+            else
+            {
+                tabbedControls.TabPages[1].Enabled = false;
+            }
+            if (deserializedLayoutResults.result.sections[1].groups[0].teams[0].pickid != 0)
+            {
+                groupBoxes.AddRange(addRadioButtons(day2matchBox1, day2matchBox2, day2matchBox3, day2matchBox4, day2matchBox5, day2matchBox6, day2matchBox7, day2matchBox8));
+            }
+            else
+            {
+                tabbedControls.TabPages[1].Enabled = false;
+            }
+            if (deserializedLayoutResults.result.sections[2].groups[0].teams[0].pickid != 0)
+            {
+                groupBoxes.AddRange(addRadioButtons(day3matchBox1, day3matchBox2, day3matchBox3, day3matchBox4));
+            }
+            else
+            {
+                tabbedControls.TabPages[2].Enabled = false;
+            }
+            if (deserializedLayoutResults.result.sections[3].groups[0].teams[0].pickid != 0)
+            {
+                groupBoxes.AddRange(addRadioButtons(day4matchBox1, day4matchBox2, day4matchBox3, day4matchBox4));
+            }
+            else
+            {
+                tabbedControls.TabPages[3].Enabled = false;
+            }
+            if (deserializedLayoutResults.result.sections[4].groups[0].teams[0].pickid != 0)
+            {
+                groupBoxes.AddRange(addRadioButtons(day5matchBox1, day5matchBox2));
+            }
+            else
+            {
+                tabbedControls.TabPages[4].Enabled = false;
+            }
+            if (deserializedLayoutResults.result.sections[5].name.Contains("All Star"))
+            {
+                if (deserializedLayoutResults.result.sections[6].groups[0].teams[0].pickid != 0)
+                {
+                    groupBoxes.AddRange(addRadioButtons(day6matchBox1));
+                }
+                else
+                {
+                    tabbedControls.TabPages[5].Enabled = false;
+                }
+            }
+            else
+            {
+                if (deserializedLayoutResults.result.sections[5].groups[0].teams[0].pickid != 0)
+                {
+                    groupBoxes.AddRange(addRadioButtons(day6matchBox1));
+                }
+                else
+                {
+                    tabbedControls.TabPages[5].Enabled = false;
+                }
             }
 
-            //Match 2
-            day1matchBox2.Text = deserializedLayoutResults.result.sections[0].groups[1].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[0].groups[0].points_per_pick;
-            day1matchBox2.Tag = deserializedLayoutResults.result.sections[0].groups[1];
-            day1match2box1.Tag = deserializedLayoutResults.result.sections[0].groups[1];
-            day1match2box2.Tag = deserializedLayoutResults.result.sections[0].groups[1];
-            day1match2box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[1].teams[0].pickid);
-            day1match2box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[1].teams[1].pickid);
-            if (deserializedLayoutResults.result.sections[0].groups[1].picks_allowed == false)
+            foreach (GroupBox groupBox in groupBoxes)
             {
-                day1matchBox2.Enabled = false;
-            }
+                int sectionNumber = Int32.Parse(groupBox.Name.Substring(3, 1)) - 1;
+                int groupNumber = Int32.Parse(groupBox.Name.Substring(12, 1)) - 1;
 
-            //Match 3
-            day1matchBox3.Text = deserializedLayoutResults.result.sections[0].groups[2].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[0].groups[0].points_per_pick;
-            day1matchBox3.Tag = deserializedLayoutResults.result.sections[0].groups[2];
-            day1match3box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[2].teams[0].pickid);
-            day1match3box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[2].teams[1].pickid);
-            day1match3box1.Tag = deserializedLayoutResults.result.sections[0].groups[2];
-            day1match3box2.Tag = deserializedLayoutResults.result.sections[0].groups[2];
-            if (deserializedLayoutResults.result.sections[0].groups[2].picks_allowed == false)
-            {
-                day1matchBox3.Enabled = false;
-            }
+                if (groupBox.Name.Contains("day6") && deserializedLayoutResults.result.sections[5].name.Contains("All Star"))
+                {
+                    sectionNumber += 1;
+                }
 
-            //Match 4
-            day1matchBox4.Text = deserializedLayoutResults.result.sections[0].groups[3].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[0].groups[0].points_per_pick;
-            day1matchBox4.Tag = deserializedLayoutResults.result.sections[0].groups[3];
-            day1match4box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[3].teams[0].pickid);
-            day1match4box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[3].teams[1].pickid);
-            day1match4box1.Tag = deserializedLayoutResults.result.sections[0].groups[3];
-            day1match4box2.Tag = deserializedLayoutResults.result.sections[0].groups[3];
-            if (deserializedLayoutResults.result.sections[0].groups[3].picks_allowed == false)
-            {
-                day1matchBox4.Enabled = false;
-            }
+                groupBox.Text = deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].name + " - Points for Match: " + deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].points_per_pick;
+                groupBox.Tag = deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber];
+                foreach (RadioButton radioInGroupBox in groupBox.Controls)
+                {
+                    if (radioInGroupBox.Name.Contains("box1"))
+                    {
+                        radioInGroupBox.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].teams[0].pickid);
+                        radioInGroupBox.Tag = deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber];
+                    }
+                    if (radioInGroupBox.Name.Contains("box2"))
+                    {
+                        radioInGroupBox.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].teams[1].pickid);
+                        radioInGroupBox.Tag = deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber];
+                    }
 
-            //Match 5
-            day1matchBox5.Text = deserializedLayoutResults.result.sections[0].groups[4].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[0].groups[0].points_per_pick;
-            day1matchBox5.Tag = deserializedLayoutResults.result.sections[0].groups[4];
-            day1match5box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[4].teams[0].pickid);
-            day1match5box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[4].teams[1].pickid);
-            day1match5box1.Tag = deserializedLayoutResults.result.sections[0].groups[4];
-            day1match5box2.Tag = deserializedLayoutResults.result.sections[0].groups[4];
-            if (deserializedLayoutResults.result.sections[0].groups[4].picks_allowed == false)
-            {
-                day1matchBox5.Enabled = false;
-            }
-
-            //Match 6
-            day1matchBox6.Text = deserializedLayoutResults.result.sections[0].groups[5].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[0].groups[0].points_per_pick;
-            day1matchBox6.Tag = deserializedLayoutResults.result.sections[0].groups[5];
-            day1match6box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[5].teams[0].pickid);
-            day1match6box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[5].teams[1].pickid);
-            day1match6box1.Tag = deserializedLayoutResults.result.sections[0].groups[5];
-            day1match6box2.Tag = deserializedLayoutResults.result.sections[0].groups[5];
-            if (deserializedLayoutResults.result.sections[0].groups[5].picks_allowed == false)
-            {
-                day1matchBox6.Enabled = false;
-            }
-
-            //Match 7
-            day1matchBox7.Text = deserializedLayoutResults.result.sections[0].groups[6].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[0].groups[0].points_per_pick;
-            day1matchBox7.Tag = deserializedLayoutResults.result.sections[0].groups[6];
-            day1match7box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[6].teams[0].pickid);
-            day1match7box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[6].teams[1].pickid);
-            day1match7box1.Tag = deserializedLayoutResults.result.sections[0].groups[6];
-            day1match7box2.Tag = deserializedLayoutResults.result.sections[0].groups[6];
-            if (deserializedLayoutResults.result.sections[0].groups[6].picks_allowed == false)
-            {
-                day1matchBox7.Enabled = false;
-            }
-
-            //Match 8
-            day1matchBox8.Text = deserializedLayoutResults.result.sections[0].groups[7].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[0].groups[0].points_per_pick;
-            day1matchBox8.Tag = deserializedLayoutResults.result.sections[0].groups[7];
-            day1match8box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[7].teams[0].pickid);
-            day1match8box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[0].groups[7].teams[1].pickid);
-            day1match8box1.Tag = deserializedLayoutResults.result.sections[0].groups[7];
-            day1match8box2.Tag = deserializedLayoutResults.result.sections[0].groups[7];
-            if (deserializedLayoutResults.result.sections[0].groups[7].picks_allowed == false)
-            {
-                day1matchBox8.Enabled = false;
-            }
-        }
-
-        private void generateSecondDayGroupNames()
-        {
-            //Match 1
-            day2matchBox1.Text = deserializedLayoutResults.result.sections[1].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[1].groups[0].points_per_pick;
-            day2matchBox1.Tag = deserializedLayoutResults.result.sections[1].groups[0];
-            day2match1box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[0].teams[0].pickid);
-            day2match1box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[0].teams[1].pickid);
-            day2match1box1.Tag = deserializedLayoutResults.result.sections[1].groups[0];
-            day2match1box2.Tag = deserializedLayoutResults.result.sections[1].groups[0];
-            if (deserializedLayoutResults.result.sections[1].groups[0].picks_allowed == false)
-            {
-                day2matchBox1.Enabled = false;
-            }
-
-            //Match 2
-            day2matchBox2.Text = deserializedLayoutResults.result.sections[1].groups[1].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[1].groups[0].points_per_pick;
-            day2matchBox2.Tag = deserializedLayoutResults.result.sections[1].groups[1];
-            day2match2box1.Tag = deserializedLayoutResults.result.sections[1].groups[1];
-            day2match2box2.Tag = deserializedLayoutResults.result.sections[1].groups[1];
-            day2match2box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[1].teams[0].pickid);
-            day2match2box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[1].teams[1].pickid);
-            if (deserializedLayoutResults.result.sections[1].groups[1].picks_allowed == false)
-            {
-                day2matchBox2.Enabled = false;
-            }
-
-            //Match 3
-            day2matchBox3.Text = deserializedLayoutResults.result.sections[1].groups[2].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[1].groups[0].points_per_pick;
-            day2matchBox3.Tag = deserializedLayoutResults.result.sections[1].groups[2];
-            day2match3box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[2].teams[0].pickid);
-            day2match3box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[2].teams[1].pickid);
-            day2match3box1.Tag = deserializedLayoutResults.result.sections[1].groups[2];
-            day2match3box2.Tag = deserializedLayoutResults.result.sections[1].groups[2];
-            if (deserializedLayoutResults.result.sections[1].groups[2].picks_allowed == false)
-            {
-                day2matchBox3.Enabled = false;
-            }
-
-            //Match 4
-            day2matchBox4.Text = deserializedLayoutResults.result.sections[1].groups[3].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[1].groups[0].points_per_pick;
-            day2matchBox4.Tag = deserializedLayoutResults.result.sections[1].groups[3];
-            day2match4box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[3].teams[0].pickid);
-            day2match4box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[3].teams[1].pickid);
-            day2match4box1.Tag = deserializedLayoutResults.result.sections[1].groups[3];
-            day2match4box2.Tag = deserializedLayoutResults.result.sections[1].groups[3];
-            if (deserializedLayoutResults.result.sections[1].groups[3].picks_allowed == false)
-            {
-                day2matchBox4.Enabled = false;
-            }
-
-            //Match 5
-            day2matchBox5.Text = deserializedLayoutResults.result.sections[1].groups[4].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[1].groups[0].points_per_pick;
-            day2matchBox5.Tag = deserializedLayoutResults.result.sections[1].groups[4];
-            day2match5box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[4].teams[0].pickid);
-            day2match5box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[4].teams[1].pickid);
-            day2match5box1.Tag = deserializedLayoutResults.result.sections[1].groups[4];
-            day2match5box2.Tag = deserializedLayoutResults.result.sections[1].groups[4];
-            if (deserializedLayoutResults.result.sections[1].groups[4].picks_allowed == false)
-            {
-                day2matchBox5.Enabled = false;
-            }
-
-            //Match 6
-            day2matchBox6.Text = deserializedLayoutResults.result.sections[1].groups[5].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[1].groups[0].points_per_pick;
-            day2matchBox6.Tag = deserializedLayoutResults.result.sections[1].groups[5];
-            day2match6box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[5].teams[0].pickid);
-            day2match6box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[5].teams[1].pickid);
-            day2match6box1.Tag = deserializedLayoutResults.result.sections[1].groups[5];
-            day2match6box2.Tag = deserializedLayoutResults.result.sections[1].groups[5];
-            if (deserializedLayoutResults.result.sections[1].groups[5].picks_allowed == false)
-            {
-                day2matchBox6.Enabled = false;
-            }
-
-            //Match 7
-            day2matchBox7.Text = deserializedLayoutResults.result.sections[1].groups[6].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[1].groups[0].points_per_pick;
-            day2matchBox7.Tag = deserializedLayoutResults.result.sections[1].groups[6];
-            day2match7box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[6].teams[0].pickid);
-            day2match7box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[6].teams[1].pickid);
-            day2match7box1.Tag = deserializedLayoutResults.result.sections[1].groups[6];
-            day2match7box2.Tag = deserializedLayoutResults.result.sections[1].groups[6];
-            if (deserializedLayoutResults.result.sections[1].groups[6].picks_allowed == false)
-            {
-                day2matchBox7.Enabled = false;
-            }
-
-            //Match 8
-            day2matchBox8.Text = deserializedLayoutResults.result.sections[1].groups[7].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[1].groups[0].points_per_pick;
-            day2matchBox8.Tag = deserializedLayoutResults.result.sections[1].groups[7];
-            day2match8box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[7].teams[0].pickid);
-            day2match8box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[1].groups[7].teams[1].pickid);
-            day2match8box1.Tag = deserializedLayoutResults.result.sections[1].groups[7];
-            day2match8box2.Tag = deserializedLayoutResults.result.sections[1].groups[7];
-            if (deserializedLayoutResults.result.sections[1].groups[7].picks_allowed == false)
-            {
-                day2matchBox8.Enabled = false;
-            }
-        }
-
-        private void generateThirdDayGroupNames()
-        {
-            //Match 1
-            day3matchBox1.Text = deserializedLayoutResults.result.sections[2].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[2].groups[0].points_per_pick;
-            day3matchBox1.Tag = deserializedLayoutResults.result.sections[2].groups[0];
-            day3match1box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[2].groups[0].teams[0].pickid);
-            day3match1box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[2].groups[0].teams[1].pickid);
-            day3match1box1.Tag = deserializedLayoutResults.result.sections[2].groups[0];
-            day3match1box2.Tag = deserializedLayoutResults.result.sections[2].groups[0];
-            if (deserializedLayoutResults.result.sections[2].groups[0].picks_allowed == false)
-            {
-                day3matchBox1.Enabled = false;
-            }
-
-            //Match 2
-            day3matchBox2.Text = deserializedLayoutResults.result.sections[2].groups[1].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[2].groups[0].points_per_pick;
-            day3matchBox2.Tag = deserializedLayoutResults.result.sections[2].groups[1];
-            day3match2box1.Tag = deserializedLayoutResults.result.sections[2].groups[1];
-            day3match2box2.Tag = deserializedLayoutResults.result.sections[2].groups[1];
-            day3match2box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[2].groups[1].teams[0].pickid);
-            day3match2box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[2].groups[1].teams[1].pickid);
-            if (deserializedLayoutResults.result.sections[2].groups[1].picks_allowed == false)
-            {
-                day3matchBox2.Enabled = false;
-            }
-
-            //Match 3
-            day3matchBox3.Text = deserializedLayoutResults.result.sections[2].groups[2].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[2].groups[0].points_per_pick;
-            day3matchBox3.Tag = deserializedLayoutResults.result.sections[2].groups[2];
-            day3match3box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[2].groups[2].teams[0].pickid);
-            day3match3box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[2].groups[2].teams[1].pickid);
-            day3match3box1.Tag = deserializedLayoutResults.result.sections[2].groups[2];
-            day3match3box2.Tag = deserializedLayoutResults.result.sections[2].groups[2];
-            if (deserializedLayoutResults.result.sections[2].groups[2].picks_allowed == false)
-            {
-                day3matchBox3.Enabled = false;
-            }
-
-            //Match 4
-            day3matchBox4.Text = deserializedLayoutResults.result.sections[2].groups[3].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[2].groups[0].points_per_pick;
-            day3matchBox4.Tag = deserializedLayoutResults.result.sections[2].groups[3];
-            day3match4box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[2].groups[3].teams[0].pickid);
-            day3match4box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[2].groups[3].teams[1].pickid);
-            day3match4box1.Tag = deserializedLayoutResults.result.sections[2].groups[3];
-            day3match4box2.Tag = deserializedLayoutResults.result.sections[2].groups[3];
-            if (deserializedLayoutResults.result.sections[2].groups[3].picks_allowed == false)
-            {
-                day3matchBox4.Enabled = false;
-            }
-        }
-
-        private void generateFourthDayGroupNames()
-        {
-            //Match 1
-            day4matchBox1.Text = deserializedLayoutResults.result.sections[3].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[3].groups[0].points_per_pick;
-            day4matchBox1.Tag = deserializedLayoutResults.result.sections[3].groups[0];
-            day4match1box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[3].groups[0].teams[0].pickid);
-            day4match1box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[3].groups[0].teams[1].pickid);
-            day4match1box1.Tag = deserializedLayoutResults.result.sections[3].groups[0];
-            day4match1box2.Tag = deserializedLayoutResults.result.sections[3].groups[0];
-            if (deserializedLayoutResults.result.sections[3].groups[0].picks_allowed == false)
-            {
-                day4matchBox1.Enabled = false;
-            }
-
-            //Match 2
-            day4matchBox2.Text = deserializedLayoutResults.result.sections[3].groups[1].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[3].groups[0].points_per_pick;
-            day4matchBox2.Tag = deserializedLayoutResults.result.sections[3].groups[1];
-            day4match2box1.Tag = deserializedLayoutResults.result.sections[3].groups[1];
-            day4match2box2.Tag = deserializedLayoutResults.result.sections[3].groups[1];
-            day4match2box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[3].groups[1].teams[0].pickid);
-            day4match2box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[3].groups[1].teams[1].pickid);
-            if (deserializedLayoutResults.result.sections[3].groups[1].picks_allowed == false)
-            {
-                day4matchBox2.Enabled = false;
-            }
-
-            //Match 3
-            day4matchBox3.Text = deserializedLayoutResults.result.sections[3].groups[2].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[3].groups[0].points_per_pick;
-            day4matchBox3.Tag = deserializedLayoutResults.result.sections[3].groups[2];
-            day4match3box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[3].groups[2].teams[0].pickid);
-            day4match3box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[3].groups[2].teams[1].pickid);
-            day4match3box1.Tag = deserializedLayoutResults.result.sections[3].groups[2];
-            day4match3box2.Tag = deserializedLayoutResults.result.sections[3].groups[2];
-            if (deserializedLayoutResults.result.sections[3].groups[2].picks_allowed == false)
-            {
-                day4matchBox3.Enabled = false;
-            }
-
-            //Match 4
-            day4matchBox4.Text = deserializedLayoutResults.result.sections[3].groups[3].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[3].groups[0].points_per_pick;
-            day4matchBox4.Tag = deserializedLayoutResults.result.sections[3].groups[3];
-            day4match4box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[3].groups[3].teams[0].pickid);
-            day4match4box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[3].groups[3].teams[1].pickid);
-            day4match4box1.Tag = deserializedLayoutResults.result.sections[3].groups[3];
-            day4match4box2.Tag = deserializedLayoutResults.result.sections[3].groups[3];
-            if (deserializedLayoutResults.result.sections[3].groups[3].picks_allowed == false)
-            {
-                day4matchBox4.Enabled = false;
-            }
-        }
-
-        private void generateFifthDayGroupNames()
-        {
-            //Match 1
-            day5matchBox1.Text = deserializedLayoutResults.result.sections[4].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[4].groups[0].points_per_pick;
-            day5matchBox1.Tag = deserializedLayoutResults.result.sections[4].groups[0];
-            day5match1box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[4].groups[0].teams[0].pickid);
-            day5match1box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[4].groups[0].teams[1].pickid);
-            day5match1box1.Tag = deserializedLayoutResults.result.sections[4].groups[0];
-            day5match1box2.Tag = deserializedLayoutResults.result.sections[4].groups[0];
-            if (deserializedLayoutResults.result.sections[4].groups[0].picks_allowed == false)
-            {
-                day5matchBox1.Enabled = false;
-            }
-
-            //Match 2
-            day5matchBox2.Text = deserializedLayoutResults.result.sections[4].groups[1].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[4].groups[0].points_per_pick;
-            day5matchBox2.Tag = deserializedLayoutResults.result.sections[4].groups[1];
-            day5match2box1.Tag = deserializedLayoutResults.result.sections[4].groups[1];
-            day5match2box2.Tag = deserializedLayoutResults.result.sections[4].groups[1];
-            day5match2box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[4].groups[1].teams[0].pickid);
-            day5match2box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[4].groups[1].teams[1].pickid);
-            if (deserializedLayoutResults.result.sections[4].groups[1].picks_allowed == false)
-            {
-                day5matchBox2.Enabled = false;
-            }
-        }
-
-        private void generateSixthDayGroupNames()
-        {
-            //Match 1
-            day6matchBox1.Text = deserializedLayoutResults.result.sections[5].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[5].groups[0].points_per_pick;
-            day6matchBox1.Tag = deserializedLayoutResults.result.sections[5].groups[0];
-            day6match1box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[5].groups[0].teams[0].pickid);
-            day6match1box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[5].groups[0].teams[1].pickid);
-            day6match1box1.Tag = deserializedLayoutResults.result.sections[5].groups[0];
-            day6match1box2.Tag = deserializedLayoutResults.result.sections[5].groups[0];
-            if (deserializedLayoutResults.result.sections[5].groups[0].picks_allowed == false)
-            {
-                day6matchBox1.Enabled = false;
-            }
-        }
-
-        private void generateSixthDayGroupNamesAllStar()
-        {
-            //Match 1
-            day6matchBox1.Text = deserializedLayoutResults.result.sections[6].groups[0].name + " -  Points for Match: " + deserializedLayoutResults.result.sections[6].groups[0].points_per_pick;
-            day6matchBox1.Tag = deserializedLayoutResults.result.sections[6].groups[0];
-            day6match1box1.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[6].groups[0].teams[0].pickid);
-            day6match1box2.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[6].groups[0].teams[1].pickid);
-            day6match1box1.Tag = deserializedLayoutResults.result.sections[6].groups[0];
-            day6match1box2.Tag = deserializedLayoutResults.result.sections[6].groups[0];
-            if (deserializedLayoutResults.result.sections[6].groups[0].picks_allowed == false)
-            {
-                day6matchBox1.Enabled = false;
+                    if (!deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].picks_allowed)
+                    {
+                        groupBox.Enabled = false;
+                    }
+                }
             }
         }
 
@@ -747,795 +360,94 @@ namespace PickemTest
             }
         }
 
-        /*
-         * The following methods (generateRadioButtonUserPickdsDay[Day#]) all have the same function, they just operate on different tabs
-         * 
-         * They identify the user picks for each set of matches and check the corresponding box.
-         * 
-         * TODO: Find out how to simplify this, much like the Group Name generation. I'm certain this can be cleaned up, but I don't know how quite frankly 
-        */
-        private void generateRadioButtonUserPicksDay1()
+        private void generateUserPicks()
         {
-            for (int i = 0; i < deserializedPredictionResults.result.picks.Count; i++)
+            List<GroupBox> matchBoxes = new List<GroupBox>() { day1matchBox1, day1matchBox2, day1matchBox3, day1matchBox4, day1matchBox5, day1matchBox6, day1matchBox7, day1matchBox8, day2matchBox1, day2matchBox2, day2matchBox3, day2matchBox4, day2matchBox5, day2matchBox6, day2matchBox7, day2matchBox8, day3matchBox1, day3matchBox2, day3matchBox3, day3matchBox4, day4matchBox1, day4matchBox2, day4matchBox3, day4matchBox4, day5matchBox1, day5matchBox2, day6matchBox1 };
+            foreach (GroupBox matchBox in matchBoxes)
             {
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day1matchBox1, 'g'))
+                foreach (RadioButton button in matchBox.Controls)
                 {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox1, 'p', 0))
+                    int teamNumber = Int32.Parse(button.Name.Substring(13, 1)) - 1;
+                    for (int i = 0; i < deserializedPredictionResults.result.picks.Count; i++)
                     {
-                        day1match1box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox1, 'p', 1))
-                    {
-                        day1match1box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day1matchBox2, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox2, 'p', 0))
-                    {
-                        day1match2box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox2, 'p', 1))
-                    {
-                        day1match2box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day1matchBox3, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox3, 'p', 0))
-                    {
-                        day1match3box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox3, 'p', 1))
-                    {
-                        day1match3box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day1matchBox4, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox4, 'p', 0))
-                    {
-                        day1match4box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox4, 'p', 1))
-                    {
-                        day1match4box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day1matchBox5, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox5, 'p', 0))
-                    {
-                        day1match5box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox5, 'p', 1))
-                    {
-                        day1match5box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day1matchBox6, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox6, 'p', 0))
-                    {
-                        day1match6box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox6, 'p', 1))
-                    {
-                        day1match6box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day1matchBox7, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox7, 'p', 0))
-                    {
-                        day1match7box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox7, 'p', 1))
-                    {
-                        day1match7box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day1matchBox8, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox8, 'p', 0))
-                    {
-                        day1match8box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day1matchBox8, 'p', 1))
-                    {
-                        day1match8box2.Checked = true;
+                        if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(matchBox, 'g') && deserializedPredictionResults.result.picks[i].pick == getTagInfo(matchBox, 'p', teamNumber))
+                        {
+                            button.CheckedChanged -= new EventHandler(isSelectionPossiblePickemPrediction);
+                            button.Checked = true;
+                            button.CheckedChanged += new EventHandler(isSelectionPossiblePickemPrediction);
+                        }
                     }
                 }
             }
         }
 
-        private void generateRadioButtonUserPicksDay2()
+        private List<T> addRadioButtons<T>(params T[] listItems)
         {
-            for (int i = 0; i < deserializedPredictionResults.result.picks.Count; i++)
+            List<T> tempList = new List<T>();
+            foreach (T item in listItems)
             {
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day2matchBox1, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox1, 'p', 0))
-                    {
-                        day2match1box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox1, 'p', 1))
-                    {
-                        day2match1box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day2matchBox2, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox2, 'p', 0))
-                    {
-                        day2match2box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox2, 'p', 1))
-                    {
-                        day2match2box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day2matchBox3, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox3, 'p', 0))
-                    {
-                        day2match3box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox3, 'p', 1))
-                    {
-                        day2match3box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day2matchBox4, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox4, 'p', 0))
-                    {
-                        day2match4box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox4, 'p', 1))
-                    {
-                        day2match4box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day2matchBox5, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox5, 'p', 0))
-                    {
-                        day2match5box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox5, 'p', 1))
-                    {
-                        day2match5box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day2matchBox6, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox6, 'p', 0))
-                    {
-                        day2match6box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox6, 'p', 1))
-                    {
-                        day2match6box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day2matchBox7, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox7, 'p', 0))
-                    {
-                        day2match7box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox7, 'p', 1))
-                    {
-                        day2match7box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day2matchBox8, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox8, 'p', 0))
-                    {
-                        day2match8box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day2matchBox8, 'p', 1))
-                    {
-                        day2match8box2.Checked = true;
-                    }
-                }
+                tempList.Add(item);
             }
+            return tempList;
         }
 
-        private void generateRadioButtonUserPicksDay3()
+        private void generateWinnerLosers()
         {
-            for (int i = 0; i < deserializedPredictionResults.result.picks.Count; i++)
+            List<RadioButton> matchBoxes = new List<RadioButton>();
+            if (deserializedLayoutResults.result.sections[0].groups[0].picks[0].pickids.Count != 0)
             {
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day3matchBox1, 'g'))
+                matchBoxes.AddRange(addRadioButtons(day1match1box1, day1match1box2, day1match2box1, day1match2box2, day1match3box1, day1match3box2, day1match4box1, day1match4box2, day1match5box1, day1match5box2, day1match6box1, day1match6box2, day1match7box1, day1match7box2, day1match8box1, day1match8box2));
+            }
+            if (deserializedLayoutResults.result.sections[1].groups[0].picks[0].pickids.Count != 0)
+            {
+                matchBoxes.AddRange(addRadioButtons(day2match1box1, day2match1box2, day2match2box1, day2match2box2, day2match3box1, day2match3box2, day2match4box1, day2match4box2, day2match5box1, day2match5box2, day2match6box1, day2match6box2, day2match7box1, day2match7box2, day2match8box1, day2match8box2));
+            }
+            if (deserializedLayoutResults.result.sections[2].groups[0].picks[0].pickids.Count != 0)
+            {
+                matchBoxes.AddRange(addRadioButtons(day3match1box1, day3match1box2, day3match2box1, day3match2box2, day3match3box1, day3match3box2, day3match4box1, day3match4box2));
+            }
+            if (deserializedLayoutResults.result.sections[3].groups[0].picks[0].pickids.Count != 0)
+            {
+                matchBoxes.AddRange(addRadioButtons(day4match1box1, day4match1box2, day4match2box1, day4match2box2, day4match3box1, day4match3box2, day4match4box1, day4match4box2));
+            }
+            if (deserializedLayoutResults.result.sections[4].groups[0].picks[0].pickids.Count != 0)
+            {
+                matchBoxes.AddRange(addRadioButtons(day5match1box1, day5match1box2, day5match2box1, day5match2box2));
+            }
+            if (deserializedLayoutResults.result.sections[5].name.Contains("All Star"))
+            {
+                if (deserializedLayoutResults.result.sections[6].groups[0].picks[0].pickids.Count != 0)
                 {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day3matchBox1, 'p', 0))
-                    {
-                        day3match1box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day3matchBox1, 'p', 1))
-                    {
-                        day3match1box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day3matchBox2, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day3matchBox2, 'p', 0))
-                    {
-                        day3match2box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day3matchBox2, 'p', 1))
-                    {
-                        day3match2box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day3matchBox3, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day3matchBox3, 'p', 0))
-                    {
-                        day3match3box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day3matchBox3, 'p', 1))
-                    {
-                        day3match3box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day3matchBox4, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day3matchBox4, 'p', 0))
-                    {
-                        day3match4box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day3matchBox4, 'p', 1))
-                    {
-                        day3match4box2.Checked = true;
-                    }
+                    matchBoxes.AddRange(addRadioButtons(day6match1box1, day6match1box2));
                 }
             }
-        }
-
-        private void generateRadioButtonUserPicksDay4()
-        {
-            for (int i = 0; i < deserializedPredictionResults.result.picks.Count; i++)
+            else
             {
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day4matchBox1, 'g'))
+                if (deserializedLayoutResults.result.sections[5].groups[0].picks[0].pickids.Count != 0)
                 {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day4matchBox1, 'p', 0))
-                    {
-                        day4match1box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day4matchBox1, 'p', 1))
-                    {
-                        day4match1box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day4matchBox2, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day4matchBox2, 'p', 0))
-                    {
-                        day4match2box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day4matchBox2, 'p', 1))
-                    {
-                        day4match2box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day4matchBox3, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day4matchBox3, 'p', 0))
-                    {
-                        day4match3box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day4matchBox3, 'p', 1))
-                    {
-                        day4match3box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day4matchBox4, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day4matchBox4, 'p', 0))
-                    {
-                        day4match4box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day4matchBox4, 'p', 1))
-                    {
-                        day4match4box2.Checked = true;
-                    }
+                    matchBoxes.AddRange(addRadioButtons(day6match1box1, day6match1box2));
                 }
             }
-        }
 
-        private void generateRadioButtonUserPicksDay5()
-        {
-            for (int i = 0; i < deserializedPredictionResults.result.picks.Count; i++)
+            foreach (RadioButton button in matchBoxes)
             {
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day5matchBox1, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day5matchBox1, 'p', 0))
-                    {
-                        day5match1box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day5matchBox1, 'p', 1))
-                    {
-                        day5match1box2.Checked = true;
-                    }
-                }
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day5matchBox2, 'g'))
-                {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day5matchBox2, 'p', 0))
-                    {
-                        day5match2box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day5matchBox2, 'p', 1))
-                    {
-                        day5match2box2.Checked = true;
-                    }
-                }
-            }
-        }
+                int groupNumber = Int32.Parse(button.Name.Substring(9, 1)) - 1;
+                int sectionNumber = Int32.Parse(button.Name.Substring(3, 1)) - 1;
+                int teamNumber = Int32.Parse(button.Name.Substring(13, 1)) - 1;
 
-        private void generateRadioButtonUserPicksDay6()
-        {
-            for (int i = 0; i < deserializedPredictionResults.result.picks.Count; i++)
-            {
-                if (deserializedPredictionResults.result.picks[i].groupid == getTagInfo(day6matchBox1, 'g'))
+                if (button.Name.Contains("day6") && deserializedLayoutResults.result.sections[5].name.Contains("All Star"))
                 {
-                    if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day6matchBox1, 'p', 0))
-                    {
-                        day6match1box1.Checked = true;
-                    }
-                    else if (deserializedPredictionResults.result.picks[i].pick == getTagInfo(day6matchBox1, 'p', 1))
-                    {
-                        day6match1box2.Checked = true;
-                    }
-                }
-            }
-        }
-
-        /*
-         * The following methods (generateWinnerLosersDay[Day#]) all have the same function, they just operate on different tabs
-         * 
-         * They identify which team one by the given tag on each group box, and if the team in day[#]match[#]box[#] was the winner, their side is
-         * made green indicating they won, the losers side is marked red, and the winner side is marked bold
-         * 
-         * This doesn't look as ugly as I intiially thought it would. I wanted to make exclusively text red/green, but when a control object is disabled,
-         * the text automatically goes to grey, and without overriding the paint function it would not be possible. This is a much easier, cleaner, and
-         * overall more aesthetically pleasing than the text option.
-         * 
-         * TODO: Clean this up, much like the generateRadioButtonUserPicks and generateMatches, because I'm certain this can be cleaned up immensley, and
-         * this takes up a lot of space.
-        */
-        private void generateWinnerLosersDay1()
-        {
-            for (int i = 0; i < deserializedLayoutResults.result.sections[0].groups.Count; i++)
-            {
-                //Match 1
-                if (getTagInfo(day1match1box1, 'p', 0) == deserializedLayoutResults.result.sections[0].groups[0].picks[0].pickids[0])
-                {
-                    day1match1box1.BackColor = Color.Green;
-                    day1match1box2.BackColor = Color.Red;
-                    day1match1box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day1match1box2, 'p', 1) == deserializedLayoutResults.result.sections[0].groups[0].picks[0].pickids[0])
-                {
-                    day1match1box1.BackColor = Color.Red;
-                    day1match1box2.BackColor = Color.Green;
-                    day1match1box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
+                    sectionNumber += 1;
                 }
 
-                //Match 2
-                if (getTagInfo(day1match2box1, 'p', 0) == deserializedLayoutResults.result.sections[0].groups[1].picks[0].pickids[0])
+                if (getTagInfo(button, 'p', teamNumber) == deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].picks[0].pickids[0])
                 {
-                    day1match2box1.BackColor = Color.Green;
-                    day1match2box2.BackColor = Color.Red;
-                    day1match2box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
+                    button.BackColor = Color.Green;
+                    button.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
                 }
-                else if (getTagInfo(day1match2box2, 'p', 1) == deserializedLayoutResults.result.sections[0].groups[1].picks[0].pickids[0])
+                else
                 {
-                    day1match2box1.BackColor = Color.Red;
-                    day1match2box2.BackColor = Color.Green;
-                    day1match2box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 3
-                if (getTagInfo(day1match3box1, 'p', 0) == deserializedLayoutResults.result.sections[0].groups[2].picks[0].pickids[0])
-                {
-                    day1match3box1.BackColor = Color.Green;
-                    day1match3box2.BackColor = Color.Red;
-                    day1match3box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day1match3box2, 'p', 1) == deserializedLayoutResults.result.sections[0].groups[2].picks[0].pickids[0])
-                {
-                    day1match3box1.BackColor = Color.Red;
-                    day1match3box2.BackColor = Color.Green;
-                    day1match3box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 4
-                if (getTagInfo(day1match4box1, 'p', 0) == deserializedLayoutResults.result.sections[0].groups[3].picks[0].pickids[0])
-                {
-                    day1match4box1.BackColor = Color.Green;
-                    day1match4box2.BackColor = Color.Red;
-                    day1match4box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day1match4box2, 'p', 1) == deserializedLayoutResults.result.sections[0].groups[3].picks[0].pickids[0])
-                {
-                    day1match4box1.BackColor = Color.Red;
-                    day1match4box2.BackColor = Color.Green;
-                    day1match4box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 5
-                if (getTagInfo(day1match5box1, 'p', 0) == deserializedLayoutResults.result.sections[0].groups[4].picks[0].pickids[0])
-                {
-                    day1match5box1.BackColor = Color.Green;
-                    day1match5box2.BackColor = Color.Red;
-                    day1match5box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day1match5box2, 'p', 1) == deserializedLayoutResults.result.sections[0].groups[4].picks[0].pickids[0])
-                {
-                    day1match5box1.BackColor = Color.Red;
-                    day1match5box2.BackColor = Color.Green;
-                    day1match5box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 6
-                if (getTagInfo(day1match6box1, 'p', 0) == deserializedLayoutResults.result.sections[0].groups[5].picks[0].pickids[0])
-                {
-                    day1match6box1.BackColor = Color.Green;
-                    day1match6box2.BackColor = Color.Red;
-                    day1match6box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day1match6box2, 'p', 1) == deserializedLayoutResults.result.sections[0].groups[5].picks[0].pickids[0])
-                {
-                    day1match6box1.BackColor = Color.Red;
-                    day1match6box2.BackColor = Color.Green;
-                    day1match6box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 7
-                if (getTagInfo(day1match7box1, 'p', 0) == deserializedLayoutResults.result.sections[0].groups[6].picks[0].pickids[0])
-                {
-                    day1match7box1.BackColor = Color.Green;
-                    day1match7box2.BackColor = Color.Red;
-                    day1match7box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day1match7box2, 'p', 1) == deserializedLayoutResults.result.sections[0].groups[6].picks[0].pickids[0])
-                {
-                    day1match7box1.BackColor = Color.Red;
-                    day1match7box2.BackColor = Color.Green;
-                    day1match7box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 8
-                if (getTagInfo(day1match8box1, 'p', 0) == deserializedLayoutResults.result.sections[0].groups[7].picks[0].pickids[0])
-                {
-                    day1match8box1.BackColor = Color.Green;
-                    day1match8box2.BackColor = Color.Red;
-                    day1match8box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day1match8box2, 'p', 1) == deserializedLayoutResults.result.sections[0].groups[7].picks[0].pickids[0])
-                {
-                    day1match8box1.BackColor = Color.Red;
-                    day1match8box2.BackColor = Color.Green;
-                    day1match8box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-            }
-        }
-
-        private void generateWinnerLosersDay2()
-        {
-            for (int i = 0; i < deserializedLayoutResults.result.sections[1].groups.Count; i++)
-            {
-                //Match 1
-                if (getTagInfo(day2match1box1, 'p', 0) == deserializedLayoutResults.result.sections[1].groups[0].picks[0].pickids[0])
-                {
-                    day2match1box1.BackColor = Color.Green;
-                    day2match1box2.BackColor = Color.Red;
-                    day2match1box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day2match1box2, 'p', 1) == deserializedLayoutResults.result.sections[1].groups[0].picks[0].pickids[0])
-                {
-                    day2match1box1.BackColor = Color.Red;
-                    day2match1box2.BackColor = Color.Green;
-                    day2match1box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 2
-                if (getTagInfo(day2match2box1, 'p', 0) == deserializedLayoutResults.result.sections[1].groups[1].picks[0].pickids[0])
-                {
-                    day2match2box1.BackColor = Color.Green;
-                    day2match2box2.BackColor = Color.Red;
-                    day2match2box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day2match2box2, 'p', 1) == deserializedLayoutResults.result.sections[1].groups[1].picks[0].pickids[0])
-                {
-                    day2match2box1.BackColor = Color.Red;
-                    day2match2box2.BackColor = Color.Green;
-                    day2match2box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 3
-                if (getTagInfo(day2match3box1, 'p', 0) == deserializedLayoutResults.result.sections[1].groups[2].picks[0].pickids[0])
-                {
-                    day2match3box1.BackColor = Color.Green;
-                    day2match3box2.BackColor = Color.Red;
-                    day2match3box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day2match3box2, 'p', 1) == deserializedLayoutResults.result.sections[1].groups[2].picks[0].pickids[0])
-                {
-                    day2match3box1.BackColor = Color.Red;
-                    day2match3box2.BackColor = Color.Green;
-                    day2match3box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 4
-                if (getTagInfo(day2match4box1, 'p', 0) == deserializedLayoutResults.result.sections[1].groups[3].picks[0].pickids[0])
-                {
-                    day2match4box1.BackColor = Color.Green;
-                    day2match4box2.BackColor = Color.Red;
-                    day2match4box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day2match4box2, 'p', 1) == deserializedLayoutResults.result.sections[1].groups[3].picks[0].pickids[0])
-                {
-                    day2match4box1.BackColor = Color.Red;
-                    day2match4box2.BackColor = Color.Green;
-                    day2match4box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 5
-                if (getTagInfo(day2match5box1, 'p', 0) == deserializedLayoutResults.result.sections[1].groups[4].picks[0].pickids[0])
-                {
-                    day2match5box1.BackColor = Color.Green;
-                    day2match5box2.BackColor = Color.Red;
-                    day2match5box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day2match5box2, 'p', 1) == deserializedLayoutResults.result.sections[1].groups[4].picks[0].pickids[0])
-                {
-                    day2match5box1.BackColor = Color.Red;
-                    day2match5box2.BackColor = Color.Green;
-                    day2match5box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 6
-                if (getTagInfo(day2match6box1, 'p', 0) == deserializedLayoutResults.result.sections[1].groups[5].picks[0].pickids[0])
-                {
-                    day2match6box1.BackColor = Color.Green;
-                    day2match6box2.BackColor = Color.Red;
-                    day2match6box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day2match6box2, 'p', 1) == deserializedLayoutResults.result.sections[1].groups[5].picks[0].pickids[0])
-                {
-                    day2match6box1.BackColor = Color.Red;
-                    day2match6box2.BackColor = Color.Green;
-                    day2match6box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 7
-                if (getTagInfo(day2match7box1, 'p', 0) == deserializedLayoutResults.result.sections[1].groups[6].picks[0].pickids[0])
-                {
-                    day2match7box1.BackColor = Color.Green;
-                    day2match7box2.BackColor = Color.Red;
-                    day2match7box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day2match7box2, 'p', 1) == deserializedLayoutResults.result.sections[1].groups[6].picks[0].pickids[0])
-                {
-                    day2match7box1.BackColor = Color.Red;
-                    day2match7box2.BackColor = Color.Green;
-                    day2match7box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 8
-                if (getTagInfo(day2match8box1, 'p', 0) == deserializedLayoutResults.result.sections[1].groups[7].picks[0].pickids[0])
-                {
-                    day2match8box1.BackColor = Color.Green;
-                    day2match8box2.BackColor = Color.Red;
-                    day2match8box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day2match8box2, 'p', 1) == deserializedLayoutResults.result.sections[1].groups[7].picks[0].pickids[0])
-                {
-                    day2match8box1.BackColor = Color.Red;
-                    day2match8box2.BackColor = Color.Green;
-                    day2match8box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-            }
-        }
-
-        private void generateWinnerLosersDay3()
-        {
-            for (int i = 0; i < deserializedLayoutResults.result.sections[2].groups.Count; i++)
-            {
-                //Match 1
-                if (getTagInfo(day3match1box1, 'p', 0) == deserializedLayoutResults.result.sections[2].groups[0].picks[0].pickids[0])
-                {
-                    day3match1box1.BackColor = Color.Green;
-                    day3match1box2.BackColor = Color.Red;
-                    day3match1box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day3match1box2, 'p', 1) == deserializedLayoutResults.result.sections[2].groups[0].picks[0].pickids[0])
-                {
-                    day3match1box1.BackColor = Color.Red;
-                    day3match1box2.BackColor = Color.Green;
-                    day3match1box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 2
-                if (getTagInfo(day3match2box1, 'p', 0) == deserializedLayoutResults.result.sections[2].groups[1].picks[0].pickids[0])
-                {
-                    day3match2box1.BackColor = Color.Green;
-                    day3match2box2.BackColor = Color.Red;
-                    day3match2box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day3match2box2, 'p', 1) == deserializedLayoutResults.result.sections[2].groups[1].picks[0].pickids[0])
-                {
-                    day3match2box1.BackColor = Color.Red;
-                    day3match2box2.BackColor = Color.Green;
-                    day3match2box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 3
-                if (getTagInfo(day3match3box1, 'p', 0) == deserializedLayoutResults.result.sections[2].groups[2].picks[0].pickids[0])
-                {
-                    day3match3box1.BackColor = Color.Green;
-                    day3match3box2.BackColor = Color.Red;
-                    day3match3box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day3match3box2, 'p', 1) == deserializedLayoutResults.result.sections[2].groups[2].picks[0].pickids[0])
-                {
-                    day3match3box1.BackColor = Color.Red;
-                    day3match3box2.BackColor = Color.Green;
-                    day3match3box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 4
-                if (getTagInfo(day3match4box1, 'p', 0) == deserializedLayoutResults.result.sections[2].groups[3].picks[0].pickids[0])
-                {
-                    day3match4box1.BackColor = Color.Green;
-                    day3match4box2.BackColor = Color.Red;
-                    day3match4box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day3match4box2, 'p', 1) == deserializedLayoutResults.result.sections[2].groups[3].picks[0].pickids[0])
-                {
-                    day3match4box1.BackColor = Color.Red;
-                    day3match4box2.BackColor = Color.Green;
-                    day3match4box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-            }
-        }
-
-        private void generateWinnerLosersDay4()
-        {
-            for (int i = 0; i < deserializedLayoutResults.result.sections[3].groups.Count; i++)
-            {
-                //Match 1
-                if (getTagInfo(day4match1box1, 'p', 0) == deserializedLayoutResults.result.sections[3].groups[0].picks[0].pickids[0])
-                {
-                    day4match1box1.BackColor = Color.Green;
-                    day4match1box2.BackColor = Color.Red;
-                    day4match1box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day4match1box2, 'p', 1) == deserializedLayoutResults.result.sections[3].groups[0].picks[0].pickids[0])
-                {
-                    day4match1box1.BackColor = Color.Red;
-                    day4match1box2.BackColor = Color.Green;
-                    day4match1box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 2
-                if (getTagInfo(day4match2box1, 'p', 0) == deserializedLayoutResults.result.sections[3].groups[1].picks[0].pickids[0])
-                {
-                    day4match2box1.BackColor = Color.Green;
-                    day4match2box2.BackColor = Color.Red;
-                    day4match2box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day4match2box2, 'p', 1) == deserializedLayoutResults.result.sections[3].groups[1].picks[0].pickids[0])
-                {
-                    day4match2box1.BackColor = Color.Red;
-                    day4match2box2.BackColor = Color.Green;
-                    day4match2box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 3
-                if (getTagInfo(day4match3box1, 'p', 0) == deserializedLayoutResults.result.sections[3].groups[2].picks[0].pickids[0])
-                {
-                    day4match3box1.BackColor = Color.Green;
-                    day4match3box2.BackColor = Color.Red;
-                    day4match3box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day4match3box2, 'p', 1) == deserializedLayoutResults.result.sections[3].groups[2].picks[0].pickids[0])
-                {
-                    day4match3box1.BackColor = Color.Red;
-                    day4match3box2.BackColor = Color.Green;
-                    day4match3box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 4
-                if (getTagInfo(day4match4box1, 'p', 0) == deserializedLayoutResults.result.sections[3].groups[3].picks[0].pickids[0])
-                {
-                    day4match4box1.BackColor = Color.Green;
-                    day4match4box2.BackColor = Color.Red;
-                    day4match4box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day4match4box2, 'p', 1) == deserializedLayoutResults.result.sections[3].groups[3].picks[0].pickids[0])
-                {
-                    day4match4box1.BackColor = Color.Red;
-                    day4match4box2.BackColor = Color.Green;
-                    day4match4box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-            }
-        }
-
-        private void generateWinnerLosersDay5()
-        {
-            for (int i = 0; i < deserializedLayoutResults.result.sections[4].groups.Count; i++)
-            {
-                //Match 1
-                if (getTagInfo(day5match1box1, 'p', 0) == deserializedLayoutResults.result.sections[4].groups[0].picks[0].pickids[0])
-                {
-                    day5match1box1.BackColor = Color.Green;
-                    day5match1box2.BackColor = Color.Red;
-                    day5match1box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day5match1box2, 'p', 1) == deserializedLayoutResults.result.sections[4].groups[0].picks[0].pickids[0])
-                {
-                    day5match1box1.BackColor = Color.Red;
-                    day5match1box2.BackColor = Color.Green;
-                    day5match1box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-
-                //Match 2
-                if (getTagInfo(day5match2box1, 'p', 0) == deserializedLayoutResults.result.sections[4].groups[1].picks[0].pickids[0])
-                {
-                    day5match2box1.BackColor = Color.Green;
-                    day5match2box2.BackColor = Color.Red;
-                    day5match2box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day5match2box2, 'p', 1) == deserializedLayoutResults.result.sections[4].groups[1].picks[0].pickids[0])
-                {
-                    day5match2box1.BackColor = Color.Red;
-                    day5match2box2.BackColor = Color.Green;
-                    day5match2box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-            }
-        }
-
-        private void generateWinnerLosersDay6()
-        {
-            for (int i = 0; i < deserializedLayoutResults.result.sections[5].groups.Count; i++)
-            {
-                //Match 1
-                if (getTagInfo(day6match1box1, 'p', 0) == deserializedLayoutResults.result.sections[5].groups[0].picks[0].pickids[0])
-                {
-                    day6match1box1.BackColor = Color.Green;
-                    day6match1box2.BackColor = Color.Red;
-                    day6match1box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day6match1box2, 'p', 1) == deserializedLayoutResults.result.sections[5].groups[0].picks[0].pickids[0])
-                {
-                    day6match1box1.BackColor = Color.Red;
-                    day6match1box2.BackColor = Color.Green;
-                    day6match1box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-            }
-        }
-
-        private void generateWinnerLosersDay6AllStar()
-        {
-            for (int i = 0; i < deserializedLayoutResults.result.sections[6].groups.Count; i++)
-            {
-                //Match 1
-                if (getTagInfo(day6match1box1, 'p', 0) == deserializedLayoutResults.result.sections[6].groups[0].picks[0].pickids[0])
-                {
-                    day6match1box1.BackColor = Color.Green;
-                    day6match1box2.BackColor = Color.Red;
-                    day6match1box1.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else if (getTagInfo(day6match1box2, 'p', 1) == deserializedLayoutResults.result.sections[6].groups[0].picks[0].pickids[0])
-                {
-                    day6match1box1.BackColor = Color.Red;
-                    day6match1box2.BackColor = Color.Green;
-                    day6match1box2.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
+                    button.BackColor = Color.Red;
                 }
             }
         }
@@ -1549,7 +461,14 @@ namespace PickemTest
                     if (obj is GroupBox)
                     {
                         Layout_Group objectTag = (Layout_Group)obj.Tag;
-                        return objectTag.groupid;
+                        if (objectTag != null)
+                        {
+                            return objectTag.groupid;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
                     }
                     else
                     {
@@ -1799,7 +718,6 @@ namespace PickemTest
                     {
                         MessageBox.Show("ERROR HONEY BADGER:\n\nThere was an issue submitting teams:" + exc.ToString());
                     }
-
                     updateAppearance();
                 }
             }
@@ -1811,35 +729,38 @@ namespace PickemTest
             availableItems = getInventory.deserializedInventoryResults;
             RadioButton currentRadio = (RadioButton)sender;
             Layout_Group radioTag = (Layout_Group)currentRadio.Tag;
-            int teamPick;
-            if (currentRadio.Name.Contains("box1")) //If it's box1, we want the first pickid, if it's box 2, its the 2nd team, so the second pickid
-            {
-                teamPick = radioTag.teams[0].pickid;
-            }
-            else
-            {
-                teamPick = radioTag.teams[1].pickid;
-            }
-
-            bool wasTeamFound = false; //Will be used for pulling up the market in a little bit...
-            foreach (string availableTeams in availableTeamStickers)
-            {
-                if (teamPick.ToString() == availableTeams) //If the team pickId is an available team sticker, allow the boolean to be set to be true
+            if (radioTag.picks_allowed.Equals("true"))
+            { //If picks aren't allowed, there is no need to prompt the user to purchase a sticker...
+                int teamPick;
+                if (currentRadio.Name.Contains("box1")) //If it's box1, we want the first pickid, if it's box 2, its the 2nd team, so the second pickid
                 {
-                    wasTeamFound = true;
+                    teamPick = radioTag.teams[0].pickid;
                 }
-            }
-
-            if (!wasTeamFound)
-            {
-                if (MessageBox.Show(this, "You do not have that team sticker. Would you like to go to the market now and purchase one?", "Team Sticker Unavailable", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                else
                 {
-                    string stickerURL = "http://steamcommunity.com/market/search?q=&category_730_TournamentTeam%5B%5D=tag_Team" + teamPick + "&category_730_StickerCategory%5B%5D=tag_TeamLogo&category_730_Tournament%5B%5D=tag_Tournament" + Properties.Settings.Default.tournamentID + "&appid=730";
-                    System.Diagnostics.Process.Start(stickerURL); //Opens up the Steam Market with a search for the team from teamPick
+                    teamPick = radioTag.teams[1].pickid;
                 }
-                currentRadio.CheckedChanged -= new System.EventHandler(isSelectionPossiblePickemPrediction); //Remove the event temporarily so it is not triggered again
-                currentRadio.Checked = false;
-                currentRadio.CheckedChanged += new System.EventHandler(isSelectionPossiblePickemPrediction);
+
+                bool wasTeamFound = false; //Will be used for pulling up the market in a little bit...
+                foreach (string availableTeams in availableTeamStickers)
+                {
+                    if (teamPick.ToString() == availableTeams) //If the team pickId is an available team sticker, allow the boolean to be set to be true
+                    {
+                        wasTeamFound = true;
+                    }
+                }
+
+                if (!wasTeamFound)
+                {
+                    if (MessageBox.Show(this, "You do not have that team sticker. Would you like to go to the market now and purchase one?", "Team Sticker Unavailable", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    {
+                        string stickerURL = "http://steamcommunity.com/market/search?q=&category_730_TournamentTeam%5B%5D=tag_Team" + teamPick + "&category_730_StickerCategory%5B%5D=tag_TeamLogo&category_730_Tournament%5B%5D=tag_Tournament" + Properties.Settings.Default.tournamentID + "&appid=730";
+                        System.Diagnostics.Process.Start(stickerURL); //Opens up the Steam Market with a search for the team from teamPick
+                    }
+                    currentRadio.CheckedChanged -= new EventHandler(isSelectionPossiblePickemPrediction); //Remove the event temporarily so it is not triggered again
+                    currentRadio.Checked = false;
+                    currentRadio.CheckedChanged += new EventHandler(isSelectionPossiblePickemPrediction);
+                }
             }
         }
 
@@ -1873,7 +794,6 @@ namespace PickemTest
                     combo.SelectedItem = null;
                 }
             }
-
             return false;
         }
 

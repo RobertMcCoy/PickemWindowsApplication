@@ -237,6 +237,7 @@ namespace PickemTest
             }
             Properties.Settings.Default.Save();
             parentForm.updateAppearance();
+            parentForm.updateFantasyAppearance();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) //Provides a link to get the Authentication Code for the individual user
