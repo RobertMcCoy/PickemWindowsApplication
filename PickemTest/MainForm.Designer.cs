@@ -62,6 +62,7 @@
             this.day1RefreshAppearance = new System.Windows.Forms.Button();
             this.day1predictionSubmit = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.day2RefreshAppearance = new System.Windows.Forms.Button();
             this.day2predictionSubmit = new System.Windows.Forms.Button();
             this.day2matchBox1 = new System.Windows.Forms.GroupBox();
             this.day2match1box2 = new System.Windows.Forms.RadioButton();
@@ -88,6 +89,7 @@
             this.day2match5box2 = new System.Windows.Forms.RadioButton();
             this.day2match5box1 = new System.Windows.Forms.RadioButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.day3RefreshAppearance = new System.Windows.Forms.Button();
             this.day3predictionSubmit = new System.Windows.Forms.Button();
             this.day3matchBox1 = new System.Windows.Forms.GroupBox();
             this.day3match1box2 = new System.Windows.Forms.RadioButton();
@@ -102,6 +104,7 @@
             this.day3match4box2 = new System.Windows.Forms.RadioButton();
             this.day3match4box1 = new System.Windows.Forms.RadioButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.day4RefreshAppearance = new System.Windows.Forms.Button();
             this.day4predictionSubmit = new System.Windows.Forms.Button();
             this.day4matchBox1 = new System.Windows.Forms.GroupBox();
             this.day4match1box2 = new System.Windows.Forms.RadioButton();
@@ -116,6 +119,7 @@
             this.day4match4box2 = new System.Windows.Forms.RadioButton();
             this.day4match4box1 = new System.Windows.Forms.RadioButton();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.day5RefreshAppearance = new System.Windows.Forms.Button();
             this.day5predictionSubmit = new System.Windows.Forms.Button();
             this.day5matchBox1 = new System.Windows.Forms.GroupBox();
             this.day5match1box2 = new System.Windows.Forms.RadioButton();
@@ -124,6 +128,7 @@
             this.day5match2box2 = new System.Windows.Forms.RadioButton();
             this.day5match2box1 = new System.Windows.Forms.RadioButton();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.day6RefreshAppearance = new System.Windows.Forms.Button();
             this.day6predictionSubmit = new System.Windows.Forms.Button();
             this.day6matchBox1 = new System.Windows.Forms.GroupBox();
             this.day6match1box2 = new System.Windows.Forms.RadioButton();
@@ -134,6 +139,8 @@
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.day1sniper = new System.Windows.Forms.ComboBox();
             this.day1entryfragger = new System.Windows.Forms.ComboBox();
             this.day1ecowarrior = new System.Windows.Forms.ComboBox();
@@ -200,6 +207,7 @@
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.tabPage15 = new System.Windows.Forms.TabPage();
+            this.displayOnlyPlayersWithStickersOwner = new System.Windows.Forms.CheckBox();
             this.label34 = new System.Windows.Forms.Label();
             this.playerSortingOrderCombo = new System.Windows.Forms.ComboBox();
             this.updateSettingsLabel = new System.Windows.Forms.Label();
@@ -211,14 +219,6 @@
             this.label32 = new System.Windows.Forms.Label();
             this.fantasyTournamentToUse = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
-            this.displayOnlyPlayersWithStickersOwner = new System.Windows.Forms.CheckBox();
-            this.day2RefreshAppearance = new System.Windows.Forms.Button();
-            this.day3RefreshAppearance = new System.Windows.Forms.Button();
-            this.day4RefreshAppearance = new System.Windows.Forms.Button();
-            this.day5RefreshAppearance = new System.Windows.Forms.Button();
-            this.day6RefreshAppearance = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.day1matchBox1.SuspendLayout();
             this.day1matchBox2.SuspendLayout();
             this.day1matchBox3.SuspendLayout();
@@ -660,6 +660,16 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // day2RefreshAppearance
+            // 
+            this.day2RefreshAppearance.Location = new System.Drawing.Point(267, 254);
+            this.day2RefreshAppearance.Name = "day2RefreshAppearance";
+            this.day2RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day2RefreshAppearance.TabIndex = 18;
+            this.day2RefreshAppearance.Text = "Reset";
+            this.day2RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day2RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
+            // 
             // day2predictionSubmit
             // 
             this.day2predictionSubmit.Location = new System.Drawing.Point(160, 254);
@@ -941,6 +951,16 @@
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // day3RefreshAppearance
+            // 
+            this.day3RefreshAppearance.Location = new System.Drawing.Point(267, 130);
+            this.day3RefreshAppearance.Name = "day3RefreshAppearance";
+            this.day3RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day3RefreshAppearance.TabIndex = 19;
+            this.day3RefreshAppearance.Text = "Reset";
+            this.day3RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day3RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
+            // 
             // day3predictionSubmit
             // 
             this.day3predictionSubmit.Location = new System.Drawing.Point(160, 130);
@@ -1094,6 +1114,16 @@
             this.tabPage4.Text = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // day4RefreshAppearance
+            // 
+            this.day4RefreshAppearance.Location = new System.Drawing.Point(267, 130);
+            this.day4RefreshAppearance.Name = "day4RefreshAppearance";
+            this.day4RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day4RefreshAppearance.TabIndex = 22;
+            this.day4RefreshAppearance.Text = "Reset";
+            this.day4RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day4RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
+            // 
             // day4predictionSubmit
             // 
             this.day4predictionSubmit.Location = new System.Drawing.Point(160, 130);
@@ -1245,6 +1275,16 @@
             this.tabPage5.Text = "tabPage5";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // day5RefreshAppearance
+            // 
+            this.day5RefreshAppearance.Location = new System.Drawing.Point(267, 68);
+            this.day5RefreshAppearance.Name = "day5RefreshAppearance";
+            this.day5RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day5RefreshAppearance.TabIndex = 23;
+            this.day5RefreshAppearance.Text = "Reset";
+            this.day5RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day5RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
+            // 
             // day5predictionSubmit
             // 
             this.day5predictionSubmit.Location = new System.Drawing.Point(160, 68);
@@ -1330,6 +1370,16 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "tabPage6";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // day6RefreshAppearance
+            // 
+            this.day6RefreshAppearance.Location = new System.Drawing.Point(273, 89);
+            this.day6RefreshAppearance.Name = "day6RefreshAppearance";
+            this.day6RefreshAppearance.Size = new System.Drawing.Size(75, 23);
+            this.day6RefreshAppearance.TabIndex = 24;
+            this.day6RefreshAppearance.Text = "Reset";
+            this.day6RefreshAppearance.UseVisualStyleBackColor = true;
+            this.day6RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
             // 
             // day6predictionSubmit
             // 
@@ -1452,6 +1502,25 @@
             this.tabPage9.Text = "Day 1";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(288, 326);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(110, 23);
+            this.button3.TabIndex = 22;
+            this.button3.Text = "Reset";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.resetFantasy);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(172, 326);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(110, 23);
+            this.button2.TabIndex = 21;
+            this.button2.Text = "Submit";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // day1sniper
             // 
             this.day1sniper.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1460,7 +1529,7 @@
             this.day1sniper.Name = "day1sniper";
             this.day1sniper.Size = new System.Drawing.Size(174, 21);
             this.day1sniper.TabIndex = 20;
-            this.day1sniper.SelectedIndexChanged += new System.EventHandler(this.day1sniper_SelectedIndexChanged);
+            this.day1sniper.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day1entryfragger
             // 
@@ -1470,7 +1539,7 @@
             this.day1entryfragger.Name = "day1entryfragger";
             this.day1entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day1entryfragger.TabIndex = 19;
-            this.day1entryfragger.SelectedIndexChanged += new System.EventHandler(this.day1entryfragger_SelectedIndexChanged);
+            this.day1entryfragger.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day1ecowarrior
             // 
@@ -1480,7 +1549,7 @@
             this.day1ecowarrior.Name = "day1ecowarrior";
             this.day1ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day1ecowarrior.TabIndex = 18;
-            this.day1ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day1ecowarrior_SelectedIndexChanged);
+            this.day1ecowarrior.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day1clutchking
             // 
@@ -1490,7 +1559,7 @@
             this.day1clutchking.Name = "day1clutchking";
             this.day1clutchking.Size = new System.Drawing.Size(174, 21);
             this.day1clutchking.TabIndex = 17;
-            this.day1clutchking.SelectedIndexChanged += new System.EventHandler(this.day1clutchking_SelectedIndexChanged);
+            this.day1clutchking.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day1commando
             // 
@@ -1500,7 +1569,7 @@
             this.day1commando.Name = "day1commando";
             this.day1commando.Size = new System.Drawing.Size(174, 21);
             this.day1commando.TabIndex = 16;
-            this.day1commando.SelectedIndexChanged += new System.EventHandler(this.day1commando_SelectedIndexChanged);
+            this.day1commando.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // label5
             // 
@@ -1575,7 +1644,7 @@
             this.day2sniper.Name = "day2sniper";
             this.day2sniper.Size = new System.Drawing.Size(174, 21);
             this.day2sniper.TabIndex = 25;
-            this.day2sniper.SelectedIndexChanged += new System.EventHandler(this.day2sniper_SelectedIndexChanged);
+            this.day2sniper.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day2entryfragger
             // 
@@ -1585,7 +1654,7 @@
             this.day2entryfragger.Name = "day2entryfragger";
             this.day2entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day2entryfragger.TabIndex = 24;
-            this.day2entryfragger.SelectedIndexChanged += new System.EventHandler(this.day2entryfragger_SelectedIndexChanged);
+            this.day2entryfragger.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day2ecowarrior
             // 
@@ -1595,7 +1664,7 @@
             this.day2ecowarrior.Name = "day2ecowarrior";
             this.day2ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day2ecowarrior.TabIndex = 23;
-            this.day2ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day2ecowarrior_SelectedIndexChanged);
+            this.day2ecowarrior.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day2clutchking
             // 
@@ -1605,7 +1674,7 @@
             this.day2clutchking.Name = "day2clutchking";
             this.day2clutchking.Size = new System.Drawing.Size(174, 21);
             this.day2clutchking.TabIndex = 22;
-            this.day2clutchking.SelectedIndexChanged += new System.EventHandler(this.day2clutchking_SelectedIndexChanged);
+            this.day2clutchking.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day2commando
             // 
@@ -1615,7 +1684,7 @@
             this.day2commando.Name = "day2commando";
             this.day2commando.Size = new System.Drawing.Size(174, 21);
             this.day2commando.TabIndex = 21;
-            this.day2commando.SelectedIndexChanged += new System.EventHandler(this.day2commando_SelectedIndexChanged);
+            this.day2commando.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // label6
             // 
@@ -1689,7 +1758,7 @@
             this.day3sniper.Name = "day3sniper";
             this.day3sniper.Size = new System.Drawing.Size(174, 21);
             this.day3sniper.TabIndex = 30;
-            this.day3sniper.SelectedIndexChanged += new System.EventHandler(this.day3sniper_SelectedIndexChanged);
+            this.day3sniper.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day3entryfragger
             // 
@@ -1699,7 +1768,7 @@
             this.day3entryfragger.Name = "day3entryfragger";
             this.day3entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day3entryfragger.TabIndex = 29;
-            this.day3entryfragger.SelectedIndexChanged += new System.EventHandler(this.day3entryfragger_SelectedIndexChanged);
+            this.day3entryfragger.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day3ecowarrior
             // 
@@ -1709,7 +1778,7 @@
             this.day3ecowarrior.Name = "day3ecowarrior";
             this.day3ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day3ecowarrior.TabIndex = 28;
-            this.day3ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day3ecowarrior_SelectedIndexChanged);
+            this.day3ecowarrior.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day3clutchking
             // 
@@ -1719,7 +1788,7 @@
             this.day3clutchking.Name = "day3clutchking";
             this.day3clutchking.Size = new System.Drawing.Size(174, 21);
             this.day3clutchking.TabIndex = 27;
-            this.day3clutchking.SelectedIndexChanged += new System.EventHandler(this.day3clutchking_SelectedIndexChanged);
+            this.day3clutchking.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day3commando
             // 
@@ -1729,7 +1798,7 @@
             this.day3commando.Name = "day3commando";
             this.day3commando.Size = new System.Drawing.Size(174, 21);
             this.day3commando.TabIndex = 26;
-            this.day3commando.SelectedIndexChanged += new System.EventHandler(this.day3commando_SelectedIndexChanged);
+            this.day3commando.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // label11
             // 
@@ -1803,7 +1872,7 @@
             this.day4sniper.Name = "day4sniper";
             this.day4sniper.Size = new System.Drawing.Size(174, 21);
             this.day4sniper.TabIndex = 30;
-            this.day4sniper.SelectedIndexChanged += new System.EventHandler(this.day4sniper_SelectedIndexChanged);
+            this.day4sniper.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day4entryfragger
             // 
@@ -1813,7 +1882,7 @@
             this.day4entryfragger.Name = "day4entryfragger";
             this.day4entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day4entryfragger.TabIndex = 29;
-            this.day4entryfragger.SelectedIndexChanged += new System.EventHandler(this.day4entryfragger_SelectedIndexChanged);
+            this.day4entryfragger.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day4ecowarrior
             // 
@@ -1823,7 +1892,7 @@
             this.day4ecowarrior.Name = "day4ecowarrior";
             this.day4ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day4ecowarrior.TabIndex = 28;
-            this.day4ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day4ecowarrior_SelectedIndexChanged);
+            this.day4ecowarrior.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day4clutchking
             // 
@@ -1833,7 +1902,7 @@
             this.day4clutchking.Name = "day4clutchking";
             this.day4clutchking.Size = new System.Drawing.Size(174, 21);
             this.day4clutchking.TabIndex = 27;
-            this.day4clutchking.SelectedIndexChanged += new System.EventHandler(this.day4clutchking_SelectedIndexChanged);
+            this.day4clutchking.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day4commando
             // 
@@ -1843,7 +1912,7 @@
             this.day4commando.Name = "day4commando";
             this.day4commando.Size = new System.Drawing.Size(174, 21);
             this.day4commando.TabIndex = 26;
-            this.day4commando.SelectedIndexChanged += new System.EventHandler(this.day4commando_SelectedIndexChanged);
+            this.day4commando.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // label16
             // 
@@ -1917,7 +1986,7 @@
             this.day5sniper.Name = "day5sniper";
             this.day5sniper.Size = new System.Drawing.Size(174, 21);
             this.day5sniper.TabIndex = 30;
-            this.day5sniper.SelectedIndexChanged += new System.EventHandler(this.day5sniper_SelectedIndexChanged);
+            this.day5sniper.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day5entryfragger
             // 
@@ -1927,7 +1996,7 @@
             this.day5entryfragger.Name = "day5entryfragger";
             this.day5entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day5entryfragger.TabIndex = 29;
-            this.day5entryfragger.SelectedIndexChanged += new System.EventHandler(this.day5entryfragger_SelectedIndexChanged);
+            this.day5entryfragger.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day5ecowarrior
             // 
@@ -1937,7 +2006,7 @@
             this.day5ecowarrior.Name = "day5ecowarrior";
             this.day5ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day5ecowarrior.TabIndex = 28;
-            this.day5ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day5ecowarrior_SelectedIndexChanged);
+            this.day5ecowarrior.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day5clutchking
             // 
@@ -1947,7 +2016,7 @@
             this.day5clutchking.Name = "day5clutchking";
             this.day5clutchking.Size = new System.Drawing.Size(174, 21);
             this.day5clutchking.TabIndex = 27;
-            this.day5clutchking.SelectedIndexChanged += new System.EventHandler(this.day5clutchking_SelectedIndexChanged);
+            this.day5clutchking.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day5commando
             // 
@@ -1957,7 +2026,7 @@
             this.day5commando.Name = "day5commando";
             this.day5commando.Size = new System.Drawing.Size(174, 21);
             this.day5commando.TabIndex = 26;
-            this.day5commando.SelectedIndexChanged += new System.EventHandler(this.day5commando_SelectedIndexChanged);
+            this.day5commando.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // label21
             // 
@@ -2031,7 +2100,7 @@
             this.day6sniper.Name = "day6sniper";
             this.day6sniper.Size = new System.Drawing.Size(174, 21);
             this.day6sniper.TabIndex = 30;
-            this.day6sniper.SelectedIndexChanged += new System.EventHandler(this.day6sniper_SelectedIndexChanged);
+            this.day6sniper.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day6entryfragger
             // 
@@ -2041,7 +2110,7 @@
             this.day6entryfragger.Name = "day6entryfragger";
             this.day6entryfragger.Size = new System.Drawing.Size(174, 21);
             this.day6entryfragger.TabIndex = 29;
-            this.day6entryfragger.SelectedIndexChanged += new System.EventHandler(this.day6entryfragger_SelectedIndexChanged);
+            this.day6entryfragger.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day6ecowarrior
             // 
@@ -2051,7 +2120,7 @@
             this.day6ecowarrior.Name = "day6ecowarrior";
             this.day6ecowarrior.Size = new System.Drawing.Size(174, 21);
             this.day6ecowarrior.TabIndex = 28;
-            this.day6ecowarrior.SelectedIndexChanged += new System.EventHandler(this.day6ecowarrior_SelectedIndexChanged);
+            this.day6ecowarrior.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day6clutchking
             // 
@@ -2061,7 +2130,7 @@
             this.day6clutchking.Name = "day6clutchking";
             this.day6clutchking.Size = new System.Drawing.Size(174, 21);
             this.day6clutchking.TabIndex = 27;
-            this.day6clutchking.SelectedIndexChanged += new System.EventHandler(this.day6clutchking_SelectedIndexChanged);
+            this.day6clutchking.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // day6commando
             // 
@@ -2071,7 +2140,7 @@
             this.day6commando.Name = "day6commando";
             this.day6commando.Size = new System.Drawing.Size(174, 21);
             this.day6commando.TabIndex = 26;
-            this.day6commando.SelectedIndexChanged += new System.EventHandler(this.day6commando_SelectedIndexChanged);
+            this.day6commando.SelectedIndexChanged += new System.EventHandler(this.fantasySelectedIndexChange);
             // 
             // label26
             // 
@@ -2138,6 +2207,17 @@
             this.tabPage15.TabIndex = 6;
             this.tabPage15.Text = "Settings";
             this.tabPage15.UseVisualStyleBackColor = true;
+            // 
+            // displayOnlyPlayersWithStickersOwner
+            // 
+            this.displayOnlyPlayersWithStickersOwner.AutoSize = true;
+            this.displayOnlyPlayersWithStickersOwner.Location = new System.Drawing.Point(14, 141);
+            this.displayOnlyPlayersWithStickersOwner.Name = "displayOnlyPlayersWithStickersOwner";
+            this.displayOnlyPlayersWithStickersOwner.Size = new System.Drawing.Size(245, 17);
+            this.displayOnlyPlayersWithStickersOwner.TabIndex = 16;
+            this.displayOnlyPlayersWithStickersOwner.Text = "Display only players that you own stickers for? ";
+            this.displayOnlyPlayersWithStickersOwner.UseVisualStyleBackColor = true;
+            this.displayOnlyPlayersWithStickersOwner.CheckedChanged += new System.EventHandler(this.displayOnlyPlayersWithStickersOwner_CheckedChanged);
             // 
             // label34
             // 
@@ -2252,86 +2332,6 @@
             this.label31.Size = new System.Drawing.Size(157, 13);
             this.label31.TabIndex = 0;
             this.label31.Text = "Tournament to use for statistics:";
-            // 
-            // displayOnlyPlayersWithStickersOwner
-            // 
-            this.displayOnlyPlayersWithStickersOwner.AutoSize = true;
-            this.displayOnlyPlayersWithStickersOwner.Location = new System.Drawing.Point(14, 141);
-            this.displayOnlyPlayersWithStickersOwner.Name = "displayOnlyPlayersWithStickersOwner";
-            this.displayOnlyPlayersWithStickersOwner.Size = new System.Drawing.Size(245, 17);
-            this.displayOnlyPlayersWithStickersOwner.TabIndex = 16;
-            this.displayOnlyPlayersWithStickersOwner.Text = "Display only players that you own stickers for? ";
-            this.displayOnlyPlayersWithStickersOwner.UseVisualStyleBackColor = true;
-            this.displayOnlyPlayersWithStickersOwner.CheckedChanged += new System.EventHandler(this.displayOnlyPlayersWithStickersOwner_CheckedChanged);
-            // 
-            // day2RefreshAppearance
-            // 
-            this.day2RefreshAppearance.Location = new System.Drawing.Point(267, 254);
-            this.day2RefreshAppearance.Name = "day2RefreshAppearance";
-            this.day2RefreshAppearance.Size = new System.Drawing.Size(75, 23);
-            this.day2RefreshAppearance.TabIndex = 18;
-            this.day2RefreshAppearance.Text = "Reset";
-            this.day2RefreshAppearance.UseVisualStyleBackColor = true;
-            this.day2RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
-            // 
-            // day3RefreshAppearance
-            // 
-            this.day3RefreshAppearance.Location = new System.Drawing.Point(267, 130);
-            this.day3RefreshAppearance.Name = "day3RefreshAppearance";
-            this.day3RefreshAppearance.Size = new System.Drawing.Size(75, 23);
-            this.day3RefreshAppearance.TabIndex = 19;
-            this.day3RefreshAppearance.Text = "Reset";
-            this.day3RefreshAppearance.UseVisualStyleBackColor = true;
-            this.day3RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
-            // 
-            // day4RefreshAppearance
-            // 
-            this.day4RefreshAppearance.Location = new System.Drawing.Point(267, 130);
-            this.day4RefreshAppearance.Name = "day4RefreshAppearance";
-            this.day4RefreshAppearance.Size = new System.Drawing.Size(75, 23);
-            this.day4RefreshAppearance.TabIndex = 22;
-            this.day4RefreshAppearance.Text = "Reset";
-            this.day4RefreshAppearance.UseVisualStyleBackColor = true;
-            this.day4RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
-            // 
-            // day5RefreshAppearance
-            // 
-            this.day5RefreshAppearance.Location = new System.Drawing.Point(267, 68);
-            this.day5RefreshAppearance.Name = "day5RefreshAppearance";
-            this.day5RefreshAppearance.Size = new System.Drawing.Size(75, 23);
-            this.day5RefreshAppearance.TabIndex = 23;
-            this.day5RefreshAppearance.Text = "Reset";
-            this.day5RefreshAppearance.UseVisualStyleBackColor = true;
-            this.day5RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
-            // 
-            // day6RefreshAppearance
-            // 
-            this.day6RefreshAppearance.Location = new System.Drawing.Point(273, 89);
-            this.day6RefreshAppearance.Name = "day6RefreshAppearance";
-            this.day6RefreshAppearance.Size = new System.Drawing.Size(75, 23);
-            this.day6RefreshAppearance.TabIndex = 24;
-            this.day6RefreshAppearance.Text = "Reset";
-            this.day6RefreshAppearance.UseVisualStyleBackColor = true;
-            this.day6RefreshAppearance.Click += new System.EventHandler(this.refreshAppearance_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(172, 326);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(110, 23);
-            this.button2.TabIndex = 21;
-            this.button2.Text = "Submit";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(288, 326);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(110, 23);
-            this.button3.TabIndex = 22;
-            this.button3.Text = "Reset";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.resetFantasy);
             // 
             // MainForm
             // 
