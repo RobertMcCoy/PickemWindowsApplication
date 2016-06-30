@@ -638,7 +638,7 @@
             this.day1predictionSubmit.TabIndex = 11;
             this.day1predictionSubmit.Text = "Submit";
             this.day1predictionSubmit.UseVisualStyleBackColor = true;
-            this.day1predictionSubmit.Click += new System.EventHandler(this.day1predictionSubmit_Click);
+            this.day1predictionSubmit.Click += new System.EventHandler(this.teamPredictionSubmit);
             // 
             // tabPage2
             // 
@@ -678,7 +678,7 @@
             this.day2predictionSubmit.TabIndex = 17;
             this.day2predictionSubmit.Text = "Submit";
             this.day2predictionSubmit.UseVisualStyleBackColor = true;
-            this.day2predictionSubmit.Click += new System.EventHandler(this.day2predictionSubmit_Click);
+            this.day2predictionSubmit.Click += new System.EventHandler(this.teamPredictionSubmit);
             // 
             // day2matchBox1
             // 
@@ -969,7 +969,7 @@
             this.day3predictionSubmit.TabIndex = 18;
             this.day3predictionSubmit.Text = "Submit";
             this.day3predictionSubmit.UseVisualStyleBackColor = true;
-            this.day3predictionSubmit.Click += new System.EventHandler(this.day3predictionSubmit_Click);
+            this.day3predictionSubmit.Click += new System.EventHandler(this.teamPredictionSubmit);
             // 
             // day3matchBox1
             // 
@@ -1132,7 +1132,7 @@
             this.day4predictionSubmit.TabIndex = 21;
             this.day4predictionSubmit.Text = "Submit";
             this.day4predictionSubmit.UseVisualStyleBackColor = true;
-            this.day4predictionSubmit.Click += new System.EventHandler(this.day4predictionSubmit_Click);
+            this.day4predictionSubmit.Click += new System.EventHandler(this.teamPredictionSubmit);
             // 
             // day4matchBox1
             // 
@@ -1293,7 +1293,7 @@
             this.day5predictionSubmit.TabIndex = 22;
             this.day5predictionSubmit.Text = "Submit";
             this.day5predictionSubmit.UseVisualStyleBackColor = true;
-            this.day5predictionSubmit.Click += new System.EventHandler(this.day5predictionSubmit_Click);
+            this.day5predictionSubmit.Click += new System.EventHandler(this.teamPredictionSubmit);
             // 
             // day5matchBox1
             // 
@@ -1389,7 +1389,7 @@
             this.day6predictionSubmit.TabIndex = 23;
             this.day6predictionSubmit.Text = "Submit";
             this.day6predictionSubmit.UseVisualStyleBackColor = true;
-            this.day6predictionSubmit.Click += new System.EventHandler(this.day6predictionSubmit_Click);
+            this.day6predictionSubmit.Click += new System.EventHandler(this.teamPredictionSubmit);
             // 
             // day6matchBox1
             // 
