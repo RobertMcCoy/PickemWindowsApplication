@@ -35,7 +35,7 @@ namespace PickemTest
         public MainForm()
         {
             InitializeComponent();
-            dropDownsToUpdate = new List<object>() { day1clutchking, day1commando, day1ecowarrior, day1entryfragger, day1sniper, day2clutchking, day2commando, day2ecowarrior, day2entryfragger, day2sniper, day3clutchking, day3commando, day3ecowarrior, day3entryfragger, day3sniper, day4clutchking, day4commando, day4ecowarrior, day4entryfragger, day4sniper, day5clutchking, day5commando, day5ecowarrior, day5entryfragger, day5sniper, day6clutchking, day6commando, day6ecowarrior, day6entryfragger, day6sniper };
+            dropDownsToUpdate = new List<object>() { day1commando, day1clutchking, day1ecowarrior, day1entryfragger, day1sniper, day2commando, day2clutchking, day2ecowarrior, day2entryfragger, day2sniper, day3commando, day3clutchking, day3ecowarrior, day3entryfragger, day3sniper, day4commando, day4clutchking, day4ecowarrior, day4entryfragger, day4sniper, day5commando, day5clutchking, day5ecowarrior, day5entryfragger, day5sniper, day6commando, day6clutchking, day6ecowarrior, day6entryfragger, day6sniper };
             matchBoxesToUpdate = new List<object>() { day1match1box1, day1match1box2, day1match2box1, day1match2box2, day1match3box1, day1match3box2, day1match4box1, day1match4box2, day1match5box1, day1match5box2, day1match6box1, day1match6box2, day1match7box1, day1match7box2, day1match8box1, day1match8box2, day2match1box1, day2match1box2, day2match2box1, day2match2box2, day2match3box1, day2match3box2, day2match4box1, day2match4box2, day2match5box1, day2match5box2, day2match6box1, day2match6box2, day2match7box1, day2match7box2, day2match8box1, day2match8box2, day3match1box1, day3match1box2, day3match2box1, day3match2box2, day3match3box1, day3match3box2, day3match4box1, day3match4box2, day4match1box1, day4match1box2, day4match2box1, day4match2box2, day4match3box1, day4match3box2, day4match4box1, day4match4box2, day5match1box1, day5match1box2, day5match2box1, day5match2box2, day6match1box1, day6match1box2 };
             updateAppearance();
             updateFantasyAppearance();
@@ -248,7 +248,7 @@ namespace PickemTest
             List<GroupBox> groupBoxes = new List<GroupBox>();
             if (deserializedLayoutResults.result.sections[0].groups[0].teams[0].pickid != 0)
             {
-                groupBoxes.AddRange(addRadioButtons(day1matchBox1, day1matchBox2, day1matchBox3, day1matchBox4, day1matchBox5, day1matchBox6, day1matchBox7, day1matchBox8));
+                groupBoxes.AddRange(addItemsToList(day1matchBox1, day1matchBox2, day1matchBox3, day1matchBox4, day1matchBox5, day1matchBox6, day1matchBox7, day1matchBox8));
             }
             else
             {
@@ -256,7 +256,7 @@ namespace PickemTest
             }
             if (deserializedLayoutResults.result.sections[1].groups[0].teams[0].pickid != 0)
             {
-                groupBoxes.AddRange(addRadioButtons(day2matchBox1, day2matchBox2, day2matchBox3, day2matchBox4, day2matchBox5, day2matchBox6, day2matchBox7, day2matchBox8));
+                groupBoxes.AddRange(addItemsToList(day2matchBox1, day2matchBox2, day2matchBox3, day2matchBox4, day2matchBox5, day2matchBox6, day2matchBox7, day2matchBox8));
             }
             else
             {
@@ -264,7 +264,7 @@ namespace PickemTest
             }
             if (deserializedLayoutResults.result.sections[2].groups[0].teams[0].pickid != 0)
             {
-                groupBoxes.AddRange(addRadioButtons(day3matchBox1, day3matchBox2, day3matchBox3, day3matchBox4));
+                groupBoxes.AddRange(addItemsToList(day3matchBox1, day3matchBox2, day3matchBox3, day3matchBox4));
             }
             else
             {
@@ -272,7 +272,7 @@ namespace PickemTest
             }
             if (deserializedLayoutResults.result.sections[3].groups[0].teams[0].pickid != 0)
             {
-                groupBoxes.AddRange(addRadioButtons(day4matchBox1, day4matchBox2, day4matchBox3, day4matchBox4));
+                groupBoxes.AddRange(addItemsToList(day4matchBox1, day4matchBox2, day4matchBox3, day4matchBox4));
             }
             else
             {
@@ -280,7 +280,7 @@ namespace PickemTest
             }
             if (deserializedLayoutResults.result.sections[4].groups[0].teams[0].pickid != 0)
             {
-                groupBoxes.AddRange(addRadioButtons(day5matchBox1, day5matchBox2));
+                groupBoxes.AddRange(addItemsToList(day5matchBox1, day5matchBox2));
             }
             else
             {
@@ -290,7 +290,7 @@ namespace PickemTest
             {
                 if (deserializedLayoutResults.result.sections[6].groups[0].teams[0].pickid != 0)
                 {
-                    groupBoxes.AddRange(addRadioButtons(day6matchBox1));
+                    groupBoxes.AddRange(addItemsToList(day6matchBox1));
                 }
                 else
                 {
@@ -301,7 +301,7 @@ namespace PickemTest
             {
                 if (deserializedLayoutResults.result.sections[5].groups[0].teams[0].pickid != 0)
                 {
-                    groupBoxes.AddRange(addRadioButtons(day6matchBox1));
+                    groupBoxes.AddRange(addItemsToList(day6matchBox1));
                 }
                 else
                 {
@@ -405,7 +405,7 @@ namespace PickemTest
             }
         }
 
-        private List<T> addRadioButtons<T>(params T[] listItems)
+        private List<T> addItemsToList<T>(params T[] listItems)
         {
             List<T> tempList = new List<T>();
             foreach (T item in listItems)
@@ -420,36 +420,36 @@ namespace PickemTest
             List<RadioButton> matchBoxes = new List<RadioButton>();
             if (deserializedLayoutResults.result.sections[0].groups[0].picks[0].pickids.Count != 0)
             {
-                matchBoxes.AddRange(addRadioButtons(day1match1box1, day1match1box2, day1match2box1, day1match2box2, day1match3box1, day1match3box2, day1match4box1, day1match4box2, day1match5box1, day1match5box2, day1match6box1, day1match6box2, day1match7box1, day1match7box2, day1match8box1, day1match8box2));
+                matchBoxes.AddRange(addItemsToList(day1match1box1, day1match1box2, day1match2box1, day1match2box2, day1match3box1, day1match3box2, day1match4box1, day1match4box2, day1match5box1, day1match5box2, day1match6box1, day1match6box2, day1match7box1, day1match7box2, day1match8box1, day1match8box2));
             }
             if (deserializedLayoutResults.result.sections[1].groups[0].picks[0].pickids.Count != 0)
             {
-                matchBoxes.AddRange(addRadioButtons(day2match1box1, day2match1box2, day2match2box1, day2match2box2, day2match3box1, day2match3box2, day2match4box1, day2match4box2, day2match5box1, day2match5box2, day2match6box1, day2match6box2, day2match7box1, day2match7box2, day2match8box1, day2match8box2));
+                matchBoxes.AddRange(addItemsToList(day2match1box1, day2match1box2, day2match2box1, day2match2box2, day2match3box1, day2match3box2, day2match4box1, day2match4box2, day2match5box1, day2match5box2, day2match6box1, day2match6box2, day2match7box1, day2match7box2, day2match8box1, day2match8box2));
             }
             if (deserializedLayoutResults.result.sections[2].groups[0].picks[0].pickids.Count != 0)
             {
-                matchBoxes.AddRange(addRadioButtons(day3match1box1, day3match1box2, day3match2box1, day3match2box2, day3match3box1, day3match3box2, day3match4box1, day3match4box2));
+                matchBoxes.AddRange(addItemsToList(day3match1box1, day3match1box2, day3match2box1, day3match2box2, day3match3box1, day3match3box2, day3match4box1, day3match4box2));
             }
             if (deserializedLayoutResults.result.sections[3].groups[0].picks[0].pickids.Count != 0)
             {
-                matchBoxes.AddRange(addRadioButtons(day4match1box1, day4match1box2, day4match2box1, day4match2box2, day4match3box1, day4match3box2, day4match4box1, day4match4box2));
+                matchBoxes.AddRange(addItemsToList(day4match1box1, day4match1box2, day4match2box1, day4match2box2, day4match3box1, day4match3box2, day4match4box1, day4match4box2));
             }
             if (deserializedLayoutResults.result.sections[4].groups[0].picks[0].pickids.Count != 0)
             {
-                matchBoxes.AddRange(addRadioButtons(day5match1box1, day5match1box2, day5match2box1, day5match2box2));
+                matchBoxes.AddRange(addItemsToList(day5match1box1, day5match1box2, day5match2box1, day5match2box2));
             }
             if (deserializedLayoutResults.result.sections[5].name.Contains("All Star"))
             {
                 if (deserializedLayoutResults.result.sections[6].groups[0].picks[0].pickids.Count != 0)
                 {
-                    matchBoxes.AddRange(addRadioButtons(day6match1box1, day6match1box2));
+                    matchBoxes.AddRange(addItemsToList(day6match1box1, day6match1box2));
                 }
             }
             else
             {
                 if (deserializedLayoutResults.result.sections[5].groups[0].picks[0].pickids.Count != 0)
                 {
-                    matchBoxes.AddRange(addRadioButtons(day6match1box1, day6match1box2));
+                    matchBoxes.AddRange(addItemsToList(day6match1box1, day6match1box2));
                 }
             }
 
@@ -847,6 +847,32 @@ namespace PickemTest
         private void resetFantasy(object sender, EventArgs e)
         {
             updateFantasyAppearance();
+        }
+
+        private void submitFantasyLineup(object sender, EventArgs e)
+        {
+            Button submissionButton = (Button)sender;
+            int fantasyListStartIndex = (Int32.Parse(submissionButton.Name.Substring(3, 1)) - 1) * 5; //Gets the day number, subtracts 1 for index of 0, and then multiplies by 5 to get the proper index to start with
+            bool isEveryDropDownFilled = true;
+            List<string> postInformation = new List<string>();
+            for (int i = fantasyListStartIndex; i < (fantasyListStartIndex + 5); i++)
+            {
+                ComboBox currentCombo = (ComboBox)dropDownsToUpdate.ElementAt(i);
+                if (currentCombo.SelectedItem == null)
+                {
+                    isEveryDropDownFilled = false;
+                }
+                else
+                {
+                    Dictionary<string, string> playerLookupDict = fantasyPlayers.getProPlayerDictionary("ProPlayerIds");
+                    string playerId = string.Empty;
+                    playerLookupDict.TryGetValue(currentCombo.Text, out playerId);
+                    if (playerId != null)
+                    {
+
+                    }
+                }
+            }
         }
     }
 }

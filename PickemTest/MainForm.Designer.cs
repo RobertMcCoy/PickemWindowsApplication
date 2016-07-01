@@ -1518,8 +1518,9 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(110, 23);
             this.button2.TabIndex = 21;
-            this.button2.Text = "Submit";
+            this.button2.Text = "day1fantasySubmit";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.submitFantasyLineup);
             // 
             // day1sniper
             // 
