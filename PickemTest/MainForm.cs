@@ -165,11 +165,33 @@ namespace PickemTest
                         }
                     }
                 }
+
+                /*
+                 * I now see why most applications only update things when "Save" and "Ok" are clicked. This needs to be changed to a system like that
+                 * in the future. This stuff eats up performance, so the event handlers are removed before being called, or else this method calls itself 4 times, for no reason. 
+                */ 
+
+                fantasyTournamentToUse.SelectedIndexChanged -= new EventHandler(fantasyTournamentToUse_SelectedIndexChanged);
                 fantasyTournamentToUse.Text = Properties.Settings.Default.fantasyTournament.ToString(); //Updates the settings page for fantasy pick'em
+                fantasyTournamentToUse.SelectedIndexChanged += new EventHandler(fantasyTournamentToUse_SelectedIndexChanged);
+
                 selectedEventLbl.Text = retrieveEventName(Properties.Settings.Default.tournamentLayout + Properties.Settings.Default.fantasyTournament);
+
+                fantasyStatisticsRange.SelectedIndexChanged -= new EventHandler(fantasyStatisticsRange_SelectedIndexChanged);
                 fantasyStatisticsRange.Text = Properties.Settings.Default.fantasyStats;
+                fantasyStatisticsRange.SelectedIndexChanged += new EventHandler(fantasyStatisticsRange_SelectedIndexChanged);
+
+                displayOnlyAvailable.CheckedChanged -= new EventHandler(displayOnlyAvailable_CheckedChanged);
                 displayOnlyAvailable.Checked = Properties.Settings.Default.displayOnlyAvailable;
+                displayOnlyAvailable.CheckedChanged += new EventHandler(displayOnlyAvailable_CheckedChanged);
+
+                playerSortingOrderCombo.SelectedIndexChanged -= new EventHandler(playerSortingOrderCombo_SelectedIndexChanged);
                 playerSortingOrderCombo.Text = Properties.Settings.Default.fantasyPlayerSortOrder;
+                playerSortingOrderCombo.SelectedIndexChanged += new EventHandler(playerSortingOrderCombo_SelectedIndexChanged);
+
+                displayOnlyPlayersWithStickersOwner.CheckedChanged -= new EventHandler(displayOnlyPlayersWithStickersOwner_CheckedChanged);
+                displayOnlyPlayersWithStickersOwner.Checked = Properties.Settings.Default.displayOnlyPlayersWithStickersOwned;
+                displayOnlyPlayersWithStickersOwner.CheckedChanged += new EventHandler(displayOnlyPlayersWithStickersOwner_CheckedChanged);
             }
         }
 
@@ -289,6 +311,8 @@ namespace PickemTest
 
             foreach (GroupBox groupBox in groupBoxes)
             {
+                groupBox.Enabled = true; //Do this to make sure it is enabled if tournament IDs are swapped. They will be disabled again if the pick isn't allowed later on...
+
                 int sectionNumber = Int32.Parse(groupBox.Name.Substring(3, 1)) - 1;
                 int groupNumber = Int32.Parse(groupBox.Name.Substring(12, 1)) - 1;
 
@@ -661,6 +685,15 @@ namespace PickemTest
                 }
                 if (sectionNumber != -1 && matchBoxes != null)
                 {
+                    List<int> alreadyPickedTeams = new List<int>();
+                    for(int i = 0; i < deserializedPredictionResults.result.picks.Count; i++)
+                    {
+                        for (int j = 0; j < deserializedLayoutResults.result.sections[sectionNumber].groups.Count; j++) {
+                            if (deserializedLayoutResults.result.sections[sectionNumber].groups[j].groupid == deserializedPredictionResults.result.picks[i].groupid) {
+                                alreadyPickedTeams.Add(deserializedPredictionResults.result.picks[i].pick);
+                            }
+                        }
+                    }
                     for (int i = 0; i < matchBoxes.Count(); i++)
                     {
                         RadioButton checkedRadio;
@@ -678,17 +711,27 @@ namespace PickemTest
                             {
                                 teamPick = radioTag.teams[1].pickid;
                             }
-
-                            for (int j = 0; j < availableItems.result.items.Count; j++)
+                            bool isAlreadyPicked = false;
+                            foreach (int pickedTeam in alreadyPickedTeams)
                             {
-                                if (Int32.Parse(availableItems.result.items[j].teamid) == teamPick) //Find the associated sticker item id to the team id
+                                if (teamPick == pickedTeam)
                                 {
-                                    itemId = availableItems.result.items[j].itemid;
+                                    isAlreadyPicked = true;
                                 }
                             }
-                            if (itemId != string.Empty)
+                            if (!isAlreadyPicked)
                             {
-                                postData.Add(Properties.Settings.Default.tournamentItems + "&sectionid=" + deserializedLayoutResults.result.sections[sectionNumber].sectionid + "&groupid=" + radioTag.groupid + "&index=0&pickid=" + teamPick + "&itemid=" + itemId);
+                                for (int j = 0; j < availableItems.result.items.Count; j++)
+                                {
+                                    if (Int32.Parse(availableItems.result.items[j].teamid) == teamPick && availableItems.result.items[j].type.Equals("team")) //Find the associated sticker item id to the team id
+                                    {
+                                        itemId = availableItems.result.items[j].itemid;
+                                    }
+                                }
+                                if (itemId != string.Empty && !alreadyPickedTeams.Contains(teamPick))
+                                {
+                                    postData.Add(Properties.Settings.Default.tournamentItems + "&sectionid=" + deserializedLayoutResults.result.sections[sectionNumber].sectionid + "&groupid=" + radioTag.groupid + "&index=0&pickid=" + teamPick + "&itemid=" + itemId);
+                                }
                             }
                         }
                     }
@@ -696,7 +739,7 @@ namespace PickemTest
                     {
                         foreach (string postInformation in postData)
                         {
-                            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/UploadTournamentPredictions/v1");
+                            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/UploadTournamentPredictions/v1?");
                             var data = Encoding.ASCII.GetBytes("key=" + Properties.Settings.Default.apiKey + postInformation);
                             request.Method = "POST";
                             request.ContentType = "application/x-www-form-urlencoded";
@@ -705,13 +748,13 @@ namespace PickemTest
                             {
                                 stream.Write(data, 0, data.Length);
                             }
-
                             var response = (HttpWebResponse)request.GetResponse();
-
                             if (response.StatusCode == HttpStatusCode.Gone)
                             {
                                 MessageBox.Show("One match has already begun, and therefore your submission for that match cannot be placed.\nThe program will continue placing the rest of your predictions.");
                             }
+                            response.Close();
+                            request = null;
                         }
                     }
                     catch (Exception exc)
@@ -768,7 +811,6 @@ namespace PickemTest
         {
             Properties.Settings.Default.displayOnlyPlayersWithStickersOwned = displayOnlyPlayersWithStickersOwner.Checked;
             Properties.Settings.Default.Save();
-            MessageBox.Show("Updating...");
             updateFantasyAppearance();
         }
 

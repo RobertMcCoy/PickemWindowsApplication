@@ -103,9 +103,12 @@ namespace PickemTest
                     proPlayers.Add(currentPlayer);
                     if (playerId is string) //This again is a really crappy fix for this in my opinion, but my limited undetermined var deserialization knowledge forces me to make this check
                     {
-                        proPlayerLookup.Add(playerId, currentPlayer); //Provides quick lookup for players when listing names on all tabs
-                        proPlayerIdLookup.Add(currentPlayer.ToString(), playerId.ToString()); //Provides quick lookup for player id's when submitting fantasy rosters
-                        proPlayerCodeNameLookup.Add(currentPlayer.ToString(), codeName.ToString()); //Provides quick lookup for players when getting their code name for the market search
+                        if (!proPlayerLookup.ContainsKey(playerId.ToString()))
+                        {
+                            proPlayerLookup.Add(playerId.ToString(), currentPlayer.ToString()); //Provides quick lookup for players when listing names on all tabs
+                            proPlayerIdLookup.Add(currentPlayer.ToString(), playerId.ToString()); //Provides quick lookup for player id's when submitting fantasy rosters
+                            proPlayerCodeNameLookup.Add(currentPlayer.ToString(), codeName.ToString()); //Provides quick lookup for players when getting their code name for the market search
+                        }
                     }
                 }
             }
@@ -616,26 +619,29 @@ namespace PickemTest
             List<String> updateListOfPlayers = new List<String>();
             List<String> currentComboList = (List<String>)tempCombo.DataSource;
 
-            foreach (string availablePlayer in listOfPlayerStickersAvailable)
+            foreach (string playerInList in currentComboList)
             {
-                foreach (string playerInList in currentComboList) 
+                if (playerInList.Contains("--- ") && playerInList.Contains(" ---")) //If By Team is selected for player sorting, these Team Lines will exist, keep all of them for now...
                 {
-                    if (playerInList.Contains("--- ") && playerInList.Contains(" ---")) //If By Team is selected for player sorting, these Team Lines will exist, keep all of them for now...
+                    updateListOfPlayers.Add(playerInList);
+                }
+                foreach (string availablePlayer in listOfPlayerStickersAvailable)
+                {
+                    string actualPlayerName = string.Empty;
+                    proPlayerLookup.TryGetValue(availablePlayer, out actualPlayerName);
+                    if (actualPlayerName != string.Empty && actualPlayerName.Equals(playerInList)) //If the player exists in the sticker pool, and also exists in the current combo box, keep it
                     {
                         updateListOfPlayers.Add(playerInList);
-                    }
-                    if (availablePlayer.Equals(playerInList)) //If the player exists in the sticker pool, and also exists in the current combo box, keep it
-                    {
-                        updateListOfPlayers.Add(playerInList);
+                        break;
                     }
                 }
             }
 
             for (int i = 0; i < updateListOfPlayers.Count; i++) //This for loop removes any team names that exist that don't have any players left under them
             {
-                if (updateListOfPlayers[i].Contains("--- ") && updateListOfPlayers.Contains(" ---"))
+                if (updateListOfPlayers[i].Contains("--- ") && updateListOfPlayers[i].Contains(" ---"))
                 {
-                    if (updateListOfPlayers[i + 1].Contains("--- ") && updateListOfPlayers[i + 1].Contains(" ---")) //If a team name index is followed by another team name index, there are no players left for that team, so remove it.
+                    if (updateListOfPlayers[i + 1] == null || (updateListOfPlayers[i + 1].Contains("--- ") && updateListOfPlayers[i + 1].Contains(" ---"))) //If a team name index is followed by another team name index, there are no players left for that team, so remove it.
                     {
                         updateListOfPlayers.RemoveAt(i);
                     }
