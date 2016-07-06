@@ -327,13 +327,19 @@ namespace PickemTest
                 {
                     if (radioInGroupBox.Name.Contains("box1"))
                     {
-                        radioInGroupBox.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].teams[0].pickid);
-                        radioInGroupBox.Tag = deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber];
+                        if (deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].teams[0].pickid != 0)
+                        {
+                            radioInGroupBox.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].teams[0].pickid);
+                            radioInGroupBox.Tag = deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber];
+                        }
                     }
                     if (radioInGroupBox.Name.Contains("box2"))
                     {
-                        radioInGroupBox.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].teams[1].pickid);
-                        radioInGroupBox.Tag = deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber];
+                        if (deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].teams[1].pickid != 0)
+                        {
+                            radioInGroupBox.Text = getTeamNameFromPickId(deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].teams[1].pickid);
+                            radioInGroupBox.Tag = deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber];
+                        }
                     }
 
                     if (!deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].picks_allowed)
@@ -353,7 +359,7 @@ namespace PickemTest
                     return teamsArr[i];
                 }
             }
-            MessageBox.Show("ERROR: PANDA\n\nThere was an issue generating team names from the provided picking options");
+            MessageBox.Show("ERROR: PANDA\n\nThere was an issue generating team names from the provided picking options, pickid = " + pickId);
             return "";
         }
 
@@ -464,14 +470,17 @@ namespace PickemTest
                     sectionNumber += 1;
                 }
 
-                if (getTagInfo(button, 'p', teamNumber) == deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].picks[0].pickids[0])
+                if (deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].picks[0].pickids.Count != 0)
                 {
-                    button.BackColor = Color.Green;
-                    button.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
-                }
-                else
-                {
-                    button.BackColor = Color.Red;
+                    if (getTagInfo(button, 'p', teamNumber) == deserializedLayoutResults.result.sections[sectionNumber].groups[groupNumber].picks[0].pickids[0])
+                    {
+                        button.BackColor = Color.Green;
+                        button.Font = new Font(DefaultFont.FontFamily, DefaultFont.Size, FontStyle.Bold);
+                    }
+                    else
+                    {
+                        button.BackColor = Color.Red;
+                    }
                 }
             }
         }
@@ -854,7 +863,7 @@ namespace PickemTest
             Button submissionButton = (Button)sender;
             int fantasyListStartIndex = (Int32.Parse(submissionButton.Name.Substring(3, 1)) - 1) * 5; //Gets the day number, subtracts 1 for index of 0, and then multiplies by 5 to get the proper index to start with
             bool isEveryDropDownFilled = true;
-            List<string> postInformation = new List<string>();
+            List<string> playerIds = new List<string>();
             for (int i = fantasyListStartIndex; i < (fantasyListStartIndex + 5); i++)
             {
                 ComboBox currentCombo = (ComboBox)dropDownsToUpdate.ElementAt(i);
@@ -867,10 +876,65 @@ namespace PickemTest
                     Dictionary<string, string> playerLookupDict = fantasyPlayers.getProPlayerDictionary("ProPlayerIds");
                     string playerId = string.Empty;
                     playerLookupDict.TryGetValue(currentCombo.Text, out playerId);
-                    if (playerId != null)
+                    if (playerId != string.Empty)
                     {
-
+                        playerIds.Add(playerId);
                     }
+                }
+            }
+
+            if (isEveryDropDownFilled)
+            {
+                string postData = Properties.Settings.Default.tournamentPickemPredictions;
+                postData += "&sectionid=" + deserializedLayoutResults.result.sections[Int32.Parse(submissionButton.Name.Substring(3, 1)) - 1].sectionid;
+                string itemId = string.Empty;
+                bool isPostDataCorrect = true;
+                for (int i = 0; i < 5; i++)
+                {
+                    foreach (string items in availablePlayerStickers)
+                    {
+                        if (items.Equals(playerIds[i]))
+                        {
+                            itemId = items;
+                        }
+                    }
+                    if (itemId != string.Empty)
+                    {
+                        postData += "pickid" + i + "=" + playerIds[i] + "&itemid" + i + "=" + itemId;
+                    }
+                    else
+                    {
+                        isPostDataCorrect = false;
+                        MessageBox.Show("ERROR SHARK:\n\nThere was an issue submitting your fantasy roster. Player with issues: " + playerIds[i]);
+                    }
+                }
+
+                if (isPostDataCorrect)
+                {
+                    try
+                    {
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.steampowered.com/ICSGOTournaments_730/UploadTournamentFantasyLineupv1?");
+                        var data = Encoding.ASCII.GetBytes("key=" + Properties.Settings.Default.apiKey + postData);
+                        request.Method = "POST";
+                        request.ContentType = "application/x-www-form-urlencoded";
+                        request.ContentLength = data.Length;
+                        using (var stream = request.GetRequestStream())
+                        {
+                            stream.Write(data, 0, data.Length);
+                        }
+                        var response = (HttpWebResponse)request.GetResponse();
+                        if (response.StatusCode == HttpStatusCode.Gone)
+                        {
+                            MessageBox.Show("The first match of the day has already begun. You can not submit a lineup after a match has already taken place on that day.");
+                        }
+                        response.Close();
+                        request = null;
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show("ERROR OCTOPUS:\n\nThere was an issue submitting teams:" + exc.ToString());
+                    }
+                    updateFantasyAppearance();
                 }
             }
         }

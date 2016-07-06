@@ -242,177 +242,35 @@ namespace PickemTest
             */ 
             string value = "";
             getFantasyPredictionsJSON();
-            if (deserializedFantasyLineup.result.teams.Count != 0)
+            int teamNumberIncrementer = Int32.Parse(combo.Name.Substring(3, 1)) - 1;
+            if (deserializedFantasyLineup.result.teams.Count > teamNumberIncrementer && deserializedFantasyLineup.result.teams[teamNumberIncrementer].picks.Count != 0)
             {
-                if (combo.Name.Contains("day1"))
-                {
                     if (combo.Name.Contains("commando"))
                     {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[0].picks[0].ToString(), out value);
+                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[teamNumberIncrementer].picks[0].ToString(), out value);
                         combo.SelectedItem = value;
                     }
                     if (combo.Name.Contains("clutchking"))
                     {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[0].picks[1].ToString(), out value);
+                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[teamNumberIncrementer].picks[1].ToString(), out value);
                         combo.SelectedItem = value;
                     }
                     if (combo.Name.Contains("ecowarrior"))
                     {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[0].picks[2].ToString(), out value);
+                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[teamNumberIncrementer].picks[2].ToString(), out value);
                         combo.SelectedItem = value;
                     }
                     if (combo.Name.Contains("entryfragger"))
                     {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[0].picks[3].ToString(), out value);
+                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[teamNumberIncrementer].picks[3].ToString(), out value);
                         combo.SelectedItem = value;
                     }
                     if (combo.Name.Contains("sniper"))
                     {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[0].picks[4].ToString(), out value);
+                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[teamNumberIncrementer].picks[4].ToString(), out value);
                         combo.SelectedItem = value;
                     }
                 }
-                if (combo.Name.Contains("day2"))
-                {
-                    if (combo.Name.Contains("commando"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[1].picks[0].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("clutchking"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[1].picks[1].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("ecowarrior"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[1].picks[2].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("entryfragger"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[1].picks[3].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("sniper"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[1].picks[4].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                }
-                if (combo.Name.Contains("day3"))
-                {
-                    if (combo.Name.Contains("commando"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[2].picks[0].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("clutchking"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[2].picks[1].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("ecowarrior"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[2].picks[2].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("entryfragger"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[2].picks[3].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("sniper"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[2].picks[4].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                }
-                if (combo.Name.Contains("day4"))
-                {
-                    if (combo.Name.Contains("commando"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[3].picks[0].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("clutchking"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[3].picks[1].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("ecowarrior"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[3].picks[2].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("entryfragger"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[3].picks[3].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("sniper"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[3].picks[4].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                }
-                if (combo.Name.Contains("day5"))
-                {
-                    if (combo.Name.Contains("commando"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[4].picks[0].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("clutchking"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[4].picks[1].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("ecowarrior"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[4].picks[2].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("entryfragger"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[4].picks[3].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("sniper"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[4].picks[4].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                }
-                if (combo.Name.Contains("day6"))
-                {
-                    if (combo.Name.Contains("commando"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[5].picks[0].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("clutchking"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[5].picks[1].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("ecowarrior"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[5].picks[2].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("entryfragger"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[5].picks[3].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                    if (combo.Name.Contains("sniper"))
-                    {
-                        proPlayerLookup.TryGetValue(deserializedFantasyLineup.result.teams[5].picks[4].ToString(), out value);
-                        combo.SelectedItem = value;
-                    }
-                }
-            }
         }
 
         private void getFantasyPredictionsJSON() //Straightforward fantasy lineup deserialization much like the tournament layout one
@@ -529,7 +387,10 @@ namespace PickemTest
                                 labelText += "Team: " + getTeamNameFromPickId((int)info.Value["team"]);
                                 foreach (JObject stage in info) //TODO: Might have to make this a switch statement and determine if stage5 exists, else if stage4 exists, etc.
                                 {
-                                    return labelText += "\nKills: " + stage.Last.First["enemy_kills"] + "\nDeaths: " + stage.Last.First["deaths"] + "\nKDR: " + stage.Last.First["KDR"] + "\nClutch Kills: " + stage.Last.First["clutch_kills"] + "\nPistol Kills: " + stage.Last.First["pistol_kills"] + "\nEntry Frags: " + stage.Last.First["opening_kills"] + "\nSniper Kills: " + stage.Last.First["sniper_kills"] + "\nMatches Played: " + stage.Last.First["matches_played"];
+                                    if (stage.Count > 1) //It appears Valve will only update the team if they don't provide you with statistical information
+                                    {
+                                        return labelText += "\nKills: " + stage.Last.First["enemy_kills"] + "\nDeaths: " + stage.Last.First["deaths"] + "\nKDR: " + stage.Last.First["KDR"] + "\nClutch Kills: " + stage.Last.First["clutch_kills"] + "\nPistol Kills: " + stage.Last.First["pistol_kills"] + "\nEntry Frags: " + stage.Last.First["opening_kills"] + "\nSniper Kills: " + stage.Last.First["sniper_kills"] + "\nMatches Played: " + stage.Last.First["matches_played"];
+                                    }
                                 }
                             }
                         }
@@ -648,9 +509,11 @@ namespace PickemTest
                 }
             }
 
-            foreach (ComboBox combo in dropDowns)
+            foreach (ComboBox drop in dropDowns)
             {
-                combo.DataSource = updateListOfPlayers; //Only players with stickers available by the user are now present in the combobox.
+                drop.BindingContext = new BindingContext(); //Necessary to break-up combo boxes, otherwise they would all change together
+                drop.DataSource = updateListOfPlayers; //Set it equal to the sorted list from the constructor so the combobox fills with the proper individuals
+                setSelectedItemFantasy(drop); //Get's the currently picked player in this box and autofills it with their name
             }
         }
     }

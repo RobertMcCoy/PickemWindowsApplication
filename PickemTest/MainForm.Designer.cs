@@ -139,8 +139,8 @@
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.day1Reset = new System.Windows.Forms.Button();
+            this.day1fantasySubmit = new System.Windows.Forms.Button();
             this.day1sniper = new System.Windows.Forms.ComboBox();
             this.day1entryfragger = new System.Windows.Forms.ComboBox();
             this.day1ecowarrior = new System.Windows.Forms.ComboBox();
@@ -219,6 +219,16 @@
             this.label32 = new System.Windows.Forms.Label();
             this.fantasyTournamentToUse = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
+            this.day2Reset = new System.Windows.Forms.Button();
+            this.day2fantasySubmit = new System.Windows.Forms.Button();
+            this.day3Reset = new System.Windows.Forms.Button();
+            this.day3FantasySubmit = new System.Windows.Forms.Button();
+            this.day4Reset = new System.Windows.Forms.Button();
+            this.day4fantasySubmit = new System.Windows.Forms.Button();
+            this.day5Reset = new System.Windows.Forms.Button();
+            this.day5fantasySubmit = new System.Windows.Forms.Button();
+            this.day6Reset = new System.Windows.Forms.Button();
+            this.day6fantasySubmit = new System.Windows.Forms.Button();
             this.day1matchBox1.SuspendLayout();
             this.day1matchBox2.SuspendLayout();
             this.day1matchBox3.SuspendLayout();
@@ -1482,8 +1492,8 @@
             // 
             // tabPage9
             // 
-            this.tabPage9.Controls.Add(this.button3);
-            this.tabPage9.Controls.Add(this.button2);
+            this.tabPage9.Controls.Add(this.day1Reset);
+            this.tabPage9.Controls.Add(this.day1fantasySubmit);
             this.tabPage9.Controls.Add(this.day1sniper);
             this.tabPage9.Controls.Add(this.day1entryfragger);
             this.tabPage9.Controls.Add(this.day1ecowarrior);
@@ -1502,25 +1512,25 @@
             this.tabPage9.Text = "Day 1";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // day1Reset
             // 
-            this.button3.Location = new System.Drawing.Point(288, 326);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(110, 23);
-            this.button3.TabIndex = 22;
-            this.button3.Text = "Reset";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.resetFantasy);
+            this.day1Reset.Location = new System.Drawing.Point(288, 326);
+            this.day1Reset.Name = "day1Reset";
+            this.day1Reset.Size = new System.Drawing.Size(110, 23);
+            this.day1Reset.TabIndex = 22;
+            this.day1Reset.Text = "Reset";
+            this.day1Reset.UseVisualStyleBackColor = true;
+            this.day1Reset.Click += new System.EventHandler(this.resetFantasy);
             // 
-            // button2
+            // day1fantasySubmit
             // 
-            this.button2.Location = new System.Drawing.Point(172, 326);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(110, 23);
-            this.button2.TabIndex = 21;
-            this.button2.Text = "day1fantasySubmit";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.submitFantasyLineup);
+            this.day1fantasySubmit.Location = new System.Drawing.Point(172, 326);
+            this.day1fantasySubmit.Name = "day1fantasySubmit";
+            this.day1fantasySubmit.Size = new System.Drawing.Size(110, 23);
+            this.day1fantasySubmit.TabIndex = 21;
+            this.day1fantasySubmit.Text = "Submit";
+            this.day1fantasySubmit.UseVisualStyleBackColor = true;
+            this.day1fantasySubmit.Click += new System.EventHandler(this.submitFantasyLineup);
             // 
             // day1sniper
             // 
@@ -1619,6 +1629,8 @@
             // 
             // tabPage10
             // 
+            this.tabPage10.Controls.Add(this.day2Reset);
+            this.tabPage10.Controls.Add(this.day2fantasySubmit);
             this.tabPage10.Controls.Add(this.day2sniper);
             this.tabPage10.Controls.Add(this.day2entryfragger);
             this.tabPage10.Controls.Add(this.day2ecowarrior);
@@ -1734,6 +1746,8 @@
             // 
             // tabPage11
             // 
+            this.tabPage11.Controls.Add(this.day3Reset);
+            this.tabPage11.Controls.Add(this.day3FantasySubmit);
             this.tabPage11.Controls.Add(this.day3sniper);
             this.tabPage11.Controls.Add(this.day3entryfragger);
             this.tabPage11.Controls.Add(this.day3ecowarrior);
@@ -1848,6 +1862,8 @@
             // 
             // tabPage12
             // 
+            this.tabPage12.Controls.Add(this.day4Reset);
+            this.tabPage12.Controls.Add(this.day4fantasySubmit);
             this.tabPage12.Controls.Add(this.day4sniper);
             this.tabPage12.Controls.Add(this.day4entryfragger);
             this.tabPage12.Controls.Add(this.day4ecowarrior);
@@ -1962,6 +1978,8 @@
             // 
             // tabPage13
             // 
+            this.tabPage13.Controls.Add(this.day5Reset);
+            this.tabPage13.Controls.Add(this.day5fantasySubmit);
             this.tabPage13.Controls.Add(this.day5sniper);
             this.tabPage13.Controls.Add(this.day5entryfragger);
             this.tabPage13.Controls.Add(this.day5ecowarrior);
@@ -2076,6 +2094,8 @@
             // 
             // tabPage14
             // 
+            this.tabPage14.Controls.Add(this.day6Reset);
+            this.tabPage14.Controls.Add(this.day6fantasySubmit);
             this.tabPage14.Controls.Add(this.day6sniper);
             this.tabPage14.Controls.Add(this.day6entryfragger);
             this.tabPage14.Controls.Add(this.day6ecowarrior);
@@ -2333,6 +2353,105 @@
             this.label31.Size = new System.Drawing.Size(157, 13);
             this.label31.TabIndex = 0;
             this.label31.Text = "Tournament to use for statistics:";
+            // 
+            // day2Reset
+            // 
+            this.day2Reset.Location = new System.Drawing.Point(288, 326);
+            this.day2Reset.Name = "day2Reset";
+            this.day2Reset.Size = new System.Drawing.Size(110, 23);
+            this.day2Reset.TabIndex = 27;
+            this.day2Reset.Text = "Reset";
+            this.day2Reset.UseVisualStyleBackColor = true;
+            this.day2Reset.Click += new System.EventHandler(this.resetFantasy);
+            // 
+            // day2fantasySubmit
+            // 
+            this.day2fantasySubmit.Location = new System.Drawing.Point(172, 326);
+            this.day2fantasySubmit.Name = "day2fantasySubmit";
+            this.day2fantasySubmit.Size = new System.Drawing.Size(110, 23);
+            this.day2fantasySubmit.TabIndex = 26;
+            this.day2fantasySubmit.Text = "Submit";
+            this.day2fantasySubmit.UseVisualStyleBackColor = true;
+            this.day2fantasySubmit.Click += new System.EventHandler(this.submitFantasyLineup);
+            // 
+            // day3Reset
+            // 
+            this.day3Reset.Location = new System.Drawing.Point(288, 326);
+            this.day3Reset.Name = "day3Reset";
+            this.day3Reset.Size = new System.Drawing.Size(110, 23);
+            this.day3Reset.TabIndex = 32;
+            this.day3Reset.Text = "Reset";
+            this.day3Reset.UseVisualStyleBackColor = true;
+            this.day3Reset.Click += new System.EventHandler(this.resetFantasy);
+            // 
+            // day3FantasySubmit
+            // 
+            this.day3FantasySubmit.Location = new System.Drawing.Point(172, 326);
+            this.day3FantasySubmit.Name = "day3FantasySubmit";
+            this.day3FantasySubmit.Size = new System.Drawing.Size(110, 23);
+            this.day3FantasySubmit.TabIndex = 31;
+            this.day3FantasySubmit.Text = "Submit";
+            this.day3FantasySubmit.UseVisualStyleBackColor = true;
+            this.day3FantasySubmit.Click += new System.EventHandler(this.submitFantasyLineup);
+            // 
+            // day4Reset
+            // 
+            this.day4Reset.Location = new System.Drawing.Point(288, 326);
+            this.day4Reset.Name = "day4Reset";
+            this.day4Reset.Size = new System.Drawing.Size(110, 23);
+            this.day4Reset.TabIndex = 32;
+            this.day4Reset.Text = "Reset";
+            this.day4Reset.UseVisualStyleBackColor = true;
+            this.day4Reset.Click += new System.EventHandler(this.resetFantasy);
+            // 
+            // day4fantasySubmit
+            // 
+            this.day4fantasySubmit.Location = new System.Drawing.Point(172, 326);
+            this.day4fantasySubmit.Name = "day4fantasySubmit";
+            this.day4fantasySubmit.Size = new System.Drawing.Size(110, 23);
+            this.day4fantasySubmit.TabIndex = 31;
+            this.day4fantasySubmit.Text = "Submit";
+            this.day4fantasySubmit.UseVisualStyleBackColor = true;
+            this.day4fantasySubmit.Click += new System.EventHandler(this.submitFantasyLineup);
+            // 
+            // day5Reset
+            // 
+            this.day5Reset.Location = new System.Drawing.Point(288, 326);
+            this.day5Reset.Name = "day5Reset";
+            this.day5Reset.Size = new System.Drawing.Size(110, 23);
+            this.day5Reset.TabIndex = 32;
+            this.day5Reset.Text = "Reset";
+            this.day5Reset.UseVisualStyleBackColor = true;
+            // 
+            // day5fantasySubmit
+            // 
+            this.day5fantasySubmit.Location = new System.Drawing.Point(172, 326);
+            this.day5fantasySubmit.Name = "day5fantasySubmit";
+            this.day5fantasySubmit.Size = new System.Drawing.Size(110, 23);
+            this.day5fantasySubmit.TabIndex = 31;
+            this.day5fantasySubmit.Text = "Submit";
+            this.day5fantasySubmit.UseVisualStyleBackColor = true;
+            this.day5fantasySubmit.Click += new System.EventHandler(this.submitFantasyLineup);
+            // 
+            // day6Reset
+            // 
+            this.day6Reset.Location = new System.Drawing.Point(288, 326);
+            this.day6Reset.Name = "day6Reset";
+            this.day6Reset.Size = new System.Drawing.Size(110, 23);
+            this.day6Reset.TabIndex = 32;
+            this.day6Reset.Text = "Reset";
+            this.day6Reset.UseVisualStyleBackColor = true;
+            this.day6Reset.Click += new System.EventHandler(this.resetFantasy);
+            // 
+            // day6fantasySubmit
+            // 
+            this.day6fantasySubmit.Location = new System.Drawing.Point(172, 326);
+            this.day6fantasySubmit.Name = "day6fantasySubmit";
+            this.day6fantasySubmit.Size = new System.Drawing.Size(110, 23);
+            this.day6fantasySubmit.TabIndex = 31;
+            this.day6fantasySubmit.Text = "Submit";
+            this.day6fantasySubmit.UseVisualStyleBackColor = true;
+            this.day6fantasySubmit.Click += new System.EventHandler(this.submitFantasyLineup);
             // 
             // MainForm
             // 
@@ -2595,8 +2714,18 @@
         private System.Windows.Forms.Button day4RefreshAppearance;
         private System.Windows.Forms.Button day5RefreshAppearance;
         private System.Windows.Forms.Button day6RefreshAppearance;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button day1Reset;
+        private System.Windows.Forms.Button day1fantasySubmit;
+        private System.Windows.Forms.Button day2Reset;
+        private System.Windows.Forms.Button day2fantasySubmit;
+        private System.Windows.Forms.Button day3Reset;
+        private System.Windows.Forms.Button day3FantasySubmit;
+        private System.Windows.Forms.Button day4Reset;
+        private System.Windows.Forms.Button day4fantasySubmit;
+        private System.Windows.Forms.Button day5Reset;
+        private System.Windows.Forms.Button day5fantasySubmit;
+        private System.Windows.Forms.Button day6Reset;
+        private System.Windows.Forms.Button day6fantasySubmit;
     }
 }
 
